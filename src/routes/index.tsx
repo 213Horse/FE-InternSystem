@@ -4,7 +4,7 @@ import AuthGuard from "./AuthGuard";
 import Loadable from "./Loadable";
 import Error from "@/pages/Error";
 import { createBrowserRouter } from "react-router-dom";
-import Dashboard from "../pages/Dashboard";
+
 // *  AUTHENTICATION PAGES
 const Login = Loadable({
   loader: () => import("../pages/Login"),
@@ -12,6 +12,9 @@ const Login = Loadable({
 
 //  * HOME PAGE
 const Home = Loadable({ loader: () => import("../pages/Dashboard") });
+const ProjectManagement = Loadable({
+  loader: () => import("../pages/ProjectManagement"),
+});
 
 const routes: RouteObject[] = [
   {
@@ -29,6 +32,7 @@ const routes: RouteObject[] = [
         children: [
           { index: true, element: Home },
           { path: "hop-dong-va-dang-ky", element: Home },
+          { path: "project-management", element: ProjectManagement },
           {
             path: "*",
             element: Home,

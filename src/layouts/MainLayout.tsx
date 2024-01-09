@@ -6,6 +6,7 @@ import clsx from "clsx";
 import { RiMenuFoldFill, RiMenuUnfoldFill } from "react-icons/ri";
 import { useTransition, animated } from "@react-spring/web";
 import { Accordion } from "@/components/ui/accordion";
+import { Settings, Settings2Icon } from "lucide-react";
 interface MainLayoutProps {
   children?: ReactNode;
 }
@@ -89,7 +90,21 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
           >
             {isShow ? <RiMenuFoldFill /> : <RiMenuUnfoldFill />}
           </span>
-          <div className="flex-1 ">Select</div>
+          <div className="flex-1 font-bold text-2xl">Project Management</div>
+          <div className="flex items-center gap-10 pr-5">
+            <div className="flex items-center gap-5">
+              <img
+                className="w-12 rounded-full h-12 object-cover"
+                src="https://i.pinimg.com/originals/75/d6/12/75d6122004849a1b812e17ecd0771eb1.jpg"
+                alt="image"
+              />
+              <div>
+                <h3 className="text-lg font-medium">Nhật Hào</h3>
+                <p className="text-sm font-nornal text-gray-400">Admin</p>
+              </div>
+            </div>
+            <Settings />
+          </div>
         </div>
         <div className="flex-1 p-3 rounded-lg bg-secondary">
           {children || <Outlet />}
