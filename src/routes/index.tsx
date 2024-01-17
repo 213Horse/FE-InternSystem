@@ -17,6 +17,7 @@ const restPass = Loadable({
 
 //  * HOME PAGE
 const Home = Loadable({ loader: () => import('../pages/Dashboard') });
+const ApproveCV = Loadable({ loader: () => import('../pages/ApproveCV') });
 
 const routes: RouteObject[] = [
     {
@@ -40,7 +41,10 @@ const routes: RouteObject[] = [
                 children: [
                     { index: true, element: Home },
                     { path: 'hop-dong-va-dang-ky', element: Home },
-
+                    {
+                        path: 'CV-Management/Approve-CV',
+                        element: ApproveCV,
+                    },
                     {
                         path: '*',
                         element: Home,

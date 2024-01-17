@@ -12,6 +12,7 @@ type Props = {
 export default function index(props: Props) {
     const { title, id } = props;
     const [signUp, setSignUp] = useState<boolean>(false);
+    const [showPass, setShowPass] = useState<boolean>(false);
     const navigate = useNavigate();
     const handleChangeSignUp = (e: any) => {
         e.preventDefault();
@@ -21,6 +22,12 @@ export default function index(props: Props) {
         e.preventDefault();
         // alert('forgot password');
         navigate('/forgot');
+    };
+    const handleShowPass = () => {
+        setShowPass(true);
+    };
+    const handleHidePass = () => {
+        setShowPass(false);
     };
     return (
         <>
@@ -39,7 +46,7 @@ export default function index(props: Props) {
                                 Email
                             </label>
                             <input
-                                className="w-full border border-[#D0D5DD] text-[#D0D5DD] px-4 py-2 rounded-lg mt-1"
+                                className="w-full border border-[#D0D5DD] text-[#000] px-4 py-2 rounded-lg mt-1"
                                 type="text"
                                 placeholder="youremail@example.com"
                             />
@@ -50,12 +57,22 @@ export default function index(props: Props) {
                                 Password
                             </label>
                             <input
-                                className="w-full border border-[#D0D5DD] text-[#D0D5DD] px-4 py-2 rounded-lg mt-1"
-                                type="password"
+                                className="w-full border border-[#D0D5DD] text-[#000] px-4 py-2 rounded-lg mt-1"
+                                type={showPass ? 'text' : 'password'}
                                 placeholder="********"
                             />
-                            <RiEyeLine className="w-[24px] h-[24px] absolute right-3 top-[50%]" />
-                            <RiEyeOffLine className="w-[24px] h-[24px] absolute right-3 top-[50%] hidden" />
+                            <RiEyeLine
+                                className={
+                                    showPass ? 'hidden' : 'w-[24px] h-[24px] absolute right-3 top-[50%] cursor-pointer'
+                                }
+                                onClick={handleShowPass}
+                            />
+                            <RiEyeOffLine
+                                className={
+                                    showPass ? 'w-[24px] h-[24px] absolute right-3 top-[50%] cursor-pointer' : 'hidden'
+                                }
+                                onClick={handleHidePass}
+                            />
                         </div>
                         <div className="w-full flex items-center justify-between mt-2">
                             <div className="flex gap-2 font-light text-[14px] leading-5">

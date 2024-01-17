@@ -95,3 +95,14 @@ html {
 .panel.active {
   display: block;
 }
+
+.before-tabs::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background-color: blue;
+  bottom: -6%;
+  left: 0;
+  right: 0;
+}

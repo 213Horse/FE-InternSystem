@@ -28,17 +28,21 @@ const SignUp = (props: Props) => {
                             : titleLogin === 4
                             ? 'School'
                             : titleLogin === 5
-                            ? 'Fullname'
+                            ? 'Full Name'
                             : ''}
                     </label>
                     <input
-                        className="w-full border border-[#D0D5DD] text-[#D0D5DD] px-4 py-2 rounded-lg mt-1"
+                        className="w-full border border-[#D0D5DD] text-[#000] px-4 py-2 rounded-lg mt-1"
                         type="text"
                         placeholder={
-                            titleLogin === 1 ? 'Enter your full name' : titleLogin === 4 ? 'Enter your school name' : ''
+                            titleLogin === 1 || titleLogin === 5
+                                ? 'Enter your full name'
+                                : titleLogin === 4
+                                ? 'Enter your school name'
+                                : ''
                         }
                     />
-                    <RiCloseCircleLine className="w-[24px] h-[24px] absolute right-3 top-[50%] text-[#cccccc]" />
+                    <RiCloseCircleLine className="w-[24px] h-[24px] absolute right-3 top-[50%] text-[#cccccc] cursor-pointer" />
                 </div>
                 {titleLogin === 5 ? (
                     <>
@@ -47,22 +51,22 @@ const SignUp = (props: Props) => {
                                 School
                             </label>
                             <input
-                                className="w-full border border-[#D0D5DD] text-[#D0D5DD] px-4 py-2 rounded-lg mt-1"
+                                className="w-full border border-[#D0D5DD] text-[#000] px-4 py-2 rounded-lg mt-1"
                                 type="text"
-                                placeholder={''}
+                                placeholder={'Enter your school name'}
                             />
-                            <RiCloseCircleLine className="w-[24px] h-[24px] absolute right-3 top-[50%] text-[#cccccc]" />
+                            <RiCloseCircleLine className="w-[24px] h-[24px] absolute right-3 top-[50%] text-[#cccccc] cursor-pointer" />
                         </div>
                         <div className="flex flex-col mt-2 relative">
                             <label className="text-md font-medium left-5" htmlFor="">
                                 Student's ID
                             </label>
                             <input
-                                className="w-full border border-[#D0D5DD] text-[#D0D5DD] px-4 py-2 rounded-lg mt-1"
+                                className="w-full border border-[#D0D5DD] text-[#000] px-4 py-2 rounded-lg mt-1"
                                 type="text"
-                                placeholder={''}
+                                placeholder={'Enter your Student ID'}
                             />
-                            <RiCloseCircleLine className="w-[24px] h-[24px] absolute right-3 top-[50%] text-[#cccccc]" />
+                            <RiCloseCircleLine className="w-[24px] h-[24px] absolute right-3 top-[50%] text-[#cccccc] cursor-pointer" />
                         </div>
                     </>
                 ) : (
@@ -73,35 +77,35 @@ const SignUp = (props: Props) => {
                         Email
                     </label>
                     <input
-                        className="w-full border border-[#D0D5DD] text-[#D0D5DD] px-4 py-2 rounded-lg mt-1"
+                        className="w-full border border-[#D0D5DD] text-[#000] px-4 py-2 rounded-lg mt-1"
                         type="text"
                         placeholder="youremail@example.com"
                     />
-                    <RiCloseCircleLine className="w-[24px] h-[24px] absolute right-3 top-[50%] text-[#cccccc]" />
+                    <RiCloseCircleLine className="w-[24px] h-[24px] absolute right-3 top-[50%] text-[#cccccc] cursor-pointer" />
                 </div>
                 <div className="flex flex-col mt-2 relative">
                     <label className="text-md font-medium left-5" htmlFor="">
                         Password
                     </label>
                     <input
-                        className="w-full border border-[#D0D5DD] text-[#D0D5DD] px-4 py-2 rounded-lg mt-1"
+                        className="w-full border border-[#D0D5DD] text-[#000] px-4 py-2 rounded-lg mt-1"
                         type="password"
                         placeholder="********"
                     />
-                    <RiEyeLine className="w-[24px] h-[24px] absolute right-3 top-[50%] text-[#cccccc]" />
-                    <RiEyeOffLine className="w-[24px] h-[24px] absolute right-3 top-[50%] hidden text-[#cccccc]" />
+                    <RiEyeLine className="w-[24px] h-[24px] absolute right-3 top-[50%] text-[#cccccc] cursor-pointer" />
+                    <RiEyeOffLine className="w-[24px] h-[24px] absolute right-3 top-[50%] hidden text-[#cccccc] cursor-pointer" />
                 </div>
                 <div className="flex flex-col mt-2 relative">
                     <label className="text-md font-medium left-5" htmlFor="">
                         Re-type Password
                     </label>
                     <input
-                        className="w-full border border-[#D0D5DD] text-[#D0D5DD] px-4 py-2 rounded-lg mt-1"
+                        className="w-full border border-[#D0D5DD] text-[#000] px-4 py-2 rounded-lg mt-1"
                         type="password"
                         placeholder="Re enter your password"
                     />
-                    <RiEyeLine className="w-[24px] h-[24px] absolute right-3 top-[50%] text-[#cccccc]" />
-                    <RiEyeOffLine className="w-[24px] h-[24px] absolute right-3 top-[50%] hidden text-[#cccccc]" />
+                    <RiEyeLine className="w-[24px] h-[24px] absolute right-3 top-[50%] text-[#cccccc] cursor-pointer" />
+                    <RiEyeOffLine className="w-[24px] h-[24px] absolute right-3 top-[50%] hidden text-[#cccccc] cursor-pointer  " />
                 </div>
                 <button className="w-full py-[8px] mt-3 bg-[#4889e9] rounded-[8px] drop-shadow-sm">Sign in</button>
                 <div className="text-center flex items-center justify-center">

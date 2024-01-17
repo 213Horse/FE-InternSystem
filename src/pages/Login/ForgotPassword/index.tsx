@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import Login from '..';
 import { RiCloseCircleLine, RiEyeLine, RiEyeOffLine } from 'react-icons/ri';
 
@@ -7,6 +7,27 @@ type Props = {};
 const ForgotPassword: React.FC = ({}: Props) => {
     const [changeOTP, setChangeOTP] = useState<boolean>(false);
     const [changePass, setChangePass] = useState<boolean>(false);
+    const initialTime: number = 60;
+    const [timeLeft, setTimeLeft] = useState<number>(initialTime);
+    const [showPass, setShowPass] = useState<boolean>(false);
+    useEffect(() => {
+        // Exit if timeLeft is already 0
+        if (timeLeft === 0) return;
+
+        const intervalId = setInterval(() => {
+            setTimeLeft((prevTime) => {
+                if (prevTime === 0) {
+                    clearInterval(intervalId); // Stop the interval when time reaches 0
+                    return 0;
+                } else {
+                    return prevTime - 1;
+                }
+            });
+        }, 1000);
+
+        // Clean up the interval when the component unmounts
+        return () => clearInterval(intervalId);
+    }, [timeLeft]);
 
     const handleRest = (e: any) => {
         e.preventDefault();
@@ -17,6 +38,13 @@ const ForgotPassword: React.FC = ({}: Props) => {
         setChangeOTP(true);
         setChangePass(true);
     };
+    const handleShowPass = () => {
+        setShowPass(true);
+    };
+    const handleHidePass = () => {
+        setShowPass(false);
+    };
+
     const [inputValue, setInputValue] = useState<number | ''>('');
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -71,9 +99,11 @@ const ForgotPassword: React.FC = ({}: Props) => {
                     <div className="w-full flex items-center justify-between text-[24px] font-normal text-black mt-5 px-7">
                         <div className="flex gap-3">
                             <p>Verification code:</p>
-                            <p>1:00</p>
+                            <p>0:{timeLeft}</p>
                         </div>
-                        <a href="">Resend OTP</a>
+                        <a href="" className="text-[24px] font-normal text-[#4889E9] hover:underline">
+                            Resend OTP
+                        </a>
                     </div>
                     <div className="flex gap-4 mt-6">
                         <input
@@ -128,24 +158,34 @@ const ForgotPassword: React.FC = ({}: Props) => {
                             New Password *
                         </label>
                         <input
-                            className="w-full border border-[#D0D5DD] text-[#D0D5DD] px-4 py-2 rounded-lg mt-1"
-                            type="password"
+                            className="w-full border border-[#D0D5DD] text-[#000] px-4 py-2 rounded-lg mt-1"
                             placeholder="********"
+                            type={showPass ? 'text' : 'password'}
                         />
-                        <RiEyeLine className="w-[24px] h-[24px] absolute right-3 top-[50%]" />
-                        <RiEyeOffLine className="w-[24px] h-[24px] absolute right-3 top-[50%] hidden" />
+                        <RiEyeLine
+                            className={
+                                showPass ? 'hidden' : 'w-[24px] h-[24px] absolute right-3 top-[50%] cursor-pointer'
+                            }
+                            onClick={handleShowPass}
+                        />
+                        <RiEyeOffLine
+                            className={
+                                showPass ? 'w-[24px] h-[24px] absolute right-3 top-[50%] cursor-pointer' : 'hidden'
+                            }
+                            onClick={handleHidePass}
+                        />
                     </div>
                     <div className="flex flex-col mt-2 relative w-full">
                         <label className="text-md font-medium left-5" htmlFor="">
                             Confirm New Password*
                         </label>
                         <input
-                            className="w-full border border-[#D0D5DD] text-[#D0D5DD] px-4 py-2 rounded-lg mt-1"
+                            className="w-full border border-[#D0D5DD] text-[#000] px-4 py-2 rounded-lg mt-1"
                             type="password"
                             placeholder="Re-enter your password"
                         />
-                        <RiEyeLine className="w-[24px] h-[24px] absolute right-3 top-[50%]" />
-                        <RiEyeOffLine className="w-[24px] h-[24px] absolute right-3 top-[50%] hidden" />
+                        <RiEyeLine className="w-[24px] h-[24px] absolute right-3 top-[50%] cursor-pointer" />
+                        <RiEyeOffLine className="w-[24px] h-[24px] absolute right-3 top-[50%] cursor-pointer hidden" />
                     </div>
                     <button
                         onClick={handleChangePass}

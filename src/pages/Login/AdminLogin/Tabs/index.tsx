@@ -23,13 +23,13 @@ const Tabs: MyObjectArray = {
         {
             id: 2,
             title: 'Human resources',
-            content: 'tab 2',
+            content: 'Chức năng chưa hoàn thành',
             color: 'red',
         },
         {
             id: 3,
             title: 'Mentor',
-            content: 'tab 3',
+            content: 'Chức năng chưa hoàn thành',
             color: 'red',
         },
         {
@@ -60,7 +60,7 @@ export default function index({}: Props) {
                 {Tabs.myObject.map((item) => (
                     <button
                         onClick={() => handleClick(item.id)}
-                        className={`${checkActive(item.id, 'text-[#4889E9] border-b-2 border-[#4889E9]')} lg:p-3 p-2`}
+                        className={`${checkActive(item.id, 'text-[#4889E9] before-tabs')} lg:p-3 p-2 relative`}
                         key={item.id}
                     >
                         {item.title}
