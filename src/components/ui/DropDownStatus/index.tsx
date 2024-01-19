@@ -26,8 +26,8 @@ const DropdownStatus: React.FC<Props> = ({ statusOptions }) => {
                         selectedStatus === 'passed'
                             ? 'bg-[#eef8f0] text-[#449e3c]'
                             : selectedStatus === 'failed'
-                            ? 'bg-red-500 text-[#000]'
-                            : 'bg-gray-400 text-black'
+                            ? 'bg-[#f8e7ee] text-[#B70D52]'
+                            : 'bg-[#ffefe6] text-[#FF5D02]'
                     }  flex gap-1 items-center rounded-xl px-3 py-1`}
                 >
                     {selectedStatus || 'pending'}

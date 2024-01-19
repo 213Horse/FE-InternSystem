@@ -8,6 +8,7 @@ import { AiOutlineClockCircle } from 'react-icons/ai';
 import { FaEye, FaPlus, FaRegArrowAltCircleDown, FaRegEdit, FaRegTrashAlt, FaSearch } from 'react-icons/fa';
 import { IoFilterSharp } from 'react-icons/io5';
 import FormViewDetailIntern from './FormViewDetailIntern';
+import DropdownStatus from '@/components/ui/DropDownStatus';
 // import TabsApprove from './TabsApprove';
 
 type Props = {};
@@ -56,20 +57,18 @@ const ApproveCV = ({}: Props) => {
             dataIndex: 'commentCv',
             render: (
                 <div className="flex items-center gap-2">
-                    <Button
-                        onClick={handleOpenModalComment}
-                        className="text-black border-black"
-                        rightIcon={<FaEye />}
-                        variant={'outline'}
-                        size={'sm'}
-                    >
+                    <Button className="text-black border-black" rightIcon={<FaEye />} variant={'outline'} size={'sm'}>
                         2 Comments
                     </Button>
-                    <FaPlus className="cursor-pointer" />
+                    <FaPlus onClick={handleOpenModalComment} className="cursor-pointer" />
                 </div>
             ),
         },
-        { label: 'Status', dataIndex: 'status' },
+        {
+            label: 'Status',
+            dataIndex: 'status',
+            render: <DropdownStatus statusOptions={['passed', 'failed', 'Pending']} />,
+        },
         {
             label: 'Button',
             dataIndex: 'button',
@@ -139,7 +138,7 @@ const ApproveCV = ({}: Props) => {
                 </div>
             </div>
 
-            <main className="bg-white px-4 pt-5 rounded-xl">
+            <main className="flex flex-col bg-white px-4 pt-5 rounded-xl">
                 <form className="flex items-center gap-5 mb-4">
                     <FormSearchApprove />
                     <div className="flex flex-col gap-3 w-1/5">
@@ -161,14 +160,12 @@ const ApproveCV = ({}: Props) => {
                         </Button>
                     </div>
                 </form>
-                <div className=" rounded-3xl mt-5 min-h-10 px-9 py-4 flex">
-                    <Table headers={column} data={tableData} className="overflow-x-auto" check />
-                </div>
+
+                <Table headers={column} data={tableData} width={500} className="" check />
             </main>
 
             <Modal
                 width={700}
-                // height={300}
                 Isvisible={showModal}
                 toggleShow={handleOpenModal}
                 title="Schedule interview for Intern's ID: xxxx"
@@ -181,13 +178,7 @@ const ApproveCV = ({}: Props) => {
             <Modal width={800} toggleShow={handleOpenModalComment} Isvisible={showModalComment} title={''}>
                 <FormViewDetailIntern tabShow={2} />
             </Modal>
-            <Modal
-                width={800}
-                // height={500}
-                toggleShow={handleOpenModalFeedback}
-                Isvisible={showModalFeedback}
-                title={''}
-            >
+            <Modal width={800} toggleShow={handleOpenModalFeedback} Isvisible={showModalFeedback} title={''}>
                 <FormViewDetailIntern tabShow={3} />
             </Modal>
         </div>
