@@ -90,7 +90,7 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
           >
             {isShow ? <RiMenuFoldFill /> : <RiMenuUnfoldFill />}
           </span>
-          <div className="flex-1 font-bold text-2xl">Project Management</div>
+          <div className="flex-1 font-bold text-2xl"></div>
           <div className="flex items-center gap-10 pr-5">
             <div className="flex items-center gap-5">
               <img

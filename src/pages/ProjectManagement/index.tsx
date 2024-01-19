@@ -27,8 +27,8 @@ const ProjectManagement = (props: Props) => {
       icon: FolderArchiveIcon,
       backgroundColor: "green-600",
       color: "white",
-      width: "40",
-      height: "11",
+      width: "160",
+      height: "45px",
       children: "Export Excel",
     },
     {
@@ -36,8 +36,8 @@ const ProjectManagement = (props: Props) => {
       icon: PenSquareIcon,
       backgroundColor: "orange-500",
       color: "white",
-      width: "40",
-      height: "11",
+      width: "160",
+      height: "45px",
       children: "Edit",
     },
     {
@@ -45,8 +45,8 @@ const ProjectManagement = (props: Props) => {
       icon: Trash2Icon,
       backgroundColor: "red-600",
       color: "white",
-      width: "40",
-      height: "11",
+      width: "160",
+      height: "45px",
       children: "Delete",
     },
     {
@@ -54,8 +54,8 @@ const ProjectManagement = (props: Props) => {
       icon: PlusCircleIcon,
       backgroundColor: "blue-500",
       color: "white",
-      width: "40",
-      height: "11",
+      width: "160",
+      height: "45px",
       children: "Add New Project",
     },
   ];
@@ -76,48 +76,6 @@ const ProjectManagement = (props: Props) => {
                 {item.children}
               </ButtonCustom>
             ))}
-
-            {/* <ButtonCustom
-              icon={FolderArchiveIcon}
-              backgroundColor="green-600"
-              color="white"
-              width="40"
-              height="11"
-            >
-              Export
-            </ButtonCustom>
-            <ButtonCustom
-              icon={PenSquareIcon}
-              backgroundColor="orange-500"
-              color="white"
-              width="40"
-              height="11"
-            >
-              Edit
-            </ButtonCustom>
-
-            <ButtonCustom
-              icon={Trash2Icon}
-              backgroundColor="red-600"
-              color="white"
-              width="40"
-              height="11"
-            >
-              Delete
-            </ButtonCustom>
-
-            <ButtonCustom
-              icon={PlusCircleIcon}
-              backgroundColor="blue-500"
-              color="white"
-              width="40"
-              height="11"
-              onClick={toogleShow}
-            >
-              Add New Project
-            </ButtonCustom> */}
-
-            {/* <button className="bg-green-600">Hào</button> */}
           </div>
         </div>
       </div>
@@ -176,8 +134,8 @@ const ProjectManagement = (props: Props) => {
             icon={AiFillFunnelPlot}
             backgroundColor="white"
             color="black"
-            width="40"
-            height="11"
+            width="160"
+            height="45"
           >
             Clean filter
           </ButtonCustom>
@@ -186,8 +144,8 @@ const ProjectManagement = (props: Props) => {
             icon={SearchIcon}
             backgroundColor="blue-500"
             color="white"
-            width="40"
-            height="11"
+            width="160"
+            height="45"
           >
             Search
           </ButtonCustom>

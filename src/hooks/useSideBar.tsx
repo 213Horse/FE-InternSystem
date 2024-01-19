@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { AiFillHome, AiFillSchedule, AiOutlineSchedule } from "react-icons/ai";
 
 import SideBarItem from "@/components/SideBarItem";
+
 type ItemType = {
   item: React.ReactNode;
 
@@ -11,30 +12,9 @@ const useSideBar = () => {
   const routeList = useMemo<ItemType[]>(
     () => [
       {
-        item: (
-          <SideBarItem
-            title="Hợp đồng và đăng ký"
-            subChildren={[
-              {
-                title: "Quản lý hợp đồng",
-              },
-              {
-                title: "Báo cáo hợp đồng",
-                subChildren: [
-                  {
-                    title: "Phát triển KH mới",
-                  },
-                  {
-                    title: "Bảng kê danh sách KH",
-                  },
-                ],
-              },
-            ]}
-          ></SideBarItem>
-        ),
+        item: <SideBarItem href="dashboard" title="Dashboard"></SideBarItem>,
 
-        Icon: AiFillHome,
-        href: "Hợp đồng và đăng ký".replace(" ", "-"),
+        href: "",
       },
       {
         item: (
