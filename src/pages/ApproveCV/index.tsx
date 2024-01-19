@@ -1,20 +1,44 @@
+import ScheduleInterview from '@/components/ui/FormScheduleInterview';
 import FormSearchApprove from '@/components/ui/FormSearchApprove';
+import Modal from '@/components/ui/Modal';
 import Table, { TableColumn } from '@/components/ui/Table';
 import { Button } from '@/components/ui/button';
+import { useState } from 'react';
 import { AiOutlineClockCircle } from 'react-icons/ai';
 import { FaEye, FaPlus, FaRegArrowAltCircleDown, FaRegEdit, FaRegTrashAlt, FaSearch } from 'react-icons/fa';
 import { IoFilterSharp } from 'react-icons/io5';
+import FormViewDetailIntern from './FormViewDetailIntern';
+// import TabsApprove from './TabsApprove';
 
 type Props = {};
 
 const ApproveCV = ({}: Props) => {
+    const [showModal, setShowModal] = useState<boolean>(false);
+    const [showModalView, setShowModalView] = useState<boolean>(false);
+    const [showModalComment, setShowModalComment] = useState<boolean>(false);
+    const [showModalFeedback, setShowModalFeedback] = useState<boolean>(false);
+
+    const handleOpenModal = () => {
+        setShowModal((prev) => !prev);
+    };
+    const handleOpenModalView = () => {
+        setShowModalView((prev) => !prev);
+    };
+    const handleOpenModalComment = () => {
+        setShowModalComment((prev) => !prev);
+    };
+    const handleOpenModalFeedback = () => {
+        setShowModalFeedback((prev) => !prev);
+    };
+
     const column: TableColumn[] = [
         { label: "intern's ID", dataIndex: 'internID' },
-        { label: 'Date Submitted Form', dataIndex: 'dateSubmit' },
-        { label: 'Full Name', dataIndex: 'fullName' },
+        { label: 'Date Submitted Form', dataIndex: 'dateSubmit', width: '40%' },
+        { label: 'Full Name', dataIndex: 'fullName', width: '20%' },
         { label: 'Date Of Birth', dataIndex: 'dateOfBirth' },
         { label: 'Phone number', dataIndex: 'phone' },
         { label: 'Position', dataIndex: 'position' },
+
         { label: 'School', dataIndex: 'school' },
         { label: 'Address', dataIndex: 'address' },
         { label: 'Email', dataIndex: 'email' },
@@ -32,7 +56,13 @@ const ApproveCV = ({}: Props) => {
             dataIndex: 'commentCv',
             render: (
                 <div className="flex items-center gap-2">
-                    <Button className="text-black border-black" rightIcon={<FaEye />} variant={'outline'} size={'sm'}>
+                    <Button
+                        onClick={handleOpenModalComment}
+                        className="text-black border-black"
+                        rightIcon={<FaEye />}
+                        variant={'outline'}
+                        size={'sm'}
+                    >
                         2 Comments
                     </Button>
                     <FaPlus className="cursor-pointer" />
@@ -45,8 +75,12 @@ const ApproveCV = ({}: Props) => {
             dataIndex: 'button',
             render: (
                 <div className="flex gap-2">
-                    <Button variant={'outline'}>view</Button>
-                    <Button variant={'outline'}>feedbacks</Button>
+                    <Button variant={'outline'} onClick={handleOpenModalView}>
+                        view
+                    </Button>
+                    <Button variant={'outline'} onClick={handleOpenModalFeedback}>
+                        feedbacks
+                    </Button>
                 </div>
             ),
         },
@@ -75,16 +109,19 @@ const ApproveCV = ({}: Props) => {
             email: 'phamviabc@gamil.com',
         },
     ];
+
     return (
-        <div>
-            <div className="rounded-2xl w-full bg-white mb-6 flex items-center justify-between h-[80px] px-6">
-                <input
-                    className="px-3 py-1 border-b focus:border-[#000] focus:outline-0"
-                    type="text"
-                    placeholder="Search information"
-                />
+        <div className="flex flex-col">
+            <div className="rounded-2xl bg-white mb-6 flex items-center justify-between h-[80px] px-6">
+                <div
+                    className="px-3 py-1 text-gray-500 focus:border-[#000] focus:outline-0"
+                    // type="text"
+                    // placeholder="Search information"
+                >
+                    Search information
+                </div>
                 <div className="flex items-center gap-3">
-                    <Button size={'sm'} leftIcon={<AiOutlineClockCircle />} variant={'info'}>
+                    <Button size={'sm'} leftIcon={<AiOutlineClockCircle />} variant={'info'} onClick={handleOpenModal}>
                         Schedule interview
                     </Button>
                     <Button size={'sm'} leftIcon={<FaRegArrowAltCircleDown />} variant={'success'}>
@@ -103,7 +140,7 @@ const ApproveCV = ({}: Props) => {
             </div>
 
             <main className="bg-white px-4 pt-5 rounded-xl">
-                <form className="flex items-center gap-5">
+                <form className="flex items-center gap-5 mb-4">
                     <FormSearchApprove />
                     <div className="flex flex-col gap-3 w-1/5">
                         <Button
@@ -124,8 +161,35 @@ const ApproveCV = ({}: Props) => {
                         </Button>
                     </div>
                 </form>
-                <Table headers={column} data={tableData} className="mt-4 w-1/5" check />
+                <div className=" rounded-3xl mt-5 min-h-10 px-9 py-4 flex">
+                    <Table headers={column} data={tableData} className="overflow-x-auto" check />
+                </div>
             </main>
+
+            <Modal
+                width={700}
+                // height={300}
+                Isvisible={showModal}
+                toggleShow={handleOpenModal}
+                title="Schedule interview for Intern's ID: xxxx"
+            >
+                <ScheduleInterview />
+            </Modal>
+            <Modal width={800} toggleShow={handleOpenModalView} Isvisible={showModalView} title={''}>
+                <FormViewDetailIntern tabShow={1} />
+            </Modal>
+            <Modal width={800} toggleShow={handleOpenModalComment} Isvisible={showModalComment} title={''}>
+                <FormViewDetailIntern tabShow={2} />
+            </Modal>
+            <Modal
+                width={800}
+                // height={500}
+                toggleShow={handleOpenModalFeedback}
+                Isvisible={showModalFeedback}
+                title={''}
+            >
+                <FormViewDetailIntern tabShow={3} />
+            </Modal>
         </div>
     );
 };

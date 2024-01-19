@@ -1,3 +1,4 @@
+import SideBarItem from '@/components/SideBarItem';
 import { useMemo } from 'react';
 import { AiFillHome, AiFillSchedule, AiOutlineSchedule } from 'react-icons/ai';
 import { GiCaveman, GiBirdCage, GiElephant, GiNestBirds } from 'react-icons/gi';
@@ -7,12 +8,16 @@ import { IconType } from 'react-icons';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { NavLink } from 'react-router-dom';
 import clsx from 'clsx';
-import SideBarItem from '@/components/SideBarItem';
 type ItemType = {
     item: React.ReactNode;
     Icon: IconType;
     href: string;
 };
+
+// type ItemType = {
+//   item: React.ReactNode;
+//   href: string;
+// };
 const useSideBar = () => {
     const routeList = useMemo<ItemType[]>(
         () => [
@@ -98,10 +103,10 @@ const useSideBar = () => {
                         ]}
                     ></SideBarItem>
                 ),
-
                 Icon: AiFillHome,
-                href: 'Ghi chỉ & hóa đơn'.replace(' ', '-'),
+                href: 'Hợp đồng và đăng ký'.replace(' ', '-'),
             },
+
             {
                 item: (
                     <SideBarItem
@@ -113,6 +118,11 @@ const useSideBar = () => {
                         ]}
                     ></SideBarItem>
                 ),
+                Icon: AiFillHome,
+                href: 'Ghi chỉ & hóa đơn'.replace(' ', '-'),
+            },
+            {
+                item: <SideBarItem href="project-management" title="Project Management"></SideBarItem>,
 
                 Icon: AiFillHome,
                 href: 'Thu tiền'.replace(' ', '-'),

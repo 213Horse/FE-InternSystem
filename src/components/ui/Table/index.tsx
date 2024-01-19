@@ -34,58 +34,56 @@ const Table: React.FC<CustomTableProps> = ({ headers, data, check, className, ..
         setSelectAll(!selectAll);
     };
     return (
-        <div className="overflow-x-auto">
-            <table className={`${className} min-w-full `} {...props}>
-                <thead className="bg-white">
-                    <tr>
+        <table className={`${className} min-w-full `} {...props}>
+            <thead className="bg-white w-full overflow-x-auto">
+                <tr>
+                    {check ? (
+                        <th className="py-2 text-left w-[20px]">
+                            <input type="checkbox" checked={selectAll} onChange={handleSelectAllChange} />
+                        </th>
+                    ) : (
+                        ''
+                    )}
+                    {headers.map((header, index) => (
+                        <th
+                            key={index}
+                            scope="col"
+                            style={{ width: header.width || 'auto' }}
+                            className="px-2 py-1 text-left text-sm font-bold text-black tracking-wider"
+                        >
+                            {header.label}
+                        </th>
+                    ))}
+                </tr>
+            </thead>
+            <tbody className="bg-white">
+                {data.map((row, rowIndex) => (
+                    <tr key={rowIndex}>
                         {check ? (
-                            <th className="py-2 text-left w-[20px]">
-                                <input type="checkbox" checked={selectAll} onChange={handleSelectAllChange} />
-                            </th>
+                            <td className="py-3 whitespace-nowrap text-sm text-black">
+                                <input
+                                    type="checkbox"
+                                    checked={selectedRows.includes(rowIndex)}
+                                    onChange={() => handleCheckboxChange(rowIndex)}
+                                />
+                            </td>
                         ) : (
                             ''
                         )}
-                        {headers.map((header, index) => (
-                            <th
-                                key={index}
-                                scope="col"
+                        {headers.map((header, colIndex) => (
+                            <td
+                                key={colIndex}
                                 style={{ width: header.width || 'auto' }}
-                                className="px-2 py-1 text-left text-sm font-bold text-black tracking-wider"
+                                className="px-2 py-3  text-left text-sm text-black"
                             >
-                                {header.label}
-                            </th>
+                                {row[header.dataIndex]}
+                                {header.render}
+                            </td>
                         ))}
                     </tr>
-                </thead>
-                <tbody className="bg-white ">
-                    {data.map((row, rowIndex) => (
-                        <tr key={rowIndex}>
-                            {check ? (
-                                <td className="py-3 whitespace-nowrap text-sm text-black">
-                                    <input
-                                        type="checkbox"
-                                        checked={selectedRows.includes(rowIndex)}
-                                        onChange={() => handleCheckboxChange(rowIndex)}
-                                    />
-                                </td>
-                            ) : (
-                                ''
-                            )}
-                            {headers.map((header, colIndex) => (
-                                <td
-                                    key={colIndex}
-                                    style={{ width: header.width || 'auto' }}
-                                    className="px-2 py-3  text-left text-sm text-black"
-                                >
-                                    {row[header.dataIndex]}
-                                    {header.render}
-                                </td>
-                            ))}
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-        </div>
+                ))}
+            </tbody>
+        </table>
     );
 };
 export default Table;
