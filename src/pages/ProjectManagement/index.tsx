@@ -1,25 +1,19 @@
-import SystemComponent from "@/components/SystemComponent";
-import ButtonCustom from "@/components/Custom/ButtonCustom";
-import DropdownCustom from "@/components/Custom/DropdownCustom";
-import {
-  FolderArchiveIcon,
-  PenSquareIcon,
-  PlusCircleIcon,
-  SearchIcon,
-  Trash2Icon,
-} from "lucide-react";
-import { AiFillFunnelPlot } from "react-icons/ai";
-import AddProject from "@/components/ui/AddProject";
-import { useState } from "react";
+import SystemComponent from '@/components/SystemComponent';
+import ButtonCustom from '@/components/Custom/ButtonCustom';
+import DropdownCustom from '@/components/Custom/DropdownCustom';
+import { FolderArchiveIcon, PenSquareIcon, PlusCircleIcon, SearchIcon, Trash2Icon } from 'lucide-react';
+import { AiFillFunnelPlot } from 'react-icons/ai';
+import AddProject from '@/components/ui/AddProject';
+import { useState } from 'react';
 
 type Props = {};
 
 const ProjectManagement = (props: Props) => {
-  const [showModal, setShowModal] = useState(false);
+    const [showModal, setShowModal] = useState(false);
 
-  const toogleShow = () => {
-    setShowModal((prev) => !prev);
-  };
+    const toogleShow = () => {
+        setShowModal((prev) => !prev);
+    };
 
   const buttonData = [
     {
@@ -27,8 +21,8 @@ const ProjectManagement = (props: Props) => {
       icon: FolderArchiveIcon,
       backgroundColor: "green-600",
       color: "white",
-      width: "40",
-      height: "11",
+      width: "160",
+      height: "45px",
       children: "Export Excel",
     },
     {
@@ -36,8 +30,8 @@ const ProjectManagement = (props: Props) => {
       icon: PenSquareIcon,
       backgroundColor: "orange-500",
       color: "white",
-      width: "40",
-      height: "11",
+      width: "160",
+      height: "45px",
       children: "Edit",
     },
     {
@@ -45,8 +39,8 @@ const ProjectManagement = (props: Props) => {
       icon: Trash2Icon,
       backgroundColor: "red-600",
       color: "white",
-      width: "40",
-      height: "11",
+      width: "160",
+      height: "45px",
       children: "Delete",
     },
     {
@@ -54,8 +48,8 @@ const ProjectManagement = (props: Props) => {
       icon: PlusCircleIcon,
       backgroundColor: "blue-500",
       color: "white",
-      width: "40",
-      height: "11",
+      width: "160",
+      height: "45px",
       children: "Add New Project",
     },
   ];
@@ -76,48 +70,6 @@ const ProjectManagement = (props: Props) => {
                 {item.children}
               </ButtonCustom>
             ))}
-
-            {/* <ButtonCustom
-              icon={FolderArchiveIcon}
-              backgroundColor="green-600"
-              color="white"
-              width="40"
-              height="11"
-            >
-              Export
-            </ButtonCustom>
-            <ButtonCustom
-              icon={PenSquareIcon}
-              backgroundColor="orange-500"
-              color="white"
-              width="40"
-              height="11"
-            >
-              Edit
-            </ButtonCustom>
-
-            <ButtonCustom
-              icon={Trash2Icon}
-              backgroundColor="red-600"
-              color="white"
-              width="40"
-              height="11"
-            >
-              Delete
-            </ButtonCustom>
-
-            <ButtonCustom
-              icon={PlusCircleIcon}
-              backgroundColor="blue-500"
-              color="white"
-              width="40"
-              height="11"
-              onClick={toogleShow}
-            >
-              Add New Project
-            </ButtonCustom> */}
-
-            {/* <button className="bg-green-600">Hào</button> */}
           </div>
         </div>
       </div>
@@ -130,31 +82,19 @@ const ProjectManagement = (props: Props) => {
               options={["1", "2", "3"]}
             />
 
-            <DropdownCustom
-              title="Enter Position"
-              onSelect={() => {}}
-              options={["1", "2", "3"]}
-            />
+                        <DropdownCustom title="Enter Position" onSelect={() => {}} options={['1', '2', '3']} />
 
-            <DropdownCustom
-              title="Enter Technology"
-              onSelect={() => {}}
-              options={["1", "2", "3"]}
-              width="1/3"
-            />
-          </div>
-          <div className=" justify-between flex gap-3">
-            <DropdownCustom
-              title="Enter Leader"
-              onSelect={() => {}}
-              options={["1", "2", "3"]}
-            />
+                        <DropdownCustom
+                            title="Enter Technology"
+                            onSelect={() => {}}
+                            options={['1', '2', '3']}
+                            width="1/3"
+                        />
+                    </div>
+                    <div className=" justify-between flex gap-3">
+                        <DropdownCustom title="Enter Leader" onSelect={() => {}} options={['1', '2', '3']} />
 
-            <DropdownCustom
-              title="Enter Subleader"
-              onSelect={() => {}}
-              options={["1", "2", "3"]}
-            />
+                        <DropdownCustom title="Enter Subleader" onSelect={() => {}} options={['1', '2', '3']} />
 
             <DropdownCustom
               title="Enter Mentor"
@@ -176,8 +116,8 @@ const ProjectManagement = (props: Props) => {
             icon={AiFillFunnelPlot}
             backgroundColor="white"
             color="black"
-            width="40"
-            height="11"
+            width="160"
+            height="45"
           >
             Clean filter
           </ButtonCustom>
@@ -186,8 +126,8 @@ const ProjectManagement = (props: Props) => {
             icon={SearchIcon}
             backgroundColor="blue-500"
             color="white"
-            width="40"
-            height="11"
+            width="160"
+            height="45"
           >
             Search
           </ButtonCustom>
@@ -204,9 +144,9 @@ const ProjectManagement = (props: Props) => {
         </div>
       </div>
 
-      <AddProject toogleShow={toogleShow} show={showModal} />
-    </div>
-  );
+            <AddProject toogleShow={toogleShow} show={showModal} />
+        </div>
+    );
 };
 
 export default ProjectManagement;
