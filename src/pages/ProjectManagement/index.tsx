@@ -1,25 +1,19 @@
-import SystemComponent from "@/components/SystemComponent";
-import ButtonCustom from "@/components/Custom/ButtonCustom";
-import DropdownCustom from "@/components/Custom/DropdownCustom";
-import {
-  FolderArchiveIcon,
-  PenSquareIcon,
-  PlusCircleIcon,
-  SearchIcon,
-  Trash2Icon,
-} from "lucide-react";
-import { AiFillFunnelPlot } from "react-icons/ai";
-import AddProject from "@/components/ui/AddProject";
-import { useState } from "react";
+import SystemComponent from '@/components/SystemComponent';
+import ButtonCustom from '@/components/Custom/ButtonCustom';
+import DropdownCustom from '@/components/Custom/DropdownCustom';
+import { FolderArchiveIcon, PenSquareIcon, PlusCircleIcon, SearchIcon, Trash2Icon } from 'lucide-react';
+import { AiFillFunnelPlot } from 'react-icons/ai';
+import AddProject from '@/components/ui/AddProject';
+import { useState } from 'react';
 
 type Props = {};
 
 const ProjectManagement = (props: Props) => {
-  const [showModal, setShowModal] = useState(false);
+    const [showModal, setShowModal] = useState(false);
 
-  const toogleShow = () => {
-    setShowModal((prev) => !prev);
-  };
+    const toogleShow = () => {
+        setShowModal((prev) => !prev);
+    };
 
   const buttonData = [
     {
@@ -88,31 +82,19 @@ const ProjectManagement = (props: Props) => {
               options={["1", "2", "3"]}
             />
 
-            <DropdownCustom
-              title="Enter Position"
-              onSelect={() => {}}
-              options={["1", "2", "3"]}
-            />
+                        <DropdownCustom title="Enter Position" onSelect={() => {}} options={['1', '2', '3']} />
 
-            <DropdownCustom
-              title="Enter Technology"
-              onSelect={() => {}}
-              options={["1", "2", "3"]}
-              width="1/3"
-            />
-          </div>
-          <div className=" justify-between flex gap-3">
-            <DropdownCustom
-              title="Enter Leader"
-              onSelect={() => {}}
-              options={["1", "2", "3"]}
-            />
+                        <DropdownCustom
+                            title="Enter Technology"
+                            onSelect={() => {}}
+                            options={['1', '2', '3']}
+                            width="1/3"
+                        />
+                    </div>
+                    <div className=" justify-between flex gap-3">
+                        <DropdownCustom title="Enter Leader" onSelect={() => {}} options={['1', '2', '3']} />
 
-            <DropdownCustom
-              title="Enter Subleader"
-              onSelect={() => {}}
-              options={["1", "2", "3"]}
-            />
+                        <DropdownCustom title="Enter Subleader" onSelect={() => {}} options={['1', '2', '3']} />
 
             <DropdownCustom
               title="Enter Mentor"
@@ -162,9 +144,9 @@ const ProjectManagement = (props: Props) => {
         </div>
       </div>
 
-      <AddProject toogleShow={toogleShow} show={showModal} />
-    </div>
-  );
+            <AddProject toogleShow={toogleShow} show={showModal} />
+        </div>
+    );
 };
 
 export default ProjectManagement;

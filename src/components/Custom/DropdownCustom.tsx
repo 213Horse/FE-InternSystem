@@ -1,5 +1,5 @@
-import { ChevronDownIcon } from "lucide-react";
-import React, { useState } from "react";
+import { ChevronDownIcon } from 'lucide-react';
+import React, { useState } from 'react';
 
 interface DropdownProps {
   options: string[];
@@ -19,15 +19,15 @@ const DropdownCustom: React.FC<DropdownProps> = ({
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
 
-  const handleToggleDropdown = () => {
-    setIsOpen(!isOpen);
-  };
+    const handleToggleDropdown = () => {
+        setIsOpen(!isOpen);
+    };
 
-  const handleSelectOption = (option: string) => {
-    setSelectedOption(option);
-    onSelect(option);
-    setIsOpen(false);
-  };
+    const handleSelectOption = (option: string) => {
+        setSelectedOption(option);
+        onSelect(option);
+        setIsOpen(false);
+    };
 
   return (
     <div className="relative w-1/3 ">
