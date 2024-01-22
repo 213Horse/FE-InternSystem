@@ -6,7 +6,7 @@ import clsx from 'clsx';
 import { RiMenuFoldFill, RiMenuUnfoldFill } from 'react-icons/ri';
 import { useTransition, animated } from '@react-spring/web';
 import { Accordion } from '@/components/ui/accordion';
-import { Settings, Settings2Icon } from 'lucide-react';
+import { Settings } from 'lucide-react';
 
 interface MainLayoutProps {
     children?: ReactNode;
@@ -27,7 +27,7 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
                         item && (
                             <animated.div
                                 style={style}
-                                className="min-w-[300px]   backdrop-blur-md  z-20 sm:block sm:relative  overflow-auto"
+                                className="min-w-[200px] backdrop-blur-md  z-20 sm:block sm:relative"
                             >
                                 <div className="w-5/6 sm:w-full h-full bg-background ">
                                     <h1 className=" bg-background flex gap-2 items-center ">
@@ -44,7 +44,7 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
                                             </span>
                                         )}
                                     </h1>
-                                    <div className="flex flex-col  py-1 px-2  font-medium">
+                                    <div className="flex flex-col  py-1 px-2  font-medium h-full">
                                         <Accordion type="single" collapsible className="w-full border-0 ">
                                             {routeList.map((route) => (
                                                 <NavLink
