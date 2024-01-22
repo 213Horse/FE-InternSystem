@@ -1,5 +1,4 @@
 import clsx from 'clsx';
-import React from 'react';
 import { IconType } from 'react-icons';
 import { NavLink } from 'react-router-dom';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './ui/accordion';
@@ -12,7 +11,7 @@ type Props = {
     currentRoute?: string;
 };
 
-const SideBarItem = ({ title, Icon, href, subChildren, currentRoute }: Props) => {
+const SideBarItem = ({ title, href, subChildren, currentRoute }: Props) => {
     const subChildrenLength = subChildren ? subChildren.length : 0;
     const newhref = title.replace(' ', '-');
     const segment = currentRoute?.length ? currentRoute : '';
