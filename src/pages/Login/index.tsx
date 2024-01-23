@@ -14,7 +14,9 @@ const Login: React.FC<Props> = ({ children }: Props) => {
                 <main className="bg-white sticky left-0 right-0 top-0 w-full z-10 h-[72px]">
                     <div className="flex items-center justify-between">
                         <div className="lg:w-[184px] lg:h-[62px] w-[150px] h-[40px]">
-                            <img className="w-full h-full" src={logo} alt="logo trang login" />
+                            <a href="/login">
+                                <img className="w-full h-full" src={logo} alt="logo trang login" />
+                            </a>
                         </div>
                         <div className="relative inline-block text-left">
                             <div>

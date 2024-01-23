@@ -5,16 +5,18 @@ import { IoIosArrowRoundBack, IoIosArrowRoundForward } from 'react-icons/io';
 
 export interface TableColumn {
     label: string;
-    width?: string;
+    width?: number;
     dataIndex: string;
     render?: ReactNode;
 }
+
 interface CustomTableProps {
     headers: TableColumn[];
     data: { [key: string]: string | number | string[] | ReactNode }[];
     check?: boolean;
     className?: string;
     width?: number;
+    pagation?: any;
 }
 
 const Table: React.FC<CustomTableProps> = ({ headers, data, check, className, width, ...props }) => {
@@ -37,58 +39,60 @@ const Table: React.FC<CustomTableProps> = ({ headers, data, check, className, wi
         setSelectAll(!selectAll);
     };
     return (
-        <div className="flex flex-col gap-3">
-            <table className={`${className} overflow-x-auto`} {...props} style={{ width: width ? width + 'px' : '' }}>
-                <thead className="bg-white">
-                    <tr>
-                        {check ? (
-                            <th className="py-2 text-left w-[20px]">
-                                <input type="checkbox" checked={selectAll} onChange={handleSelectAllChange} />
-                            </th>
-                        ) : (
-                            ''
-                        )}
-                        {headers.map((header, index) => (
-                            <th
-                                key={index}
-                                scope="col"
-                                style={{ width: header.width || 'auto' }}
-                                className="px-2 py-1 text-center text-sm font-bold text-black tracking-wider"
-                            >
-                                {header.label}
-                            </th>
-                        ))}
-                    </tr>
-                </thead>
-                <tbody className="bg-white">
-                    {data.map((row, rowIndex) => (
-                        <tr key={rowIndex}>
+        <>
+            <div className="flex flex-col gap-3 overflow-x-auto" style={{ width: width ? width + 'px' : '' }}>
+                <table className={`table-auto min-w-full`} {...props}>
+                    <thead className="bg-white">
+                        <tr className="">
                             {check ? (
-                                <td className="py-3 whitespace-nowrap text-sm text-black">
-                                    <input
-                                        type="checkbox"
-                                        checked={selectedRows.includes(rowIndex)}
-                                        onChange={() => handleCheckboxChange(rowIndex)}
-                                    />
-                                </td>
+                                <th className="py-1 text-left w-[20px]">
+                                    <input type="checkbox" checked={selectAll} onChange={handleSelectAllChange} />
+                                </th>
                             ) : (
                                 ''
                             )}
-                            {headers.map((header, colIndex) => (
-                                <td
-                                    key={colIndex}
-                                    style={{ width: header.width || 'auto' }}
-                                    className="px-2 py-3  text-left text-sm text-black"
+                            {headers.map((header, index) => (
+                                <th
+                                    key={index}
+                                    // scope="col"
+                                    style={{ width: header.width ? `${header.width}px` : 'auto' }}
+                                    className={` p-1 text-center text-sm font-bold text-black tracking-wider`}
                                 >
-                                    {row[header.dataIndex]}
-                                    {header.render}
-                                </td>
+                                    {header.label}
+                                </th>
                             ))}
                         </tr>
-                    ))}
-                </tbody>
-            </table>
-            <div className="rounded-3xl flex items-center justify-between px-3 py-6 text-base  bg-[#f8f9fb] mb-5">
+                    </thead>
+                    <tbody className="bg-white">
+                        {data.map((row, rowIndex) => (
+                            <tr className="" key={rowIndex}>
+                                {check ? (
+                                    <td className="py-1 whitespace-nowrap text-sm text-black">
+                                        <input
+                                            type="checkbox"
+                                            checked={selectedRows.includes(rowIndex)}
+                                            onChange={() => handleCheckboxChange(rowIndex)}
+                                        />
+                                    </td>
+                                ) : (
+                                    ''
+                                )}
+                                {headers.map((header, colIndex) => (
+                                    <td
+                                        key={colIndex}
+                                        style={{ width: header.width ? `${header.width}px` : 'auto' }}
+                                        className="p-1 text-left text-sm text-black"
+                                    >
+                                        {row[header.dataIndex]}
+                                        {header.render}
+                                    </td>
+                                ))}
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+            <div className="rounded-3xl flex items-center justify-between px-1 py-2 mt-2 text-base  bg-[#f8f9fb] mb-5">
                 <div className="text-black">
                     {' '}
                     1 - <span className="text-gray-400">5 of 56</span>
@@ -117,7 +121,7 @@ const Table: React.FC<CustomTableProps> = ({ headers, data, check, className, wi
                     </Button>
                 </div>
             </div>
-        </div>
+        </>
     );
 };
 export default Table;

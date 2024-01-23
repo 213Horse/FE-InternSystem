@@ -23,13 +23,13 @@ const Tabs: MyObjectArray = {
         {
             id: 2,
             title: 'Human resources',
-            content: 'Chức năng chưa hoàn thành',
+            content: <LoginAandS title="Human resources Login" id={2} />,
             color: 'red',
         },
         {
             id: 3,
             title: 'Mentor',
-            content: 'Chức năng chưa hoàn thành',
+            content: <LoginAandS title="Mentor Login" id={3} />,
             color: 'red',
         },
         {

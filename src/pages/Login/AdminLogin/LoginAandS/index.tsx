@@ -3,6 +3,8 @@ import iconGoogle from '@/assets/icons_google.png';
 import { RiCloseCircleLine, RiEyeLine, RiEyeOffLine } from 'react-icons/ri';
 import SignUp from '../../SignUp';
 import { useNavigate } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
+import Input from '@/components/ui/Input';
 
 type Props = {
     title: string;
@@ -46,10 +48,11 @@ export default function index(props: Props) {
                                 Email
                             </label>
                             <input
-                                className="w-full border border-[#D0D5DD] text-[#000] px-4 py-2 rounded-lg mt-1"
+                                className="w-full border border-[#D0D5DD] text-[#000] px-3 py-1 rounded-lg mt-1"
                                 type="text"
                                 placeholder="youremail@example.com"
                             />
+                            {/* <Input title="youremail@example.com" className='rounded-lg' icon={<RiCloseCircleLine />} /> */}
                             <RiCloseCircleLine className="w-[24px] h-[24px] absolute right-3 top-[50%]" />
                         </div>
                         <div className="flex flex-col mt-2 relative">
@@ -57,7 +60,7 @@ export default function index(props: Props) {
                                 Password
                             </label>
                             <input
-                                className="w-full border border-[#D0D5DD] text-[#000] px-4 py-2 rounded-lg mt-1"
+                                className="w-full border border-[#D0D5DD] text-[#000] px-3 py-1 rounded-lg mt-1"
                                 type={showPass ? 'text' : 'password'}
                                 placeholder="********"
                             />
@@ -84,20 +87,26 @@ export default function index(props: Props) {
                             </button>
                         </div>
 
-                        <button className="w-full py-[8px] mt-3 bg-[#4889e9] rounded-[8px] drop-shadow-sm">
+                        <Button variant={'default'} size={'lg'} className="w-full mt-3">
                             Sign in
-                        </button>
-                        <button
+                        </Button>
+                        <Button
+                            variant={'link'}
+                            size={'lg'}
                             onClick={handleChangeSignUp}
-                            className="w-full py-[8px] mt-4 bg-[#EFF4FB] rounded-[8px] drop-shadow-sm"
+                            className="w-full my-4 drop-shadow-sm"
                         >
                             Sign up
-                        </button>
-                        <div className="text-[14p] font-light text-center my-3">OR LOGIN WITH</div>
-                        <button className="w-full py-[8px] bg-[#ffffff] rounded-[8px] drop-shadow-sm flex items-center justify-center gap-3">
+                        </Button>
+                        <div className="text-[14p] font-light text-center mb-3">OR LOGIN WITH</div>
+                        <Button
+                            variant={'outline'}
+                            size={'lg'}
+                            className="w-full drop-shadow-sm flex items-center justify-center gap-3"
+                        >
                             <img src={iconGoogle} alt="icon google" />
                             Google
-                        </button>
+                        </Button>
                     </div>
                 </form>
             )}

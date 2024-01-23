@@ -34,8 +34,8 @@ const ApproveCV = ({}: Props) => {
 
     const column: TableColumn[] = [
         { label: "intern's ID", dataIndex: 'internID' },
-        { label: 'Date Submitted Form', dataIndex: 'dateSubmit', width: '40%' },
-        { label: 'Full Name', dataIndex: 'fullName', width: '20%' },
+        { label: 'Date Submitted Form', dataIndex: 'dateSubmit' },
+        { label: 'Full Name', dataIndex: 'fullName' },
         { label: 'Date Of Birth', dataIndex: 'dateOfBirth' },
         { label: 'Phone number', dataIndex: 'phone' },
         { label: 'Position', dataIndex: 'position' },
@@ -111,7 +111,7 @@ const ApproveCV = ({}: Props) => {
 
     return (
         <div className="flex flex-col">
-            <div className="rounded-2xl bg-white mb-6 flex items-center justify-between h-[80px] px-6">
+            <div className="rounded-2xl bg-white mb-6 flex items-center justify-between h-[60px] px-6">
                 <div
                     className="px-3 py-1 text-gray-500 focus:border-[#000] focus:outline-0"
                     // type="text"
@@ -161,7 +161,7 @@ const ApproveCV = ({}: Props) => {
                     </div>
                 </form>
 
-                <Table headers={column} data={tableData} width={500} className="" check />
+                <Table className="" headers={column} data={tableData} width={1000} />
             </main>
 
             <Modal
