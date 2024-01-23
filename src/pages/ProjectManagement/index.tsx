@@ -6,9 +6,7 @@ import { AiFillFunnelPlot } from 'react-icons/ai';
 import AddProject from '@/components/ui/AddProject';
 import { useState } from 'react';
 
-type Props = {};
-
-const ProjectManagement = (props: Props) => {
+const ProjectManagement = () => {
     const [showModal, setShowModal] = useState(false);
 
     const toogleShow = () => {
@@ -21,8 +19,8 @@ const ProjectManagement = (props: Props) => {
             icon: FolderArchiveIcon,
             backgroundColor: 'green-600',
             color: 'white',
-            width: '40',
-            height: '11',
+            width: '160',
+            height: '45px',
             children: 'Export Excel',
         },
         {
@@ -30,8 +28,8 @@ const ProjectManagement = (props: Props) => {
             icon: PenSquareIcon,
             backgroundColor: 'orange-500',
             color: 'white',
-            width: '40',
-            height: '11',
+            width: '160',
+            height: '45px',
             children: 'Edit',
         },
         {
@@ -39,8 +37,8 @@ const ProjectManagement = (props: Props) => {
             icon: Trash2Icon,
             backgroundColor: 'red-600',
             color: 'white',
-            width: '40',
-            height: '11',
+            width: '160',
+            height: '45px',
             children: 'Delete',
         },
         {
@@ -48,8 +46,8 @@ const ProjectManagement = (props: Props) => {
             icon: PlusCircleIcon,
             backgroundColor: 'blue-500',
             color: 'white',
-            width: '40',
-            height: '11',
+            width: '160',
+            height: '45px',
             children: 'Add New Project',
         },
     ];
@@ -70,48 +68,6 @@ const ProjectManagement = (props: Props) => {
                                 {item.children}
                             </ButtonCustom>
                         ))}
-
-                        {/* <ButtonCustom
-              icon={FolderArchiveIcon}
-              backgroundColor="green-600"
-              color="white"
-              width="40"
-              height="11"
-            >
-              Export
-            </ButtonCustom>
-            <ButtonCustom
-              icon={PenSquareIcon}
-              backgroundColor="orange-500"
-              color="white"
-              width="40"
-              height="11"
-            >
-              Edit
-            </ButtonCustom>
-
-            <ButtonCustom
-              icon={Trash2Icon}
-              backgroundColor="red-600"
-              color="white"
-              width="40"
-              height="11"
-            >
-              Delete
-            </ButtonCustom>
-
-            <ButtonCustom
-              icon={PlusCircleIcon}
-              backgroundColor="blue-500"
-              color="white"
-              width="40"
-              height="11"
-              onClick={toogleShow}
-            >
-              Add New Project
-            </ButtonCustom> */}
-
-                        {/* <button className="bg-green-600">Hào</button> */}
                     </div>
                 </div>
             </div>
@@ -150,16 +106,16 @@ const ProjectManagement = (props: Props) => {
                     </div>
                 </div>
                 <div className="grow px-5 flex flex-col gap-2">
-                    <ButtonCustom icon={AiFillFunnelPlot} backgroundColor="white" color="black" width="40" height="11">
+                    <ButtonCustom icon={AiFillFunnelPlot} backgroundColor="white" color="black" width="160" height="45">
                         Clean filter
                     </ButtonCustom>
 
-                    <ButtonCustom icon={SearchIcon} backgroundColor="blue-500" color="white" width="40" height="11">
+                    <ButtonCustom icon={SearchIcon} backgroundColor="blue-500" color="white" width="160" height="45">
                         Search
                     </ButtonCustom>
                 </div>
             </div>
-            <div className="bg-white rounded-3xl mt-5 min-h-10 px-9 py-4 flex ">
+            <div className="bg-white rounded-3xl mt-5 min-h-10 px-9 py-4 flex  ">
                 <div className="grid grid-cols-3 gap-3 w-full">
                     <SystemComponent />
                     <SystemComponent />

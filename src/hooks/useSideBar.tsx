@@ -1,13 +1,9 @@
 import SideBarItem from '@/components/SideBarItem';
 import { useMemo } from 'react';
-import { AiFillHome, AiFillSchedule, AiOutlineSchedule } from 'react-icons/ai';
-import { GiCaveman, GiBirdCage, GiElephant, GiNestBirds } from 'react-icons/gi';
-import { ImManWoman } from 'react-icons/im';
-import { BsFillPinMapFill } from 'react-icons/bs';
+import { AiFillHome } from 'react-icons/ai';
+
 import { IconType } from 'react-icons';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { NavLink } from 'react-router-dom';
-import clsx from 'clsx';
+
 type ItemType = {
     item: React.ReactNode;
     Icon: IconType;

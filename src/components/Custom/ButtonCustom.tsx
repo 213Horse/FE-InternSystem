@@ -2,10 +2,10 @@ interface ButtonProps {
   children: string;
   icon?: any;
   color?: string;
-  width?: string;
-  height?: string;
+  width: string;
+  height: string;
   roundFull?: boolean;
-  backgroundColor?: string;
+  backgroundColor: string;
   onClick?: () => void;
 }
 
@@ -14,17 +14,18 @@ const ButtonCustom = ({
   color,
   width,
   height,
-  backgroundColor,
+  backgroundColor = "#fff",
   roundFull,
   onClick,
   children,
 }: ButtonProps) => {
-  const buttonStyle = `bg-${backgroundColor} w-${width} h-${height}  p-2.5 ${
-    roundFull ? "rounded-full" : "rounded-2xl"
-  } text-${color} text-xs flex items-center justify-center gap-2 border`;
-
   return (
-    <button className={buttonStyle} onClick={onClick}>
+    <button
+      className={`min-w-[150px] min-h-[40px] w-[${width}px] h-[${height}px] ${
+        roundFull ? "rounded-full" : "rounded-2xl"
+      } p-2.5 text-${color} text-xs flex items-center justify-center gap-2 border bg-${backgroundColor}`}
+      onClick={onClick}
+    >
       {Icon && <Icon className="mr-2 w-4" />}
 
       {children}
