@@ -1,4 +1,4 @@
-name: Build and deploy HRM-FE_nhamaythep
+name: Build and deploy InternSystem_FE
 
 on:
   push:
