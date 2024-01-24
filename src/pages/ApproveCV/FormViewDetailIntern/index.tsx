@@ -17,7 +17,7 @@ export default function FormViewDetailIntern({ tabShow }: Props) {
         activeIndex === index ? className : 'text-[#66708550] border-transparent border-b-2';
     return (
         <div className={`overflow-y-auto ${activeIndex === 3 ? 'h-[550px]' : ''}`}>
-            <div className="flex gap-3 border-b-2 w-2/3  justify-between items-center mb-3">
+            <div className="flex items-center justify-between w-full gap-3 mb-3 border-b-2 lg:w-2/3">
                 <div
                     onClick={() => handleClick(1)}
                     className={`${checkActive(
@@ -49,7 +49,7 @@ export default function FormViewDetailIntern({ tabShow }: Props) {
             <div>
                 {/* view detail Intern */}
                 <form className={`panel ${checkActive(1, 'active')}`} action="" method="">
-                    <div className="grid grid-cols-3 gap-5">
+                    <div className="grid grid-cols-2 gap-5 lg:grid-cols-3">
                         <div className="flex flex-col gap-2">
                             <label htmlFor="" className="text-base font-semibold">
                                 Intern ID
@@ -117,33 +117,33 @@ export default function FormViewDetailIntern({ tabShow }: Props) {
                 </form>
                 {/* Comment of cv */}
                 <form className={`panel ${checkActive(2, 'active')}`} action="" method="">
-                    <div className="grid grid-cols-3 gap-5">
+                    <div className="grid grid-cols-2 gap-5 lg:grid-cols-3">
                         <div className="flex flex-col gap-2">
-                            <label htmlFor="" className="text-base font-semibold">
+                            <label htmlFor="" className="h-6 overflow-hidden text-base font-semibold">
                                 Major
                             </label>
                             <Input title="Intern Id" className="rounded-lg" />
                         </div>
                         <div className="flex flex-col gap-2">
-                            <label htmlFor="" className="text-base font-semibold">
+                            <label htmlFor="" className="h-6 overflow-hidden text-base font-semibold">
                                 Programming language
                             </label>
                             <Input title="Intern Id" className="rounded-lg" />
                         </div>
                         <div className="flex flex-col gap-2">
-                            <label htmlFor="" className="text-base font-semibold">
+                            <label htmlFor="" className="h-6 overflow-hidden text-base font-semibold">
                                 Project On GitHub
                             </label>
                             <Input title="Intern Id" className="rounded-lg" />
                         </div>
                         <div className="flex flex-col gap-2">
-                            <label htmlFor="" className="text-base font-semibold">
+                            <label htmlFor="" className="h-6 overflow-hidden text-base font-semibold">
                                 Position
                             </label>
                             <Input title="Intern Id" className="rounded-lg" />
                         </div>
                         <div className="flex flex-col gap-2">
-                            <label htmlFor="" className="text-base font-semibold">
+                            <label htmlFor="" className="h-6 overflow-hidden text-base font-semibold">
                                 Rank
                             </label>
                             <select className=" border border-gray-300 text-[#CBD2DC90] rounded-lg text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2 ">
@@ -154,19 +154,24 @@ export default function FormViewDetailIntern({ tabShow }: Props) {
                             </select>
                         </div>
                         <div className="flex flex-col gap-2">
-                            <label htmlFor="" className="text-base font-semibold">
+                            <label htmlFor="" className="h-6 overflow-hidden text-base font-semibold">
                                 Add comment
                             </label>
                             <Input title="Click to add more comment" className="rounded-lg text-center bg-[#f8f9fb]" />
                         </div>
                     </div>
-                    <Button leftIcon={<FaSave />} variant={'default'} size={'sm'} className="float-right mt-4 mr-10">
+                    <Button
+                        leftIcon={<FaSave />}
+                        variant={'default'}
+                        size={'sm'}
+                        className="w-full mt-4 lg:mr-10 lg:float-right"
+                    >
                         Save Comment
                     </Button>
                 </form>
                 {/* Result of interview */}
                 <form className={`panel ${checkActive(3, 'active')} pb-4`} action="" method="">
-                    <div className="grid grid-cols-3 gap-5">
+                    <div className="grid grid-cols-2 gap-5 lg:grid-cols-3">
                         <div className="flex flex-col gap-2">
                             <label htmlFor="" className="h-12 text-base font-semibold">
                                 Programming language
@@ -260,7 +265,7 @@ export default function FormViewDetailIntern({ tabShow }: Props) {
                         </div>
                     </div>
                     <div className="text-xl font-semibold text-[#A03B0F] my-4">Question of Technology</div>
-                    <div className="grid grid-cols-3 gap-5">
+                    <div className="grid grid-cols-2 gap-5 lg:grid-cols-3">
                         <div className="flex flex-col gap-2">
                             <label htmlFor="" className="text-base font-semibold">
                                 Question 1
@@ -281,7 +286,7 @@ export default function FormViewDetailIntern({ tabShow }: Props) {
                         </div>
                     </div>
                     <div className="text-xl font-semibold text-[#A03B0F] my-4">Assign Project</div>
-                    <div className="grid grid-cols-3 gap-5">
+                    <div className="grid grid-cols-2 gap-5 lg:grid-cols-3">
                         <div className="flex flex-col gap-2">
                             <label htmlFor="" className="text-base font-semibold">
                                 Project's Name
@@ -300,12 +305,17 @@ export default function FormViewDetailIntern({ tabShow }: Props) {
                             </label>
                             <Input title="" className="rounded-lg" />
                         </div>
-                        <div className="flex gap-3 items-center">
-                            <div className="text-xl font-semibold text-[#A03B0F]">Final result:</div>
-                            <DropdownStatus statusOptions={['passed', 'failed']} />
-                        </div>
                     </div>
-                    <Button leftIcon={<FaSave />} variant={'default'} size={'sm'} className="float-right mt-4 mr-10">
+                    <div className="flex items-center gap-3 mt-3">
+                        <div className="text-xl font-semibold text-[#A03B0F]">Final result:</div>
+                        <DropdownStatus statusOptions={['passed', 'failed']} />
+                    </div>
+                    <Button
+                        leftIcon={<FaSave />}
+                        variant={'default'}
+                        size={'sm'}
+                        className="w-full mt-4 lg:float-right lg:mr-10"
+                    >
                         Save Comment
                     </Button>
                 </form>

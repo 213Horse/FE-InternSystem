@@ -36,15 +36,15 @@ export default function index(props: Props) {
             {signUp ? (
                 <SignUp titleLogin={id} setSignUp={setSignUp} />
             ) : (
-                <form className="w-[360px] mx-auto">
-                    <div className="w-full text-start mt-4">
+                <form className="lg:w-[360px]  w-full mx-auto">
+                    <div className="w-full mt-4 text-start">
                         <h2 className="text-[40px] font-bold leading-9 text-[#4889E9] mb-3">{title}</h2>
                         <p className="text-base font-normal leading-6 text-[#667085]">
                             Please fill your detail to access your account
                         </p>
 
-                        <div className="flex flex-col mt-2 relative">
-                            <label className="text-md font-medium left-5" htmlFor="">
+                        <div className="relative flex flex-col mt-2">
+                            <label className="font-medium text-md left-5" htmlFor="">
                                 Email
                             </label>
                             <input
@@ -55,8 +55,8 @@ export default function index(props: Props) {
                             {/* <Input title="youremail@example.com" className='rounded-lg' icon={<RiCloseCircleLine />} /> */}
                             <RiCloseCircleLine className="w-[24px] h-[24px] absolute right-3 top-[50%]" />
                         </div>
-                        <div className="flex flex-col mt-2 relative">
-                            <label className="text-md font-medium left-5" htmlFor="">
+                        <div className="relative flex flex-col mt-2">
+                            <label className="font-medium text-md left-5" htmlFor="">
                                 Password
                             </label>
                             <input
@@ -77,7 +77,7 @@ export default function index(props: Props) {
                                 onClick={handleHidePass}
                             />
                         </div>
-                        <div className="w-full flex items-center justify-between mt-2">
+                        <div className="flex items-center justify-between w-full mt-2">
                             <div className="flex gap-2 font-light text-[14px] leading-5">
                                 <input type="checkbox" />
                                 Remember me
@@ -102,7 +102,7 @@ export default function index(props: Props) {
                         <Button
                             variant={'outline'}
                             size={'lg'}
-                            className="w-full drop-shadow-sm flex items-center justify-center gap-3"
+                            className="flex items-center justify-center w-full gap-3 drop-shadow-sm"
                         >
                             <img src={iconGoogle} alt="icon google" />
                             Google

@@ -1,94 +1,136 @@
 import React, { ReactNode, useState } from 'react';
+import { useTable } from 'react-table';
 import { Button } from '../button';
 import { IoChevronDown } from 'react-icons/io5';
 import { IoIosArrowRoundBack, IoIosArrowRoundForward } from 'react-icons/io';
 
 export interface TableColumn {
     label: string;
-    width?: number;
+    width?: string;
     dataIndex: string;
     render?: ReactNode;
 }
 
 interface CustomTableProps {
-    headers: TableColumn[];
-    data: { [key: string]: string | number | string[] | ReactNode }[];
-    check?: boolean;
-    className?: string;
-    width?: number;
-    pagation?: any;
+    // headers: TableColumn[];
+    // data: { [key: string]: string | number | string[] | ReactNode }[];
+    data: any[];
+    columns: { label: string; accessor: string; width?: string }[];
+    // check?: boolean;
+    // className?: string;
+    // width?: number;
+    // pagation?: any;
 }
 
-const Table: React.FC<CustomTableProps> = ({ headers, data, check, className, width, ...props }) => {
+const Table: React.FC<CustomTableProps> = ({ columns, data, ...props }) => {
     const [selectAll, setSelectAll] = useState<boolean>(false);
-    const [selectedRows, setSelectedRows] = useState<number[]>([]);
+    const [selectedRows, setSelectedRows] = useState<string[]>([]);
+    // const handleCheckboxChange = (rowIndex: number) => {
+    //     const updatedSelection = selectedRows.includes(rowIndex)
+    //         ? selectedRows.filter((index) => index !== rowIndex)
+    //         : [...selectedRows, rowIndex];
+    //     setSelectedRows(updatedSelection);
+    // };
+    // const handleSelectAllChange = () => {
+    //     if (selectAll) {
+    //         setSelectedRows([]);
+    //     } else {
+    //         setSelectedRows(Array.from({ length: data.length }, (_, index) => index));
+    //     }
+    //     setSelectAll(!selectAll);
+    // };
 
-    const handleCheckboxChange = (rowIndex: number) => {
-        const updatedSelection = selectedRows.includes(rowIndex)
-            ? selectedRows.filter((index) => index !== rowIndex)
-            : [...selectedRows, rowIndex];
+    const toggleRowSelection = (rowId: string) => {
+        const isSelected = selectedRows.includes(rowId);
 
-        setSelectedRows(updatedSelection);
-    };
-    const handleSelectAllChange = () => {
-        if (selectAll) {
-            setSelectedRows([]);
+        if (isSelected) {
+            setSelectedRows(selectedRows.filter((id) => id !== rowId));
         } else {
-            setSelectedRows(Array.from({ length: data.length }, (_, index) => index));
+            setSelectedRows([...selectedRows, rowId]);
+            // console.log([...selectedRows, rowId]);
         }
-        setSelectAll(!selectAll);
     };
+
+    const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable({ columns, data });
+
     return (
         <>
-            <div className="flex flex-col gap-3 overflow-x-auto" style={{ width: width ? width + 'px' : '' }}>
-                <table className={`table-auto min-w-full`} {...props}>
-                    <thead className="bg-white">
-                        <tr className="">
-                            {check ? (
-                                <th className="py-1 text-left w-[20px]">
-                                    <input type="checkbox" checked={selectAll} onChange={handleSelectAllChange} />
+            <div className="overflow-x-auto md:overflow-x-auto">
+                <table {...getTableProps()} className="min-w-full bg-white lg:table-auto sm:table-auto md:table-fixed">
+                    <thead>
+                        {headerGroups.map((headerGroup) => (
+                            <tr {...headerGroup.getHeaderGroupProps()}>
+                                <th className="px-4 py-2">
+                                    {/* Checkbox for selecting all rows */}
+                                    <input
+                                        type="checkbox"
+                                        onChange={() => {
+                                            // Toggle all row selections
+                                            if (selectedRows.length === rows.length) {
+                                                setSelectedRows([]);
+                                            } else {
+                                                const allRowIds = rows.map((row) => row.id);
+                                                setSelectedRows(allRowIds);
+                                            }
+                                        }}
+                                        checked={selectedRows.length === rows.length}
+                                    />
                                 </th>
-                            ) : (
-                                ''
-                            )}
-                            {headers.map((header, index) => (
-                                <th
-                                    key={index}
-                                    // scope="col"
-                                    style={{ width: header.width ? `${header.width}px` : 'auto' }}
-                                    className={` p-1 text-center text-sm font-bold text-black tracking-wider`}
-                                >
-                                    {header.label}
-                                </th>
-                            ))}
-                        </tr>
-                    </thead>
-                    <tbody className="bg-white">
-                        {data.map((row, rowIndex) => (
-                            <tr className="" key={rowIndex}>
-                                {check ? (
-                                    <td className="py-1 whitespace-nowrap text-sm text-black">
-                                        <input
-                                            type="checkbox"
-                                            checked={selectedRows.includes(rowIndex)}
-                                            onChange={() => handleCheckboxChange(rowIndex)}
-                                        />
-                                    </td>
-                                ) : (
-                                    ''
-                                )}
-                                {headers.map((header, colIndex) => (
-                                    <td
-                                        key={colIndex}
-                                        style={{ width: header.width ? `${header.width}px` : 'auto' }}
-                                        className="p-1 text-left text-sm text-black"
+                                {headerGroup.headers.map((column) => (
+                                    <th
+                                        {...column.getHeaderProps()}
+                                        style={{ width: column.width || 'auto' }}
+                                        className="px-2 py-1 text-sm font-semibold text-black "
                                     >
-                                        {row[header.dataIndex]}
-                                        {header.render}
-                                    </td>
+                                        {column.render('label')}
+                                    </th>
                                 ))}
                             </tr>
                         ))}
+                    </thead>
+                    <tbody {...getTableBodyProps()}>
+                        {rows.map((row) => {
+                            prepareRow(row);
+                            const isSelected = selectedRows.includes(row.id);
+                            return (
+                                <tr {...row.getRowProps()}>
+                                    <td className="px-4 py-2 ">
+                                        {/* Checkbox for individual row selection */}
+                                        <input
+                                            type="checkbox"
+                                            onChange={() => toggleRowSelection(row.id)}
+                                            checked={isSelected}
+                                        />
+                                    </td>
+                                    {row.cells.map((cell) => (
+                                        <td
+                                            {...cell.getCellProps()}
+                                            style={{
+                                                width:
+                                                    columns.find((col) => col.accessor === cell.column.id)?.width ||
+                                                    'auto',
+                                            }}
+                                            className="px-2 py-1 text-sm "
+                                        >
+                                            {/* Check if the cell value is a ReactNode */}
+                                            {React.isValidElement(cell.value) ? (
+                                                cell.value // If it's a ReactNode, render it directly
+                                            ) : (
+                                                <div
+                                                    style={{
+                                                        whiteSpace: 'nowrap',
+                                                        overflow: 'hidden',
+                                                        textOverflow: 'ellipsis',
+                                                    }}
+                                                >
+                                                    {cell.render('Cell')}
+                                                </div>
+                                            )}
+                                        </td>
+                                    ))}
+                                </tr>
+                            );
+                        })}
                     </tbody>
                 </table>
             </div>
@@ -98,7 +140,7 @@ const Table: React.FC<CustomTableProps> = ({ headers, data, check, className, wi
                     1 - <span className="text-gray-400">5 of 56</span>
                 </div>
                 <div className="flex items-center gap-4">
-                    <p className="text-gray-400">The page you’re on</p>
+                    <p className="hidden text-gray-400 lg:block">The page you’re on</p>
                     <Button
                         rightIcon={<IoChevronDown />}
                         size={'sm'}

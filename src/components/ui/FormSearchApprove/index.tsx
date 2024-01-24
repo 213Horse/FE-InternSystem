@@ -6,7 +6,7 @@ type Props = {};
 
 export default function FormSearchApprove({}: Props) {
     return (
-        <div className="grid grid-cols-3 w-4/5 gap-3">
+        <div className="grid w-full grid-cols-2 gap-3 lg:grid-cols-3">
             <Input title="Enter intern's ID" />
             <Input title="Enter intern's Full name" />
             <Input title="Enter intern's D.O.B" type="date" />

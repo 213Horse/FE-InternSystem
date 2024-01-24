@@ -15,16 +15,20 @@ const SignUp = (props: Props) => {
     };
 
     return (
-        <form className="w-[360px] mx-auto">
-            <div className="w-full text-start mt-4">
+        <form className="lg:w-[360px] w-full mx-auto">
+            <div className="w-full mt-4 text-start">
                 <h2 className="text-[40px] font-bold leading-9 text-[#4889E9] mb-3">Sign Up</h2>
                 <p className="text-base font-normal leading-6 text-[#667085]">
                     Please fill your detail to access your account
                 </p>
-                <div className="flex flex-col mt-2 relative">
-                    <label className="text-md font-medium left-5" htmlFor="">
+                <div className="relative flex flex-col mt-2">
+                    <label className="font-medium text-md left-5" htmlFor="">
                         {titleLogin === 1
                             ? 'Full Name'
+                            : titleLogin === 2
+                            ? 'Name Mentor'
+                            : titleLogin === 3
+                            ? 'Human'
                             : titleLogin === 4
                             ? 'School'
                             : titleLogin === 5
@@ -46,8 +50,8 @@ const SignUp = (props: Props) => {
                 </div>
                 {titleLogin === 5 ? (
                     <>
-                        <div className="flex flex-col mt-2 relative">
-                            <label className="text-md font-medium left-5" htmlFor="">
+                        <div className="relative flex flex-col mt-2">
+                            <label className="font-medium text-md left-5" htmlFor="">
                                 School
                             </label>
                             <input
@@ -57,8 +61,8 @@ const SignUp = (props: Props) => {
                             />
                             <RiCloseCircleLine className="w-[24px] h-[24px] absolute right-3 top-[50%] text-[#cccccc] cursor-pointer" />
                         </div>
-                        <div className="flex flex-col mt-2 relative">
-                            <label className="text-md font-medium left-5" htmlFor="">
+                        <div className="relative flex flex-col mt-2">
+                            <label className="font-medium text-md left-5" htmlFor="">
                                 Student's ID
                             </label>
                             <input
@@ -72,8 +76,8 @@ const SignUp = (props: Props) => {
                 ) : (
                     ''
                 )}
-                <div className="flex flex-col mt-2 relative">
-                    <label className="text-md font-medium left-5" htmlFor="">
+                <div className="relative flex flex-col mt-2">
+                    <label className="font-medium text-md left-5" htmlFor="">
                         Email
                     </label>
                     <input
@@ -83,8 +87,8 @@ const SignUp = (props: Props) => {
                     />
                     <RiCloseCircleLine className="w-[24px] h-[24px] absolute right-3 top-[50%] text-[#cccccc] cursor-pointer" />
                 </div>
-                <div className="flex flex-col mt-2 relative">
-                    <label className="text-md font-medium left-5" htmlFor="">
+                <div className="relative flex flex-col mt-2">
+                    <label className="font-medium text-md left-5" htmlFor="">
                         Password
                     </label>
                     <input
@@ -95,8 +99,8 @@ const SignUp = (props: Props) => {
                     <RiEyeLine className="w-[24px] h-[24px] absolute right-3 top-[50%] text-[#cccccc] cursor-pointer" />
                     <RiEyeOffLine className="w-[24px] h-[24px] absolute right-3 top-[50%] hidden text-[#cccccc] cursor-pointer" />
                 </div>
-                <div className="flex flex-col mt-2 relative">
-                    <label className="text-md font-medium left-5" htmlFor="">
+                <div className="relative flex flex-col mt-2">
+                    <label className="font-medium text-md left-5" htmlFor="">
                         Re-type Password
                     </label>
                     <input
@@ -108,7 +112,7 @@ const SignUp = (props: Props) => {
                     <RiEyeOffLine className="w-[24px] h-[24px] absolute right-3 top-[50%] hidden text-[#cccccc] cursor-pointer  " />
                 </div>
                 <button className="w-full py-[8px] mt-3 bg-[#4889e9] rounded-[8px] drop-shadow-sm">Sign in</button>
-                <div className="text-center flex items-center justify-center">
+                <div className="flex items-center justify-center text-center">
                     Already have account?{' '}
                     <button
                         onClick={handleSignIn}
