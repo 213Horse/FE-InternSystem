@@ -6,7 +6,7 @@ type Props = {};
 const AdminLogin: React.FC<{}> = ({}: Props) => {
     return (
         <Login>
-            <div className="container mx-auto">
+            <div className="mx-auto">
                 <Tabs />
             </div>
         </Login>
