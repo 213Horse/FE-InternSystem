@@ -9,13 +9,7 @@ interface DropdownProps {
     rounded?: string;
 }
 
-const DropdownCustom: React.FC<DropdownProps> = ({
-    options,
-    onSelect,
-    title,
-
-    rounded,
-}) => {
+const DropdownCustom: React.FC<DropdownProps> = ({ options, onSelect, title, rounded }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedOption, setSelectedOption] = useState<string | null>(null);
 

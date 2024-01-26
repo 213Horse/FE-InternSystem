@@ -19,6 +19,7 @@ const restPass = Loadable({
 
 const Home = Loadable({ loader: () => import('../pages/Dashboard') });
 const ApproveCV = Loadable({ loader: () => import('../pages/ApproveCV') });
+const InternList = Loadable({ loader: () => import('../pages/InternList') });
 const ProjectManagement = Loadable({
     loader: () => import('../pages/ProjectManagement'),
 });
@@ -53,6 +54,10 @@ const routes: RouteObject[] = [
                     {
                         path: '*',
                         element: Home,
+                    },
+                    {
+                        path: 'ListManagement/InternList',
+                        element: InternList,
                     },
                 ],
             },

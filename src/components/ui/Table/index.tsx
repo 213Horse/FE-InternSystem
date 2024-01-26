@@ -38,56 +38,63 @@ const Table: React.FC<CustomTableProps> = ({ headers, data, check, className, wi
     };
     return (
         <div className="flex flex-col gap-3">
-            <table className={`${className} overflow-x-auto`} {...props} style={{ width: width ? width + 'px' : '' }}>
-                <thead className="bg-white">
-                    <tr>
-                        {check ? (
-                            <th className="py-2 text-left w-[20px]">
-                                <input type="checkbox" checked={selectAll} onChange={handleSelectAllChange} />
-                            </th>
-                        ) : (
-                            ''
-                        )}
-                        {headers.map((header, index) => (
-                            <th
-                                key={index}
-                                scope="col"
-                                style={{ width: header.width || 'auto' }}
-                                className="px-2 py-1 text-center text-sm font-bold text-black tracking-wider"
-                            >
-                                {header.label}
-                            </th>
-                        ))}
-                    </tr>
-                </thead>
-                <tbody className="bg-white">
-                    {data.map((row, rowIndex) => (
-                        <tr key={rowIndex}>
+            <div className="max-w-[1300px] overflow-x-auto">
+                <table
+                    className={`${className} overflow-x-auto table table-auto`}
+                    {...props}
+                    style={{ width: width ? width + 'px' : '' }}
+                >
+                    <thead className="bg-white">
+                        <tr className="table-row">
                             {check ? (
-                                <td className="py-3 whitespace-nowrap text-sm text-black">
-                                    <input
-                                        type="checkbox"
-                                        checked={selectedRows.includes(rowIndex)}
-                                        onChange={() => handleCheckboxChange(rowIndex)}
-                                    />
-                                </td>
+                                <th className="p-3 text-left w-[20px] p">
+                                    <input type="checkbox" checked={selectAll} onChange={handleSelectAllChange} />
+                                </th>
                             ) : (
                                 ''
                             )}
-                            {headers.map((header, colIndex) => (
-                                <td
-                                    key={colIndex}
+                            {headers.map((header, index) => (
+                                <th
+                                    key={index}
+                                    scope="col"
                                     style={{ width: header.width || 'auto' }}
-                                    className="px-2 py-3  text-left text-sm text-black"
+                                    className="px-2 py-1 text-left text-sm font-bold text-black tracking-wider"
                                 >
-                                    {row[header.dataIndex]}
-                                    {header.render}
-                                </td>
+                                    {header.label}
+                                </th>
                             ))}
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody className="bg-white table-row-group">
+                        {data.map((row, rowIndex) => (
+                            <tr key={rowIndex} className="table-row">
+                                {check ? (
+                                    <td className="p-3 whitespace-nowrap text-sm text-black">
+                                        <input
+                                            type="checkbox"
+                                            checked={selectedRows.includes(rowIndex)}
+                                            onChange={() => handleCheckboxChange(rowIndex)}
+                                        />
+                                    </td>
+                                ) : (
+                                    ''
+                                )}
+                                {headers.map((header, colIndex) => (
+                                    <td
+                                        key={colIndex}
+                                        style={{ width: header.width || 'auto' }}
+                                        className="px-2 py-3  text-left text-sm text-black table-cell"
+                                    >
+                                        {row[header.dataIndex]}
+                                        {header.render}
+                                    </td>
+                                ))}
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+
             <div className="rounded-3xl flex items-center justify-between px-3 py-6 text-base  bg-[#f8f9fb] mb-5">
                 <div className="text-black">
                     {' '}
