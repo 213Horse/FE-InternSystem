@@ -45,7 +45,7 @@ const ApproveCV = ({}: Props) => {
     // };
 
     const columns = [
-        { label: "intern's ID", accessor: 'id', width: '200px' },
+        { label: "intern's ID", accessor: 'id' },
         { label: 'Date Submitted Form', accessor: 'dateSubmit' },
         { label: 'Full Name', accessor: 'fullName' },
         { label: 'Date Of Birth', accessor: 'dateOfBirth' },
@@ -232,7 +232,7 @@ const ApproveCV = ({}: Props) => {
                     </div>
                 </form>
 
-                <Table headers={columns} data={data} check />
+                <Table columns={columns} data={data} check />
             </main>
 
             <Modal
