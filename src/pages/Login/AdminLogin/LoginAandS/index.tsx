@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import iconGoogle from '@/assets/icons_google.png';
 import { RiCloseCircleLine, RiEyeLine, RiEyeOffLine } from 'react-icons/ri';
 import SignUp from '../../SignUp';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import Input from '@/components/ui/Input';
+import { useDispatch } from 'react-redux';
+import { User, fetchApiLogin } from '@/redux/LoginSlice';
+import useDebounce from '@/hooks/useDebound';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
 
 type Props = {
     title: string;
@@ -12,10 +16,15 @@ type Props = {
 };
 
 export default function index(props: Props) {
+    const dispatch = useDispatch<any>();
     const { title, id } = props;
     const [signUp, setSignUp] = useState<boolean>(false);
     const [showPass, setShowPass] = useState<boolean>(false);
     const navigate = useNavigate();
+
+    const [email, setEmail] = useState<string>('');
+    const [passWord, setPassword] = useState<string>('');
+
     const handleChangeSignUp = (e: any) => {
         e.preventDefault();
         setSignUp(true);
@@ -31,6 +40,18 @@ export default function index(props: Props) {
     const handleHidePass = () => {
         setShowPass(false);
     };
+
+    const emailValue = useDebounce(email, 1000);
+    const passwordValue = useDebounce(passWord, 1000);
+    const data: User = {
+        username: emailValue,
+        password: passwordValue,
+    };
+    const handleLogin = (e: any) => {
+        e.preventDefault();
+        dispatch(fetchApiLogin(data));
+    };
+
     return (
         <>
             {signUp ? (
@@ -51,6 +72,8 @@ export default function index(props: Props) {
                                 className="w-full border border-[#D0D5DD] text-[#000] px-3 py-1 rounded-lg mt-1"
                                 type="text"
                                 placeholder="youremail@example.com"
+                                value={email}
+                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
                             />
                             {/* <Input title="youremail@example.com" className='rounded-lg' icon={<RiCloseCircleLine />} /> */}
                             <RiCloseCircleLine className="w-[24px] h-[24px] absolute right-3 top-[50%]" />
@@ -63,6 +86,8 @@ export default function index(props: Props) {
                                 className="w-full border border-[#D0D5DD] text-[#000] px-3 py-1 rounded-lg mt-1"
                                 type={showPass ? 'text' : 'password'}
                                 placeholder="********"
+                                value={passWord}
+                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
                             />
                             <RiEyeLine
                                 className={
@@ -87,7 +112,7 @@ export default function index(props: Props) {
                             </button>
                         </div>
 
-                        <Button variant={'default'} size={'lg'} className="w-full mt-3">
+                        <Button variant={'default'} size={'lg'} className="w-full mt-3" onClick={handleLogin}>
                             Sign in
                         </Button>
                         <Button

@@ -18,25 +18,23 @@ const DropdownStatus: React.FC<Props> = ({ statusOptions }) => {
 
     return (
         <div className="relative inline-block text-left">
-            <div>
-                <button
-                    type="button"
-                    onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                    className={` ${
-                        selectedStatus === 'passed'
-                            ? 'bg-[#eef8f0] text-[#449e3c]'
-                            : selectedStatus === 'failed'
-                            ? 'bg-[#f8e7ee] text-[#B70D52]'
-                            : 'bg-[#ffefe6] text-[#FF5D02]'
-                    }  flex gap-1 items-center rounded-xl px-3 py-1`}
-                >
-                    {selectedStatus || 'pending'}
-                    <IoChevronDown />
-                </button>
-            </div>
+            <button
+                type="button"
+                onClick={() => setIsDropdownOpen(true)}
+                className={` ${
+                    selectedStatus === 'passed'
+                        ? 'bg-[#eef8f0] text-[#449e3c]'
+                        : selectedStatus === 'failed'
+                        ? 'bg-[#f8e7ee] text-[#B70D52]'
+                        : 'bg-[#ffefe6] text-[#FF5D02]'
+                }  flex gap-1 items-center rounded-xl px-3 py-1`}
+            >
+                {selectedStatus || 'pending'}
+                <IoChevronDown />
+            </button>
 
             {isDropdownOpen && (
-                <div className="origin-top-right absolute right-0 z-10 mt-2 w-28 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+                <div className="absolute right-0 z-10 mt-2 origin-top-right bg-white rounded-md shadow-lg w-28 ring-1 ring-black ring-opacity-5">
                     <div className="" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
                         {statusOptions.map((status) => (
                             <button
