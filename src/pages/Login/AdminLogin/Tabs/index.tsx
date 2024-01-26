@@ -23,13 +23,13 @@ const Tabs: MyObjectArray = {
         {
             id: 2,
             title: 'Human resources',
-            content: 'Chức năng chưa hoàn thành',
+            content: <LoginAandS title="Human resources Login" id={2} />,
             color: 'red',
         },
         {
             id: 3,
             title: 'Mentor',
-            content: 'Chức năng chưa hoàn thành',
+            content: <LoginAandS title="Mentor Login" id={3} />,
             color: 'red',
         },
         {
@@ -55,12 +55,12 @@ export default function index({}: Props) {
     const checkActive = (index: number, className: string) =>
         activeIndex === index ? className : 'text-[#66708550] border-transparent border-b-2';
     return (
-        <div className="container flex flex-col space-x-4">
-            <div className="flex gap-3 border-b-2 w-full justify-between items-center">
+        <div className="flex flex-col space-x-4">
+            <div className="flex items-center justify-between w-full gap-1 text-sm border-b-2 lg:text-base lg:gap-3">
                 {Tabs.myObject.map((item) => (
                     <button
                         onClick={() => handleClick(item.id)}
-                        className={`${checkActive(item.id, 'text-[#4889E9] before-tabs')} lg:p-3 p-2 relative`}
+                        className={`${checkActive(item.id, 'text-[#4889E9] before-tabs')} lg:p-3 h-[58px] p-2 relative`}
                         key={item.id}
                     >
                         {item.title}

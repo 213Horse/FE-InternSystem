@@ -1,0 +1,42 @@
+name: Build and deploy InternSystem_FE
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Connect to Docker Hub
+        run: docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_PASSWORD}}
+
+      - name: Build Docker image
+        run: docker build -t ${{secrets.DOCKER_USERNAME}}/${{secrets.DOCKER_IMAGE}}:latest .
+
+      - name: Push Docker image to Docker Hub
+        run: docker push ${{secrets.DOCKER_USERNAME}}/${{secrets.DOCKER_IMAGE}}:latest
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+         
+    steps:
+     - name: Install sshpass
+       run: 'if ! command -v sshpass &> /dev/null; then sudo apt-get install -y sshpass; fi'
+     - name: Pull and run Docker image
+       run: |
+          sshpass -p ${{secrets.SSH_PASSWORD}} ssh -o StrictHostKeyChecking=no ${{secrets.SSH_USERNAME}}@${{secrets.SSH_HOST}} "
+          
+          docker stop ${{secrets.DOCKER_IMAGE}}-frontend-webpage || true
+          docker rm ${{secrets.DOCKER_IMAGE}}-frontend-webpage || true
+          docker rmi ${{secrets.DOCKER_USERNAME}}/${{secrets.DOCKER_IMAGE}} || true
+          
+          docker pull ${{secrets.DOCKER_USERNAME}}/${{secrets.DOCKER_IMAGE}}:latest
+          docker run -d -p 8074:3000 --name ${{secrets.DOCKER_IMAGE}}-frontend-webpage ${{secrets.DOCKER_USERNAME}}/${{secrets.DOCKER_IMAGE}}:latest
+          "
