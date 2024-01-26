@@ -1,20 +1,30 @@
+import ButtonCustom from '@/components/Custom/ButtonCustom';
 import DropdownCustom from '@/components/Custom/DropdownCustom';
 import FormSearchApprove from '@/components/ui/FormSearchApprove';
+import FormSearchConfirm from '@/components/ui/FormSearchConfirm';
 import Input from '@/components/ui/Input';
 import Modal from '@/components/ui/Modal';
 import Table, { TableColumn } from '@/components/ui/Table';
 import { Button } from '@/components/ui/button';
-import { Eye, Pen } from 'lucide-react';
+import { Eye, MailCheckIcon, Pen, PenSquareIcon, PlusCircleIcon, Trash2Icon } from 'lucide-react';
 import { useState } from 'react';
+import { AiFillFunnelPlot, AiOutlineClockCircle } from 'react-icons/ai';
+import { CiLock, CiMenuKebab } from 'react-icons/ci';
 
-import { FaPlus, FaRegArrowAltCircleDown, FaRegEdit, FaRegTrashAlt, FaSave, FaSearch } from 'react-icons/fa';
-import { GoMail } from 'react-icons/go';
+import { FaSave, FaSearch } from 'react-icons/fa';
+import { GoMail, GoSearch } from 'react-icons/go';
 import { IoFilterSharp } from 'react-icons/io5';
+import { useMediaQuery } from 'react-responsive';
 
 const ListManagement = () => {
+    const [isOpen, setIsOpen] = useState<boolean>(false);
     const [showModalView, setShowModalView] = useState<boolean>(false);
     const [showModal, setShowModal] = useState<boolean>(false);
     const [showModalReport, setShowModalReport] = useState<boolean>(false);
+    const isMobile = useMediaQuery({ query: '(max-width:678px)' });
+    const toggleDropdown = () => {
+        setIsOpen(!isOpen);
+    };
 
     const handleShowModalView = () => {
         setShowModalView((prev) => !prev);
@@ -27,21 +37,21 @@ const ListManagement = () => {
     const handleShowModalReport = () => {
         setShowModalReport((prev) => !prev);
     };
-    const column: TableColumn[] = [
-        { label: 'Intern ID', dataIndex: 'internID' },
-        { label: 'Start Date', dataIndex: 'StartDate' },
-        { label: 'Finish Date', dataIndex: 'FinishDate' },
-        { label: 'Full Name', dataIndex: 'FullName' },
-        { label: 'Date Of Birth', dataIndex: 'DateOfBirth' },
-        { label: 'Phone Number', dataIndex: 'PhoneNumber' },
-        { label: 'Position', dataIndex: 'Position' },
-        { label: 'School', dataIndex: 'School' },
-        { label: 'Address', dataIndex: 'Address' },
-        { label: 'Email', dataIndex: 'Email' },
+    const columns = [
+        { label: 'Intern ID', accessor: 'internID' },
+        { label: 'Start Date', accessor: 'StartDate' },
+        { label: 'Finish Date', accessor: 'FinishDate' },
+        { label: 'Full Name', accessor: 'FullName' },
+        { label: 'Date Of Birth', accessor: 'DateOfBirth' },
+        { label: 'Phone Number', accessor: 'PhoneNumber' },
+        { label: 'Position', accessor: 'Position' },
+        { label: 'School', accessor: 'School' },
+        { label: 'Address', accessor: 'Address' },
+        { label: 'Email', accessor: 'Email' },
         {
             label: 'CV',
-            dataIndex: 'cv',
-            render: (
+            accessor: 'cv',
+            Cell: ({}) => (
                 <a href="#" className="underline">
                     Link
                 </a>
@@ -49,21 +59,21 @@ const ListManagement = () => {
         },
         {
             label: 'Comments',
-            dataIndex: 'Comments',
-            render: (
+            accessor: 'Comments',
+            Cell: ({}) => (
                 <Button className="bg-white text-black border rounded-2xl" rightIcon={<Eye className="ml-2" />}>
                     2 Comments
                 </Button>
             ),
         },
-        { label: 'Role', dataIndex: 'Role' },
-        { label: 'Project', dataIndex: 'Project' },
-        { label: 'Group Zalo', dataIndex: 'GroupZalo' },
-        { label: 'Mentor', dataIndex: 'Mentor' },
+        { label: 'Role', accessor: 'Role' },
+        { label: 'Project', accessor: 'Project' },
+        { label: 'Group Zalo', accessor: 'GroupZalo' },
+        { label: 'Mentor', accessor: 'Mentor' },
         {
             label: 'Status',
-            dataIndex: 'Status',
-            render: (
+            accessor: 'Status',
+            Cell: ({}) => (
                 <DropdownCustom
                     title="Pending"
                     onSelect={() => {}}
@@ -74,8 +84,8 @@ const ListManagement = () => {
         },
         {
             label: 'Report Process',
-            dataIndex: 'Report Process',
-            render: (
+            accessor: 'Report Process',
+            Cell: ({}) => (
                 <Button
                     className="rounded-xl bg-white text-black border"
                     rightIcon={<Pen className="ml-2" />}
@@ -87,15 +97,15 @@ const ListManagement = () => {
         },
         {
             label: 'Button',
-            dataIndex: 'Button',
-            render: (
+            accessor: 'Button',
+            Cell: ({}) => (
                 <Button className="rounded-2xl" variant={'outline'} onClick={handleShowModalView}>
                     View
                 </Button>
             ),
         },
     ];
-    const tableData: { [key: string]: string | number }[] = [
+    const data = [
         {
             internID: 1,
             StartDate: '2 Jan 2023',
@@ -113,54 +123,190 @@ const ListManagement = () => {
             Mentor: 'Esther Eden',
         },
     ];
+    const buttonData = [
+        {
+            id: 1,
+            icon: MailCheckIcon,
+            className: 'bg-purple-600 ',
+            color: 'white',
+            width: '160',
+            height: '45px',
+            children: 'Send email',
+        },
+        {
+            id: 4,
+            icon: PlusCircleIcon,
+            className: 'bg-green-600 ',
+            color: 'white',
+            width: '160',
+            height: '45px',
+            children: 'Export Excel ',
+        },
+        {
+            id: 2,
+            icon: PenSquareIcon,
+            className: 'bg-orange-500 ',
+            color: 'white',
+            width: '160',
+            height: '45px',
+            children: 'Edit',
+        },
+        {
+            id: 3,
+            icon: Trash2Icon,
+            className: 'bg-red-600 ',
+            color: 'white',
+            width: '160',
+            height: '45px',
+            children: 'Delete',
+        },
+    ];
 
     return (
-        <div className="flex flex-col">
-            <div className="flex items-center justify-between bg-white h-[70px] mb-3 rounded-3xl px-10">
+        // <div className="flex flex-col">
+        //     <div className="flex items-center justify-between bg-white h-[70px] mb-3 rounded-3xl px-10">
+        //         <p className="text-gray-500">Search for Information</p>
+        //         <div className="flex gap-10">
+        //             <Button size={'sm'} leftIcon={<GoMail />} variant={'info'} onClick={handleShowModal}>
+        //                 Send email
+        //             </Button>
+        //             <Button size={'sm'} leftIcon={<FaRegArrowAltCircleDown />} variant={'success'}>
+        //                 Export Excel
+        //             </Button>
+        //             <Button size={'sm'} leftIcon={<FaRegEdit />} variant={'secondary'}>
+        //                 Edit
+        //             </Button>
+        //             <Button size={'sm'} leftIcon={<FaRegTrashAlt />} variant={'danger'}>
+        //                 Delete
+        //             </Button>
+        //             <Button size={'sm'} leftIcon={<FaPlus />}>
+        //                 Add New Intern
+        //             </Button>
+        //         </div>
+        //     </div>
+
+        //     <main className="flex flex-col bg-white px-4 pt-5 rounded-xl">
+        //         <form className="flex items-center gap-5 mb-4">
+        //             <FormSearchApprove />
+        //             <div className="flex flex-col gap-3 w-1/5">
+        //                 <Button
+        //                     className="w-4/5 text-black border-black"
+        //                     leftIcon={<IoFilterSharp />}
+        //                     variant={'outline'}
+        //                     size={'sm'}
+        //                 >
+        //                     Clean Filters
+        //                 </Button>
+        //                 <Button
+        //                     className="w-4/5 text-black border-black"
+        //                     leftIcon={<FaSearch />}
+        //                     variant={'default'}
+        //                     size={'sm'}
+        //                 >
+        //                     search
+        //                 </Button>
+        //             </div>
+        //         </form>
+
+        //         <Table columns={columns} data={data} check />
+        //     </main>
+
+        // </div>
+        <div className="flex flex-col gap-2">
+            {/* <div className="rounded-2xl bg-white mb-6 flex items-center justify-between h-[40px] px-3 lg:h-[60px] lg:px-6">
                 <p className="text-gray-500">Search for Information</p>
-                <div className="flex gap-10">
-                    <Button size={'sm'} leftIcon={<GoMail />} variant={'info'} onClick={handleShowModal}>
-                        Send email
-                    </Button>
-                    <Button size={'sm'} leftIcon={<FaRegArrowAltCircleDown />} variant={'success'}>
-                        Export Excel
-                    </Button>
-                    <Button size={'sm'} leftIcon={<FaRegEdit />} variant={'secondary'}>
-                        Edit
-                    </Button>
-                    <Button size={'sm'} leftIcon={<FaRegTrashAlt />} variant={'danger'}>
-                        Delete
-                    </Button>
-                    <Button size={'sm'} leftIcon={<FaPlus />}>
-                        Add New Intern
-                    </Button>
+                <>
+                    {isMobile ? (
+                        <div className="relative">
+                            <Button
+                                onClick={toggleDropdown}
+                                variant={'outline'}
+                                size={'sm'}
+                                type="button"
+                                data-dropdown-toggle="dropdown"
+                                className=""
+                            >
+                                <CiMenuKebab />
+                            </Button>
+                            {isOpen && (
+                                <div
+                                    id="dropdown"
+                                    className="absolute right-0 z-10 flex flex-col gap-2 p-2 bg-white border"
+                                >
+                                    <div className="flex gap-10">
+                                        {buttonData.map((item) => (
+                                            <ButtonCustom
+                                                icon={item.icon}
+                                                color={item.color}
+                                                width={item.width}
+                                                height={item.height}
+                                                className={item.className}
+                                            >
+                                                {item.children}
+                                            </ButtonCustom>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    ) : (
+                        <div className="flex gap-10">
+                            {buttonData.map((item) => (
+                                <ButtonCustom
+                                    icon={item.icon}
+                                    color={item.color}
+                                    width={item.width}
+                                    height={item.height}
+                                    className={item.className}
+                                >
+                                    {item.children}
+                                </ButtonCustom>
+                            ))}
+                        </div>
+                    )}
+                </>
+            </div> */}
+            <div className="bg-white rounded-3xl px-9 py-4">
+                <div className="flex flex-col md:flex-row items-center justify-between">
+                    <p className="text-gray-500 mb-4 sm:mb-0 hidden lg:flex">Search for Information</p>
+                    <div className="flex flex-col md:flex-row gap-10 w-full lg:w-auto">
+                        {buttonData.map((item) => (
+                            <ButtonCustom
+                                key={item.id}
+                                icon={item.icon}
+                                color={item.color}
+                                width={item.width}
+                                height={item.height}
+                                className={item.className}
+                            >
+                                {item.children}
+                            </ButtonCustom>
+                        ))}
+                    </div>
                 </div>
             </div>
 
-            <main className="flex flex-col bg-white px-4 pt-5 rounded-xl">
-                <form className="flex items-center gap-5 mb-4">
-                    <FormSearchApprove />
-                    <div className="flex flex-col gap-3 w-1/5">
-                        <Button
-                            className="w-4/5 text-black border-black"
-                            leftIcon={<IoFilterSharp />}
-                            variant={'outline'}
-                            size={'sm'}
+            <main className="grid grid-cols-1 px-4 pt-5 bg-white rounded-xl">
+                <form className="flex flex-col items-start gap-5 mb-5 lg:items-center lg:flex-row">
+                    <FormSearchConfirm />
+                    <div className=" flex flex-col w-full gap-3 lg:w-1/5">
+                        <ButtonCustom
+                            icon={AiFillFunnelPlot}
+                            className="bg-white"
+                            color="black"
+                            width="160"
+                            height="45"
                         >
-                            Clean Filters
-                        </Button>
-                        <Button
-                            className="w-4/5 text-black border-black"
-                            leftIcon={<FaSearch />}
-                            variant={'default'}
-                            size={'sm'}
-                        >
-                            search
-                        </Button>
+                            Clean filter
+                        </ButtonCustom>
+
+                        <ButtonCustom icon={GoSearch} className="bg-blue-500" color="white" width="160" height="45">
+                            Search
+                        </ButtonCustom>
                     </div>
                 </form>
 
-                <Table headers={column} data={tableData} className="" check />
+                <Table columns={columns} data={data} check />
             </main>
 
             <Modal width={800} height={500} toggleShow={handleShowModal} Isvisible={showModal} title={'Send Email'}>
