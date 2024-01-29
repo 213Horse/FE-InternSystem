@@ -9,7 +9,7 @@ const Dashboard = () => {
         {
             id: 1,
             icon: Clock,
-            backgroundColor: 'purple-600',
+            className: 'bg-purple-600',
             color: 'white',
             width: '160',
             height: '45px',
@@ -18,7 +18,7 @@ const Dashboard = () => {
         {
             id: 4,
             icon: PlusCircleIcon,
-            backgroundColor: 'green-600',
+            className: 'bg-green-600',
             color: 'white',
             width: '160',
             height: '45px',
@@ -27,7 +27,7 @@ const Dashboard = () => {
         {
             id: 2,
             icon: PenSquareIcon,
-            backgroundColor: 'orange-500',
+            className: 'bg-orange-500',
             color: 'white',
             width: '160',
             height: '45px',
@@ -36,7 +36,7 @@ const Dashboard = () => {
         {
             id: 3,
             icon: Trash2Icon,
-            backgroundColor: 'red-600',
+            className: 'bg-red-600',
             color: 'white',
             width: '160',
             height: '45px',
@@ -60,16 +60,17 @@ const Dashboard = () => {
     return (
         <div className="flex flex-col">
             <div className="bg-white rounded-3xl px-9 py-4">
-                <div className="flex items-center justify-between">
-                    <p className="text-gray-500">Search for Information</p>
-                    <div className="flex gap-10">
+                <div className="flex flex-col md:flex-row items-center justify-between">
+                    <p className="text-gray-500 mb-4 sm:mb-0 hidden lg:flex">Search for Information</p>
+                    <div className="flex flex-col md:flex-row gap-10 w-full lg:w-auto">
                         {buttonData.map((item) => (
                             <ButtonCustom
+                                key={item.id}
                                 icon={item.icon}
-                                backgroundColor={item.backgroundColor}
                                 color={item.color}
                                 width={item.width}
                                 height={item.height}
+                                className={item.className}
                             >
                                 {item.children}
                             </ButtonCustom>
@@ -78,12 +79,40 @@ const Dashboard = () => {
                 </div>
             </div>
             <div className="bg-white rounded-3xl mt-5 min-h-10  px-9 py-4 flex flex-wrap gap-3">
-                <div className="flex justify-evenly w-full">
+                {/* <div className="flex justify-evenly w-full">
                     <Statistic value={200} label="Total students received CV" />
                     <Statistic value={150} label="Total students interviewed" />
                     <Statistic value={150} label="Total students passed" />
                     <Statistic value={150} label="Total students interning" />
                     <Statistic value={150} label="Total students interned" />
+                </div> */}
+
+                <div className="flex flex-wrap justify-evenly w-full">
+                    <Statistic
+                        value={200}
+                        label="Total students received CV"
+                        className="w-full sm:w-48 md:w-56 lg:w-64 xl:w-72 mb-4"
+                    />
+                    <Statistic
+                        value={150}
+                        label="Total students interviewed"
+                        className="w-full sm:w-48 md:w-56 lg:w-64 xl:w-72 mb-4"
+                    />
+                    <Statistic
+                        value={150}
+                        label="Total students passed"
+                        className="w-full sm:w-48 md:w-56 lg:w-64 xl:w-72 mb-4"
+                    />
+                    <Statistic
+                        value={150}
+                        label="Total students interning"
+                        className="w-full sm:w-48 md:w-56 lg:w-64 xl:w-72 mb-4"
+                    />
+                    <Statistic
+                        value={150}
+                        label="Total students interned"
+                        className="w-full sm:w-48 md:w-56 lg:w-64 xl:w-72 mb-4"
+                    />
                 </div>
 
                 {/* Chart */}

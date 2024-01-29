@@ -20,7 +20,7 @@ const useSideBar = () => {
             {
                 item: <SideBarItem title="Dashboard"></SideBarItem>,
                 Icon: AiFillHome,
-                href: 'Hợp đồng và đăng ký'.replace(' ', '-'),
+                href: ''.replace(' ', '-'),
             },
             {
                 item: (
@@ -30,24 +30,19 @@ const useSideBar = () => {
                     ></SideBarItem>
                 ),
                 Icon: AiFillHome,
-                href: 'CvManagement'.replace(' ', '-'),
-            },
-            {
-                item: <SideBarItem href="project-management" title="Project Management"></SideBarItem>,
-
-                Icon: AiFillHome,
-                href: 'Thu tiền'.replace(' ', '-'),
+                href: ''.replace(' ', '-'),
             },
             {
                 item: (
                     <SideBarItem
-                        title="List Management"
-                        subChildren={[{ title: 'Intern List' }, { title: 'Group List' }]}
+                        title="ListManagement"
+                        subChildren={[{ title: 'InternList' }, { title: 'GroupList' }]}
                     ></SideBarItem>
                 ),
                 Icon: AiFillHome,
-                href: 'List Management'.replace(' ', '-'),
+                href: ''.replace(' ', '-'),
             },
+
             {
                 item: <SideBarItem href="project-management" title="Project Management"></SideBarItem>,
 
