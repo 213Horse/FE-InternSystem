@@ -3,13 +3,12 @@ import { IoChevronDown } from 'react-icons/io5';
 
 type Props = {
     statusOptions: string[];
+    selectOption: string;
 };
 
-const DropdownStatus: React.FC<Props> = ({ statusOptions }) => {
+const DropdownStatus: React.FC<Props> = ({ statusOptions, selectOption }) => {
     const [selectedStatus, setSelectedStatus] = useState<string | null>(null);
     const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
-
-    // const statusOptions = ['Passed', 'Fail', 'Pending', 'Completed'];
 
     const handleStatusChange = (status: string) => {
         setSelectedStatus(status);
@@ -29,7 +28,7 @@ const DropdownStatus: React.FC<Props> = ({ statusOptions }) => {
                         : 'bg-[#ffefe6] text-[#FF5D02]'
                 }  flex gap-1 items-center rounded-xl px-3 py-1`}
             >
-                {selectedStatus || 'pending'}
+                {selectedStatus || selectOption}
                 <IoChevronDown />
             </button>
 

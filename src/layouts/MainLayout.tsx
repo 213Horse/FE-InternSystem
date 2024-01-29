@@ -21,7 +21,7 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
     });
     return (
         <>
-            <div className="h-screen flex relative">
+            <div className="relative flex h-screen">
                 {transitions(
                     (style, item) =>
                         item && (
@@ -29,13 +29,13 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
                                 style={style}
                                 className="min-w-[200px] backdrop-blur-md  z-20 sm:block sm:relative"
                             >
-                                <div className="w-5/6 sm:w-full h-full bg-background ">
-                                    <h1 className=" bg-background flex gap-2 items-center ">
+                                <div className="w-5/6 h-full sm:w-full bg-background ">
+                                    <h1 className="flex items-center gap-2 bg-background">
                                         <img src={logo} className="w-[270px] transition-all  object-contain  " />
 
                                         {item && (
                                             <span
-                                                className="text-xl pr-3 cursor-pointer sm:hidden flex-1 flex justify-end "
+                                                className="flex justify-end flex-1 pr-3 text-xl cursor-pointer sm:hidden "
                                                 onClick={() => {
                                                     setIsShow(!isShow);
                                                 }}
@@ -44,7 +44,7 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
                                             </span>
                                         )}
                                     </h1>
-                                    <div className="flex flex-col  py-1 px-2  font-medium h-full">
+                                    <div className="flex flex-col h-full px-2 py-1 font-medium">
                                         <Accordion type="single" collapsible className="w-full border-0 ">
                                             {routeList.map((route) => (
                                                 <NavLink
@@ -58,7 +58,7 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
                                                     }}
                                                 >
                                                     <div
-                                                        className=" flex  gap-2 items-center px-2 py-1"
+                                                        className="flex items-center gap-2 px-2 py-1 "
                                                         onClick={() => {
                                                             if (window.innerWidth < smSize) {
                                                                 setIsShow(false);
@@ -75,10 +75,10 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
                             </animated.div>
                         ),
                 )}
-                {/* <div className="flex flex-col w-full h-full  transition-all duration-300 ease-linear">
-                    <div className=" p-4  flex gap-2 items-center w-full shadow-lg border-b-2  ">
+                {/* <div className="flex flex-col w-full h-full transition-all duration-300 ease-linear">
+                    <div className="flex items-center w-full gap-2 p-4 border-b-2 shadow-lg ">
                         <span
-                            className="text-xl  block  sm:pr-3 pr-1 cursor-pointer"
+                            className="block pr-1 text-xl cursor-pointer sm:pr-3"
                             onClick={() => {
                                 setIsShow(!isShow);
                             }}
@@ -90,27 +90,27 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
 
                     <div className="flex-1 p-3 rounded-lg bg-secondary">{children || <Outlet />}</div>
                 </div> */}
-                <div className="flex flex-col w-full h-full  transition-all duration-300 ease-linear">
-                    <div className=" p-4  flex gap-2 items-center w-full shadow-lg border-b-2  ">
+                <div className="flex flex-col w-full h-full transition-all duration-300 ease-linear">
+                    <div className="flex items-center w-full gap-2 p-1 border-b-2 shadow-lg ">
                         <span
-                            className="text-xl  block  sm:pr-3 pr-1 cursor-pointer"
+                            className="block pr-1 text-xl cursor-pointer sm:pr-3"
                             onClick={() => {
                                 setIsShow(!isShow);
                             }}
                         >
                             {isShow ? <RiMenuFoldFill /> : <RiMenuUnfoldFill />}
                         </span>
-                        <div className="flex-1 font-bold text-2xl">Project Management</div>
+                        <div className="flex-1 text-xl font-bold">Project Management</div>
                         <div className="flex items-center gap-10 pr-5">
                             <div className="flex items-center gap-5">
                                 <img
-                                    className="w-12 rounded-full h-12 object-cover"
+                                    className="object-cover w-8 h-8 rounded-full cursor-pointer"
                                     src="https://i.pinimg.com/originals/75/d6/12/75d6122004849a1b812e17ecd0771eb1.jpg"
                                     alt="image"
                                 />
                                 <div>
-                                    <h3 className="text-lg font-medium">Nhật Hào</h3>
-                                    <p className="text-sm font-nornal text-gray-400">Admin</p>
+                                    <h3 className="text-base font-medium">Nhật Hào</h3>
+                                    <p className="text-sm font-normal text-gray-400">Admin</p>
                                 </div>
                             </div>
                             <Settings />

@@ -1,10 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
 import loginSlice from "./slices/LoginSlice";
+import ApproveCvSlice from "./slices/ApproveCvSlice";
+
 // ...
 
 export const store = configureStore({
   reducer: {
     LoginSlice:loginSlice.reducer,
+    Approve: ApproveCvSlice.reducer
+  
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(),
 });
