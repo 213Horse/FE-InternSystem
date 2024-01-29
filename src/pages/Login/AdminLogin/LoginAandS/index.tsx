@@ -4,13 +4,6 @@ import { RiCloseCircleLine, RiEyeLine, RiEyeOffLine } from 'react-icons/ri';
 import SignUp from '../../SignUp';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { useDispatch } from 'react-redux';
-import { User, fetchApiLogin } from '@/redux/slices/LoginSlice/LoginSlice';
-import useDebounce from '@/hooks/useDebound';
-import { useSelector } from 'react-redux';
-import { accessTokenSelector } from '@/redux/selector';
-import { RootState } from '@/redux/store';
-import { FaSpinner } from 'react-icons/fa';
 
 type Props = {
     title: string;
@@ -19,14 +12,10 @@ type Props = {
 
 export default function index(props: Props) {
     const { title, id } = props;
-
-    const dispatch = useDispatch<any>();
-    const [loading, setLoading] = useState<boolean>(false);
     const [signUp, setSignUp] = useState<boolean>(false);
     const [showPass, setShowPass] = useState<boolean>(false);
     const navigate = useNavigate();
 
-    const [messError, setMessError] = useState<string>('');
     const [email, setEmail] = useState<string>('');
     const [passWord, setPassword] = useState<string>('');
 
@@ -44,38 +33,6 @@ export default function index(props: Props) {
     };
     const handleHidePass = () => {
         setShowPass(false);
-    };
-
-    const emailValue = useDebounce(email, 1000);
-    const passwordValue = useDebounce(passWord, 1000);
-
-    const token: any = useSelector((state: RootState) => state.LoginSlice.token);
-    useEffect(() => {
-        if (token !== null && token !== '' && token !== undefined) {
-            sessionStorage.setItem('token', token);
-        }
-    }, []);
-    const handleLogin = (e: React.FormEvent) => {
-        e.preventDefault();
-        const data: User = {
-            username: emailValue,
-            password: passwordValue,
-        };
-        if (data) {
-            setLoading(true);
-            dispatch(fetchApiLogin(data))
-                .unwrap()
-                .then(() => {
-                    navigate('/Dashboard');
-                })
-                .catch(() => {
-                    setMessError('Invalid username or password');
-                    setLoading(false);
-                })
-                .finally(() => {
-                    setLoading(false);
-                });
-        }
     };
 
     return (
@@ -104,7 +61,6 @@ export default function index(props: Props) {
                             {/* <Input title="youremail@example.com" className='rounded-lg' icon={<RiCloseCircleLine />} /> */}
                             <RiCloseCircleLine className="w-[24px] h-[24px] absolute right-3 top-[50%]" />
                         </div>
-                        <p className="text-sm font-medium text-red-700"> {!!messError ? messError : ''}</p>
                         <div className="relative flex flex-col mt-2">
                             <label className="font-medium text-md left-5" htmlFor="">
                                 Password
@@ -129,7 +85,6 @@ export default function index(props: Props) {
                                 onClick={handleHidePass}
                             />
                         </div>
-                        <p className="text-sm font-medium text-red-700"> {!!messError ? messError : ''}</p>
                         <div className="flex items-center justify-between w-full mt-2">
                             <div className="flex gap-2 font-light text-[14px] leading-5">
                                 <input type="checkbox" />
@@ -140,8 +95,8 @@ export default function index(props: Props) {
                             </button>
                         </div>
 
-                        <Button variant={'default'} size={'lg'} className="w-full mt-3" onClick={handleLogin}>
-                            {loading ? <FaSpinner className="animate-spin" /> : ' Sign in'}
+                        <Button variant={'default'} size={'lg'} className="w-full mt-3">
+                            Sign in
                         </Button>
                         <Button
                             variant={'link'}
