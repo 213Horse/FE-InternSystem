@@ -5,7 +5,7 @@ import SignUp from '../../SignUp';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { useDispatch } from 'react-redux';
-import { User, fetchApiLogin } from '@/redux/LoginSlice';
+import { User, fetchApiLogin } from '@/redux/slices/LoginSlice';
 import useDebounce from '@/hooks/useDebound';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
