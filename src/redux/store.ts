@@ -1,10 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
 import loginSlice from "./LoginSlice";
+import internSlice from "./slices/InternListSlice";
+import projectSlice from "./slices/ProjectSlice";
 // ...
 
 export const store = configureStore({
   reducer: {
     LoginSlice:loginSlice.reducer,
+    interns: internSlice,
+    projects : projectSlice
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(),
 });

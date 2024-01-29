@@ -6,25 +6,32 @@ import Input from '@/components/ui/Input';
 import Modal from '@/components/ui/Modal';
 import Table, { TableColumn } from '@/components/ui/Table';
 import { Button } from '@/components/ui/button';
+import { fetchInternList } from '@/redux/slices/InternListSlice';
+import { RootState } from '@/redux/store';
 import { Eye, MailCheckIcon, Pen, PenSquareIcon, PlusCircleIcon, Trash2Icon } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AiFillFunnelPlot, AiOutlineClockCircle } from 'react-icons/ai';
 import { CiLock, CiMenuKebab } from 'react-icons/ci';
 
 import { FaSave, FaSearch } from 'react-icons/fa';
 import { GoMail, GoSearch } from 'react-icons/go';
 import { IoFilterSharp } from 'react-icons/io5';
-import { useMediaQuery } from 'react-responsive';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 const ListManagement = () => {
-    const [isOpen, setIsOpen] = useState<boolean>(false);
     const [showModalView, setShowModalView] = useState<boolean>(false);
     const [showModal, setShowModal] = useState<boolean>(false);
     const [showModalReport, setShowModalReport] = useState<boolean>(false);
-    const isMobile = useMediaQuery({ query: '(max-width:678px)' });
-    const toggleDropdown = () => {
-        setIsOpen(!isOpen);
-    };
+
+    const dispatch = useDispatch<any>();
+    const internsData = useSelector((state: RootState) => state.interns.data);
+
+    console.log(internsData);
+
+    useEffect(() => {
+        dispatch(fetchInternList('https://internsystem.zouzoumanagement.xyz/api/interns/get'));
+    }, [dispatch]);
 
     const handleShowModalView = () => {
         setShowModalView((prev) => !prev);
@@ -38,16 +45,16 @@ const ListManagement = () => {
         setShowModalReport((prev) => !prev);
     };
     const columns = [
-        { label: 'Intern ID', accessor: 'internID' },
-        { label: 'Start Date', accessor: 'StartDate' },
-        { label: 'Finish Date', accessor: 'FinishDate' },
-        { label: 'Full Name', accessor: 'FullName' },
-        { label: 'Date Of Birth', accessor: 'DateOfBirth' },
-        { label: 'Phone Number', accessor: 'PhoneNumber' },
-        { label: 'Position', accessor: 'Position' },
-        { label: 'School', accessor: 'School' },
-        { label: 'Address', accessor: 'Address' },
-        { label: 'Email', accessor: 'Email' },
+        { label: 'Intern ID', accessor: 'mssv' },
+        { label: 'Start Date', accessor: 'startDate' },
+        { label: 'Finish Date', accessor: 'endDate' },
+        { label: 'Full Name', accessor: 'hoTen' },
+        { label: 'Date Of Birth', accessor: 'ngaySinh' },
+        { label: 'Phone Number', accessor: 'sdt' },
+        { label: 'Position', accessor: 'viTri' },
+        { label: 'School', accessor: 'truongHoc' },
+        { label: 'Address', accessor: 'diaChi' },
+        { label: 'Email', accessor: 'emailCaNhan' },
         {
             label: 'CV',
             accessor: 'cv',
@@ -67,8 +74,8 @@ const ListManagement = () => {
             ),
         },
         { label: 'Role', accessor: 'Role' },
-        { label: 'Project', accessor: 'Project' },
-        { label: 'Group Zalo', accessor: 'GroupZalo' },
+        { label: 'Project', accessor: 'duAn' },
+        { label: 'Group Zalo', accessor: 'nhomZalo' },
         { label: 'Mentor', accessor: 'Mentor' },
         {
             label: 'Status',
@@ -163,55 +170,6 @@ const ListManagement = () => {
     ];
 
     return (
-        // <div className="flex flex-col">
-        //     <div className="flex items-center justify-between bg-white h-[70px] mb-3 rounded-3xl px-10">
-        //         <p className="text-gray-500">Search for Information</p>
-        //         <div className="flex gap-10">
-        //             <Button size={'sm'} leftIcon={<GoMail />} variant={'info'} onClick={handleShowModal}>
-        //                 Send email
-        //             </Button>
-        //             <Button size={'sm'} leftIcon={<FaRegArrowAltCircleDown />} variant={'success'}>
-        //                 Export Excel
-        //             </Button>
-        //             <Button size={'sm'} leftIcon={<FaRegEdit />} variant={'secondary'}>
-        //                 Edit
-        //             </Button>
-        //             <Button size={'sm'} leftIcon={<FaRegTrashAlt />} variant={'danger'}>
-        //                 Delete
-        //             </Button>
-        //             <Button size={'sm'} leftIcon={<FaPlus />}>
-        //                 Add New Intern
-        //             </Button>
-        //         </div>
-        //     </div>
-
-        //     <main className="flex flex-col bg-white px-4 pt-5 rounded-xl">
-        //         <form className="flex items-center gap-5 mb-4">
-        //             <FormSearchApprove />
-        //             <div className="flex flex-col gap-3 w-1/5">
-        //                 <Button
-        //                     className="w-4/5 text-black border-black"
-        //                     leftIcon={<IoFilterSharp />}
-        //                     variant={'outline'}
-        //                     size={'sm'}
-        //                 >
-        //                     Clean Filters
-        //                 </Button>
-        //                 <Button
-        //                     className="w-4/5 text-black border-black"
-        //                     leftIcon={<FaSearch />}
-        //                     variant={'default'}
-        //                     size={'sm'}
-        //                 >
-        //                     search
-        //                 </Button>
-        //             </div>
-        //         </form>
-
-        //         <Table columns={columns} data={data} check />
-        //     </main>
-
-        // </div>
         <div className="flex flex-col gap-2">
             {/* <div className="rounded-2xl bg-white mb-6 flex items-center justify-between h-[40px] px-3 lg:h-[60px] lg:px-6">
                 <p className="text-gray-500">Search for Information</p>
@@ -306,7 +264,7 @@ const ListManagement = () => {
                     </div>
                 </form>
 
-                <Table columns={columns} data={data} check />
+                <Table columns={columns} data={internsData} check />
             </main>
 
             <Modal width={800} height={500} toggleShow={handleShowModal} Isvisible={showModal} title={'Send Email'}>

@@ -4,12 +4,24 @@ import DropdownCustom from '@/components/Custom/DropdownCustom';
 import { FolderArchiveIcon, PenSquareIcon, PlusCircleIcon, SearchIcon, Trash2Icon } from 'lucide-react';
 import { AiFillFunnelPlot } from 'react-icons/ai';
 import AddProject from '@/components/ui/AddProject';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { GoChevronDown, GoSearch } from 'react-icons/go';
 import Input from '@/components/ui/Input';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
+import { fetchProjects } from '@/redux/slices/ProjectSlice';
 
 const ProjectManagement = () => {
     const [showModal, setShowModal] = useState(false);
+    const dispatch = useDispatch<any>();
+    const projectsData = useSelector((state: RootState) => state.projects.data);
+
+    console.log(projectsData);
+
+    useEffect(() => {
+        dispatch(fetchProjects('https://internsystem.zouzoumanagement.xyz/api/du-ans/get'));
+    }, [dispatch]);
 
     const toogleShow = () => {
         setShowModal((prev) => !prev);
@@ -99,12 +111,11 @@ const ProjectManagement = () => {
 
             <div className="bg-white rounded-3xl mt-5 sm:mt-8 px-4 sm:px-8 md:px-12 py-4 flex">
                 <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-col-2  lg:grid-cols-3 gap-3 w-full">
-                    <SystemComponent />
-                    <SystemComponent />
-                    <SystemComponent />
-                    <SystemComponent />
-                    <SystemComponent />
-                    <SystemComponent />
+                    {projectsData && projectsData.length > 0 ? (
+                        projectsData.map((data) => <SystemComponent key={data.id} data={data} />)
+                    ) : (
+                        <></>
+                    )}
                 </div>
             </div>
 

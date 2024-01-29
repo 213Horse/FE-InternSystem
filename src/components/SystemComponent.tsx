@@ -1,7 +1,11 @@
 import { ChevronDown, Folder } from 'lucide-react';
 import { useState } from 'react';
 
-const SystemComponent = () => {
+type Props = {
+    data: Project;
+};
+
+const SystemComponent = ({ data }: Props) => {
     const [isOpen, setIsOpen] = useState(false);
 
     const toggleDropdown = () => {
@@ -14,10 +18,24 @@ const SystemComponent = () => {
         setIsOpen(false);
     };
 
+    function formatDate(date: Date | string): string {
+        if (typeof date === 'string') {
+            date = new Date(date);
+        }
+
+        if (date instanceof Date && !isNaN(date.getTime())) {
+            const options: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'short', year: 'numeric' };
+            return date.toLocaleDateString('en-US', options);
+        } else {
+            // Xử lý trường hợp date không phải là một đối tượng Date hợp lệ
+            return 'Invalid Date';
+        }
+    }
+
     return (
         <div className="w-full bg-white min-h-10 shadow-md hover:shadow-lg rounded">
             <div className="flex justify-between border-b border-gray-300">
-                <h1 className="font-bold text-lg p-3">Intern System</h1>
+                <h1 className="font-bold text-lg p-3">{data.ten}</h1>
                 <div className="flex items-center ">
                     <div className="dropdown">
                         <div className="relative inline-block text-left">
@@ -101,8 +119,10 @@ const SystemComponent = () => {
                 <h3 className="font-bold text-sm py-3">Group Zalo: Link</h3>
 
                 <div className="flex justify-between py-3">
-                    <p className="font-medium text-green-400  text-sm">Start Date: 05 Jan 2023</p>
-                    <p className="font-medium text-red-600  text-sm">Release Date: 05 Apr 2023</p>
+                    <p className="font-medium text-green-400  text-sm">Start Date: {formatDate(data.thoiGianBatDau)}</p>
+                    <p className="font-medium text-red-600  text-sm">
+                        Release Date: {formatDate(data.thoiGianKetThuc)}
+                    </p>
                 </div>
                 <div className="flex justify-between items-center py-3">
                     <div className="img-group">
