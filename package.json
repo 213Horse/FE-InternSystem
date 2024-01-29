@@ -19,6 +19,7 @@
     "@types/chart.js": "^2.9.41",
     "@types/react-redux": "^7.1.33",
     "@types/recharts": "^1.8.29",
+    "axios": "^1.6.6",
     "chart.js": "^2.9.4",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",

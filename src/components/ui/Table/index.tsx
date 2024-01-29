@@ -1,5 +1,5 @@
 import React, { ReactNode, useState } from 'react';
-import { useTable } from 'react-table';
+import { Column, useTable } from 'react-table';
 import { Button } from '../button';
 import { IoChevronDown } from 'react-icons/io5';
 import { IoIosArrowRoundBack, IoIosArrowRoundForward } from 'react-icons/io';
@@ -7,38 +7,22 @@ import { IoIosArrowRoundBack, IoIosArrowRoundForward } from 'react-icons/io';
 export interface TableColumn {
     label: string;
     width?: string;
-    dataIndex: string;
-    render?: ReactNode;
+    accessor: string;
 }
 
 interface CustomTableProps {
     // headers: TableColumn[];
     // data: { [key: string]: string | number | string[] | ReactNode }[];
     data: any[];
-    columns: { label: string; accessor: string; width?: string }[];
-    // check?: boolean;
+    columns: Column[];
+    check?: boolean;
     // className?: string;
-    // width?: number;
+    width?: number;
     // pagation?: any;
 }
 
-const Table: React.FC<CustomTableProps> = ({ columns, data, ...props }) => {
-    const [selectAll, setSelectAll] = useState<boolean>(false);
+const Table: React.FC<CustomTableProps> = ({ columns, data, width, check, ...props }) => {
     const [selectedRows, setSelectedRows] = useState<string[]>([]);
-    // const handleCheckboxChange = (rowIndex: number) => {
-    //     const updatedSelection = selectedRows.includes(rowIndex)
-    //         ? selectedRows.filter((index) => index !== rowIndex)
-    //         : [...selectedRows, rowIndex];
-    //     setSelectedRows(updatedSelection);
-    // };
-    // const handleSelectAllChange = () => {
-    //     if (selectAll) {
-    //         setSelectedRows([]);
-    //     } else {
-    //         setSelectedRows(Array.from({ length: data.length }, (_, index) => index));
-    //     }
-    //     setSelectAll(!selectAll);
-    // };
 
     const toggleRowSelection = (rowId: string) => {
         const isSelected = selectedRows.includes(rowId);
@@ -54,33 +38,39 @@ const Table: React.FC<CustomTableProps> = ({ columns, data, ...props }) => {
     const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable({ columns, data });
 
     return (
-        <>
-            <div className="overflow-x-auto md:overflow-x-auto">
-                <table {...getTableProps()} className="min-w-full bg-white lg:table-auto sm:table-auto md:table-fixed">
+        <div className="flex flex-col gap-3">
+            <div className="min-w-full overflow-x-auto md:overflow-x-auto">
+                <table
+                    {...getTableProps()}
+                    className="overflow-x-auto table table-auto bg-white lg:table-auto sm:table-auto md:table-fixed"
+                    style={{ width: width ? width + 'px' : '' }}
+                >
                     <thead>
                         {headerGroups.map((headerGroup) => (
-                            <tr {...headerGroup.getHeaderGroupProps()}>
+                            <tr {...headerGroup.getHeaderGroupProps()} className="table-row">
                                 <th className="px-4 py-2">
                                     {/* Checkbox for selecting all rows */}
-                                    <input
-                                        type="checkbox"
-                                        onChange={() => {
-                                            // Toggle all row selections
-                                            if (selectedRows.length === rows.length) {
-                                                setSelectedRows([]);
-                                            } else {
-                                                const allRowIds = rows.map((row) => row.id);
-                                                setSelectedRows(allRowIds);
-                                            }
-                                        }}
-                                        checked={selectedRows.length === rows.length}
-                                    />
+                                    {check && (
+                                        <input
+                                            type="checkbox"
+                                            onChange={() => {
+                                                // Toggle all row selections
+                                                if (selectedRows.length === rows.length) {
+                                                    setSelectedRows([]);
+                                                } else {
+                                                    const allRowIds = rows.map((row) => row.id);
+                                                    setSelectedRows(allRowIds);
+                                                }
+                                            }}
+                                            checked={selectedRows.length === rows.length}
+                                        />
+                                    )}
                                 </th>
                                 {headerGroup.headers.map((column) => (
                                     <th
                                         {...column.getHeaderProps()}
-                                        style={{ width: column.width || 'auto' }}
-                                        className="px-2 py-1 text-sm font-semibold text-black "
+                                        style={{ width: column.width }}
+                                        className="px-2 py-1 text-sm font-semibold text-black table-cell"
                                     >
                                         {column.render('label')}
                                     </th>
@@ -88,20 +78,23 @@ const Table: React.FC<CustomTableProps> = ({ columns, data, ...props }) => {
                             </tr>
                         ))}
                     </thead>
-                    <tbody {...getTableBodyProps()}>
+                    <tbody {...getTableBodyProps()} className="table-row-group">
                         {rows.map((row) => {
                             prepareRow(row);
                             const isSelected = selectedRows.includes(row.id);
                             return (
-                                <tr {...row.getRowProps()}>
-                                    <td className="px-4 py-2 ">
-                                        {/* Checkbox for individual row selection */}
-                                        <input
-                                            type="checkbox"
-                                            onChange={() => toggleRowSelection(row.id)}
-                                            checked={isSelected}
-                                        />
-                                    </td>
+                                <tr {...row.getRowProps()} className="table-row">
+                                    {check && (
+                                        <td className="px-4 py-2 ">
+                                            {/* Checkbox for individual row selection */}
+                                            <input
+                                                type="checkbox"
+                                                onChange={() => toggleRowSelection(row.id)}
+                                                checked={isSelected}
+                                                className=""
+                                            />
+                                        </td>
+                                    )}
                                     {row.cells.map((cell) => (
                                         <td
                                             {...cell.getCellProps()}
@@ -110,7 +103,7 @@ const Table: React.FC<CustomTableProps> = ({ columns, data, ...props }) => {
                                                     columns.find((col) => col.accessor === cell.column.id)?.width ||
                                                     'auto',
                                             }}
-                                            className="px-2 py-1 text-sm "
+                                            className="px-2 py-1 text-sm table-cell text-left text-black"
                                         >
                                             {/* Check if the cell value is a ReactNode */}
                                             {React.isValidElement(cell.value) ? (
@@ -163,7 +156,7 @@ const Table: React.FC<CustomTableProps> = ({ columns, data, ...props }) => {
                     </Button>
                 </div>
             </div>
-        </>
+        </div>
     );
 };
 export default Table;

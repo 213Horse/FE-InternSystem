@@ -1,5 +1,3 @@
-import Dashboard from '../pages/Dashboard';
-import ForgotPassword from '@/pages/Login/ForgotPassword';
 import type { RouteObject } from 'react-router';
 import MainLayout from '@/layouts/MainLayout';
 import AuthGuard from './AuthGuard';
@@ -19,6 +17,9 @@ const restPass = Loadable({
 
 const Home = Loadable({ loader: () => import('../pages/Dashboard') });
 const ApproveCV = Loadable({ loader: () => import('../pages/ApproveCV') });
+const ConfirmCV = Loadable({ loader: () => import('../pages/ConfirmCV') });
+const InternList = Loadable({ loader: () => import('../pages/InternList') });
+const GroupList = Loadable({ loader: () => import('../pages/GroupList') });
 const ProjectManagement = Loadable({
     loader: () => import('../pages/ProjectManagement'),
 });
@@ -49,22 +50,29 @@ const routes: RouteObject[] = [
                         path: 'CV-Management/Approve-CV',
                         element: ApproveCV,
                     },
+                    {
+                        path: 'CV-Management/Confirm-CV',
+                        element: ConfirmCV,
+                    },
+                    {
+                        path: 'ListManagement/GroupList',
+                        element: GroupList,
+                    },
+                    {
+                        path: 'ListManagement/InternList',
+                        element: InternList,
+                    },
                     { path: 'project-management', element: ProjectManagement },
                     {
                         path: '*',
                         element: Home,
                     },
+                    {
+                        path: 'ListManagement/InternList',
+                        element: InternList,
+                    },
                 ],
             },
-
-            // { index: true, element: Home },
-            // { path: 'hop-dong-va-dang-ky', element: Home },
-
-            // {
-            //     path: '*',
-            //     element: Home,
-            // },
-            // >>>>>>> main
         ],
     },
     {

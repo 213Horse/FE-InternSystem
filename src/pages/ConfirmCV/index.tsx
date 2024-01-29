@@ -1,57 +1,36 @@
-import ScheduleInterview from '@/components/ui/FormScheduleInterview';
-import FormSearchApprove from '@/components/ui/FormSearchApprove';
+import DropdownStatus from '@/components/ui/DropDownStatus';
+import FormSearchConfirm from '@/components/ui/FormSearchConfirm';
 import Modal from '@/components/ui/Modal';
 import Table from '@/components/ui/Table';
 import { Button } from '@/components/ui/button';
+
 import { useState } from 'react';
 import { AiOutlineClockCircle } from 'react-icons/ai';
+import { CiMenuKebab } from 'react-icons/ci';
 import { FaEye, FaPlus, FaRegArrowAltCircleDown, FaRegEdit, FaRegTrashAlt, FaSearch } from 'react-icons/fa';
 import { IoFilterSharp } from 'react-icons/io5';
-import FormViewDetailIntern from './FormViewDetailIntern';
-import DropdownStatus from '@/components/ui/DropDownStatus';
 import { useMediaQuery } from 'react-responsive';
-import { CiMenuKebab } from 'react-icons/ci';
-// import TabsApprove from './TabsApprove';
+import FormSendEmail from './FormSendEmail';
+import FormDetailIntern from './FormDetailIntern';
 
 type Props = {};
 
-const ApproveCV = ({}: Props) => {
-    const [isOpen, setIsOpen] = useState(false);
-    const [showModal, setShowModal] = useState<boolean>(false);
-    const [showModalView, setShowModalView] = useState<boolean>(false);
-    const [showModalComment, setShowModalComment] = useState<boolean>(false);
-    const [showModalFeedback, setShowModalFeedback] = useState<boolean>(false);
-
+export default function ConfirmCV({}: Props) {
+    const [isOpen, setIsOpen] = useState<boolean>(false);
+    const [openModalSenEmail, setOpenModalSenEmail] = useState<boolean>(false);
+    const [openModalView, setOpenModalView] = useState<boolean>(false);
     const isMobile = useMediaQuery({ query: '(max-width:678px)' });
-
-    const handleOpenModal = () => {
-        setShowModal((prev) => !prev);
-    };
-    const handleOpenModalView = () => {
-        setShowModalView((prev) => !prev);
-    };
-    const handleOpenModalComment = () => {
-        setShowModalComment((prev) => !prev);
-    };
-    const handleOpenModalFeedback = () => {
-        setShowModalFeedback((prev) => !prev);
-    };
     const toggleDropdown = () => {
         setIsOpen(!isOpen);
     };
-
-    // const closeDropdown = () => {
-    //     setIsOpen(false);
-    // };
-
     const columns = [
         { label: "intern's ID", accessor: 'id' },
-        { label: 'Date Submitted Form', accessor: 'dateSubmit' },
-        { label: 'Full Name', accessor: 'fullName' },
-        { label: 'Date Of Birth', accessor: 'dateOfBirth' },
-        { label: 'Phone number', accessor: 'phone' },
+        { label: 'Date Interview', accessor: 'dateinterview' },
+        { label: 'Time Interview', accessor: 'timeinterview' },
+        { label: 'Full Name', accessor: 'fullname' },
+        { label: 'Date Of Birth', accessor: 'dateofbirth' },
+        { label: 'Phone Number', accessor: 'phone' },
         { label: 'Position', accessor: 'position' },
-
         { label: 'School', accessor: 'school' },
         { label: 'Address', accessor: 'address' },
         { label: 'Email', accessor: 'email' },
@@ -65,17 +44,23 @@ const ApproveCV = ({}: Props) => {
             ),
         },
         {
-            label: 'Comments CV',
+            label: 'Comments',
             accessor: 'commentCv',
             Cell: ({}) => (
                 <div className="flex items-center gap-2">
                     <Button className="text-black border-black" rightIcon={<FaEye />} variant={'outline'} size={'sm'}>
                         2 Comments
                     </Button>
-                    <FaPlus onClick={handleOpenModalComment} className="cursor-pointer" />
+                    <FaPlus className="cursor-pointer" />
                 </div>
             ),
         },
+        {
+            label: 'Confirm Email',
+            accessor: 'confirmEmail',
+            Cell: ({}) => <DropdownStatus statusOptions={['passed', 'failed', 'Pending']} />,
+        },
+        { label: 'Interviewer', accessor: 'interviewer' },
         {
             label: 'Status',
             accessor: 'status',
@@ -86,11 +71,8 @@ const ApproveCV = ({}: Props) => {
             accessor: 'button',
             Cell: () => (
                 <div className="flex gap-2">
-                    <Button variant={'outline'} onClick={handleOpenModalView}>
+                    <Button variant={'outline'} onClick={handleOpenView}>
                         view
-                    </Button>
-                    <Button variant={'outline'} onClick={handleOpenModalFeedback}>
-                        feedbacks
                     </Button>
                 </div>
             ),
@@ -131,6 +113,13 @@ const ApproveCV = ({}: Props) => {
             email: 'nmthuy@gamil.com',
         },
     ];
+
+    const handleOpenModalSendEmail = () => {
+        setOpenModalSenEmail((prev) => !prev);
+    };
+    const handleOpenView = () => {
+        setOpenModalView((prev) => !prev);
+    };
     return (
         <div className="flex flex-col gap-2">
             <div className="rounded-2xl bg-white mb-6 flex items-center justify-between h-[40px] px-3 lg:h-[60px] lg:px-6">
@@ -163,9 +152,9 @@ const ApproveCV = ({}: Props) => {
                                         size={'sm'}
                                         leftIcon={<AiOutlineClockCircle />}
                                         variant={'info'}
-                                        onClick={handleOpenModal}
+                                        onClick={handleOpenModalSendEmail}
                                     >
-                                        Schedule interview
+                                        Send Email
                                     </Button>
                                     <Button size={'sm'} leftIcon={<FaRegArrowAltCircleDown />} variant={'success'}>
                                         Export Excel
@@ -188,9 +177,9 @@ const ApproveCV = ({}: Props) => {
                                 size={'sm'}
                                 leftIcon={<AiOutlineClockCircle />}
                                 variant={'info'}
-                                onClick={handleOpenModal}
+                                onClick={handleOpenModalSendEmail}
                             >
-                                Schedule interview
+                                Send Email
                             </Button>
                             <Button size={'sm'} leftIcon={<FaRegArrowAltCircleDown />} variant={'success'}>
                                 Export Excel
@@ -208,10 +197,9 @@ const ApproveCV = ({}: Props) => {
                     )}
                 </>
             </div>
-
-            <main className="grid grid-cols-1 px-4 pt-5 bg-white rounded-xl">
-                <form className="flex flex-col items-start gap-5 mb-4 lg:items-center lg:flex-row">
-                    <FormSearchApprove />
+            <main className="flex flex-col px-4 pt-5 bg-white rounded-xl">
+                <form className="flex flex-col items-start w-full gap-5 mb-4 lg:items-center lg:flex-row">
+                    <FormSearchConfirm />
                     <div className="flex flex-col w-full gap-3 lg:w-1/5">
                         <Button
                             className="text-black border-black "
@@ -231,39 +219,29 @@ const ApproveCV = ({}: Props) => {
                         </Button>
                     </div>
                 </form>
-
-                <Table columns={columns} data={data} check />
+                <div className="grid grid-cols-1">
+                    <Table columns={columns} data={data} />
+                </div>
             </main>
+
+            {/* modal Send Email */}
+            <Modal
+                width={isMobile ? 500 : 500}
+                Isvisible={openModalSenEmail}
+                toggleShow={handleOpenModalSendEmail}
+                title="Send Email"
+            >
+                <FormSendEmail />
+            </Modal>
 
             <Modal
                 width={isMobile ? 500 : 700}
-                Isvisible={showModal}
-                toggleShow={handleOpenModal}
-                title="Schedule interview for Intern's ID: xxxx"
+                Isvisible={openModalView}
+                toggleShow={handleOpenView}
+                title="View details of Intern"
             >
-                <ScheduleInterview />
-            </Modal>
-            <Modal width={isMobile ? 500 : 800} toggleShow={handleOpenModalView} Isvisible={showModalView} title={''}>
-                <FormViewDetailIntern tabShow={1} />
-            </Modal>
-            <Modal
-                width={isMobile ? 500 : 800}
-                toggleShow={handleOpenModalComment}
-                Isvisible={showModalComment}
-                title={''}
-            >
-                <FormViewDetailIntern tabShow={2} />
-            </Modal>
-            <Modal
-                width={isMobile ? 500 : 800}
-                toggleShow={handleOpenModalFeedback}
-                Isvisible={showModalFeedback}
-                title={''}
-            >
-                <FormViewDetailIntern tabShow={3} />
+                <FormDetailIntern />
             </Modal>
         </div>
     );
-};
-
-export default ApproveCV;
+}
