@@ -3,7 +3,7 @@ import FormSearchApprove from '@/components/ui/FormSearchApprove';
 import Modal from '@/components/ui/Modal';
 import Table from '@/components/ui/Table';
 import { Button } from '@/components/ui/button';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AiOutlineClockCircle } from 'react-icons/ai';
 import { FaEye, FaPlus, FaRegArrowAltCircleDown, FaRegEdit, FaRegTrashAlt, FaSearch } from 'react-icons/fa';
 import { IoFilterSharp } from 'react-icons/io5';
@@ -11,7 +11,9 @@ import FormViewDetailIntern from './FormViewDetailIntern';
 import DropdownStatus from '@/components/ui/DropDownStatus';
 import { useMediaQuery } from 'react-responsive';
 import { CiMenuKebab } from 'react-icons/ci';
-// import TabsApprove from './TabsApprove';
+import { useDispatch } from 'react-redux';
+import { fetchApiGetInternInfo } from '@/redux/slices/ApproveCvSlice';
+import { AppDispatch } from '@/redux/store';
 
 type Props = {};
 
@@ -21,28 +23,10 @@ const ApproveCV = ({}: Props) => {
     const [showModalView, setShowModalView] = useState<boolean>(false);
     const [showModalComment, setShowModalComment] = useState<boolean>(false);
     const [showModalFeedback, setShowModalFeedback] = useState<boolean>(false);
-
+    const dispatch = useDispatch<AppDispatch>();
     const isMobile = useMediaQuery({ query: '(max-width:678px)' });
 
-    const handleOpenModal = () => {
-        setShowModal((prev) => !prev);
-    };
-    const handleOpenModalView = () => {
-        setShowModalView((prev) => !prev);
-    };
-    const handleOpenModalComment = () => {
-        setShowModalComment((prev) => !prev);
-    };
-    const handleOpenModalFeedback = () => {
-        setShowModalFeedback((prev) => !prev);
-    };
-    const toggleDropdown = () => {
-        setIsOpen(!isOpen);
-    };
-
-    // const closeDropdown = () => {
-    //     setIsOpen(false);
-    // };
+    // useSelector
 
     const columns = [
         { label: "intern's ID", accessor: 'id' },
@@ -131,6 +115,30 @@ const ApproveCV = ({}: Props) => {
             email: 'nmthuy@gamil.com',
         },
     ];
+
+    const handleOpenModal = () => {
+        setShowModal((prev) => !prev);
+    };
+    const handleOpenModalView = () => {
+        setShowModalView((prev) => !prev);
+    };
+    const handleOpenModalComment = () => {
+        setShowModalComment((prev) => !prev);
+    };
+    const handleOpenModalFeedback = () => {
+        setShowModalFeedback((prev) => !prev);
+    };
+    const toggleDropdown = () => {
+        setIsOpen(!isOpen);
+    };
+
+    // const closeDropdown = () => {
+    //     setIsOpen(false);
+    // };
+
+    useEffect(() => {
+        dispatch(fetchApiGetInternInfo());
+    }, []);
     return (
         <div className="flex flex-col gap-2">
             <div className="rounded-2xl bg-white mb-6 flex items-center justify-between h-[40px] px-3 lg:h-[60px] lg:px-6">
