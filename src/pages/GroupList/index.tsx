@@ -5,18 +5,17 @@ import Modal from '@/components/ui/Modal';
 import Table from '@/components/ui/Table';
 import { Button } from '@/components/ui/button';
 
-import { useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { AiOutlineClockCircle } from 'react-icons/ai';
 import { CiMenuKebab } from 'react-icons/ci';
-import { FaPlus, FaRegArrowAltCircleDown, FaRegEdit, FaRegTrashAlt, FaSearch, FaUser } from 'react-icons/fa';
+import { FaEye, FaPlus, FaRegArrowAltCircleDown, FaRegEdit, FaRegTrashAlt, FaSearch, FaUser } from 'react-icons/fa';
 import { IoFilterSharp } from 'react-icons/io5';
 import { useMediaQuery } from 'react-responsive';
 import FormAddnewIntern from './FormAddNewIntern';
 import { useDispatch } from 'react-redux';
-import { fetchApiGetGroup } from '@/redux/slices/GroupZaloSlice';
+import { fetchApiGetGroup, fetchApiPostGroup } from '@/redux/slices/GroupZaloSlice';
 import { AppDispatch, RootState } from '@/redux/store';
 import { useSelector } from 'react-redux';
-import { GroupZaloSlice } from '@/redux/selector';
 
 type Props = {};
 
@@ -33,11 +32,15 @@ export default function GroupList({}: Props) {
     const columns = [
         {
             label: 'Tên nhóm',
-            accessor: 'tennhom',
+            accessor: 'tenNhom',
         },
         {
             label: 'Link nhóm',
-            accessor: 'linknhom',
+            accessor: 'linkNhom',
+        },
+        {
+            label: 'Id Mentor',
+            accessor: 'idMentor',
         },
         {
             label: 'Mentor',
@@ -46,6 +49,41 @@ export default function GroupList({}: Props) {
         {
             label: 'User Nhóm zalo',
             accessor: 'userNhomZalos',
+        },
+
+        {
+            label: 'Comments',
+            accessor: 'commentCv',
+            Cell: ({}) => (
+                <div className="flex items-center gap-2">
+                    <Button className="text-black border-black" rightIcon={<FaEye />} variant={'outline'} size={'sm'}>
+                        2 Comments
+                    </Button>
+                    <FaPlus className="cursor-pointer" />
+                </div>
+            ),
+        },
+        {
+            label: 'Confirm Email',
+            accessor: 'confirmEmail',
+            Cell: ({}) => <DropdownStatus statusOptions={['passed', 'failed', 'Pending']} selectOption="Pending" />,
+        },
+        { label: 'Interviewer', accessor: 'interviewer' },
+        {
+            label: 'Status',
+            accessor: 'status',
+            Cell: ({}) => <DropdownStatus statusOptions={['passed', 'failed', 'Pending']} selectOption="Pending" />,
+        },
+        {
+            label: 'Button',
+            accessor: 'button',
+            Cell: () => (
+                <div className="flex gap-2">
+                    <Button variant={'outline'} onClick={handleOpenView}>
+                        view
+                    </Button>
+                </div>
+            ),
         },
     ];
 
@@ -65,6 +103,17 @@ export default function GroupList({}: Props) {
     useEffect(() => {
         dispatch(fetchApiGetGroup());
     }, [dispatch]);
+
+    const [dataGroup, setDataGroup] = useState<{ [key: string]: string }>({});
+    const handleChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setDataGroup((prev) => ({ ...prev, [name]: value }));
+    };
+    const handleCreateGroupZalo = (e: any) => {
+        e.preventDefault();
+        dispatch(fetchApiPostGroup(dataGroup));
+    };
+
     return (
         <div className="flex flex-col gap-2">
             <div className="rounded-2xl bg-white mb-6 flex items-center justify-between h-[40px] px-3 lg:h-[60px] lg:px-6">
@@ -165,7 +214,7 @@ export default function GroupList({}: Props) {
                     </div>
                 </form>
                 <div className="grid grid-cols-1">
-                    <Table columns={columns} data={data} />
+                    <Table columns={columns} data={data} check />
                 </div>
             </main>
 
@@ -178,7 +227,7 @@ export default function GroupList({}: Props) {
             >
                 <form>
                     <div className="grid grid-cols-2 gap-4 lg:grid-cols-3">
-                        <div className="flex flex-col gap-2">
+                        {/* <div className="flex flex-col gap-2">
                             <label className="text-base font-semibold" htmlFor="">
                                 Role
                             </label>
@@ -199,18 +248,43 @@ export default function GroupList({}: Props) {
                                 <option value="Leader">Leader</option>
                                 <option value="Intern">Intern</option>
                             </select>
-                        </div>
+                        </div> */}
                         <div className="flex flex-col gap-2">
                             <label className="text-base font-semibold" htmlFor="">
                                 Group Zalo
                             </label>
-                            <Input className="py-2" title="FE Intern System" />
+                            <Input
+                                value={dataGroup.tenNhom}
+                                name="tenNhom"
+                                onChange={handleChangeInput}
+                                className="py-2"
+                                title="FE Intern System"
+                            />
                         </div>
+                        <div className="flex flex-col gap-2">
+                            <label className="text-base font-semibold" htmlFor="">
+                                Link Group
+                            </label>
+                            <Input
+                                value={dataGroup.linkNhom}
+                                name="linkNhom"
+                                onChange={handleChangeInput}
+                                className="py-2"
+                                title="Nhập link group"
+                            />
+                        </div>
+
                         <div className="flex flex-col gap-2">
                             <label className="text-base font-semibold" htmlFor="">
                                 Mentor
                             </label>
-                            <Input className="py-2" title=" Mentor" />
+                            <Input
+                                value={dataGroup.idMentor}
+                                name="idMentor"
+                                onChange={handleChangeInput}
+                                className="py-2"
+                                title=" Mentor"
+                            />
                         </div>
                     </div>
                     <Button
@@ -218,6 +292,7 @@ export default function GroupList({}: Props) {
                         size={'default'}
                         leftIcon={<FaUser />}
                         className="mt-4 lg:float-right lg:mr-10"
+                        onClick={handleCreateGroupZalo}
                     >
                         Create Group
                     </Button>

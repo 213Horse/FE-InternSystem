@@ -7,6 +7,10 @@ interface DataState {
     error: string | null;
 }
 
+export interface DataGroup {
+    [key: string]: string;
+}
+
 const initialState: DataState = {
     data: [],
     status: 'idle',
@@ -20,6 +24,9 @@ const GroupSlice = createSlice({
         builder.addCase(fetchApiGetGroup.fulfilled, (state, action) => {
             state.data = action.payload;
         });
+        builder.addCase(fetchApiPostGroup.fulfilled, (state, action) => {
+            state.data = action.payload;
+        });
     },
 });
 
@@ -31,6 +38,18 @@ export const fetchApiGetGroup = createAsyncThunk('login/fetchApiGetGroup', async
     } catch (error: any) {
         if (error.message === 'Request failed with status code 400') {
             console.log('Invalid Data');
+        }
+    }
+});
+
+export const fetchApiPostGroup = createAsyncThunk('login/fetchApiPostGroup', async (data:DataGroup,{ rejectWithValue }) => {
+    try {
+        const res = await apiConfig.post('group-zalos/create',data);
+        console.log(res);
+        return res;
+    } catch (error: any) {
+        if (error.message === 'Request failed with status code 400') {
+            return rejectWithValue('invalid Data!');
         }
     }
 });
