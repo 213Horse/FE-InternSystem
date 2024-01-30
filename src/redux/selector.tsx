@@ -5,4 +5,7 @@ import { RootState } from './store';
 export const accessTokenSelector = useSelector((state: RootState) => state.LoginSlice.token);
 
 //
-export const internInfo = useSelector((state: RootState) => state.Approve.internInfo);
+export const internInfoSlice = useSelector((state: RootState) => state.approve.data);
+
+// Group zalo
+export const GroupZaloSlice = useSelector((state: RootState) => state.group.data);

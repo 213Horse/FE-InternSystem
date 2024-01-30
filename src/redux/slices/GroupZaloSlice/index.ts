@@ -2,7 +2,7 @@ import * as apiConfig from '@/utils/ApiConfig';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 interface DataState {
-    data: IndividualType[];
+    data: Group[];
     status: 'idle' | 'loading' | 'succeeded' | 'failed';
     error: string | null;
 }
@@ -12,20 +12,21 @@ const initialState: DataState = {
     status: 'idle',
     error: null,
 };
-const ApproveCvSlice = createSlice({
-    name: 'ApproveCv',
+const GroupSlice = createSlice({
+    name: 'Group',
     initialState,
     reducers: {},
     extraReducers: (builder) => {
-        builder.addCase(fetchApiGetInternInfo.fulfilled, (state, action) => {
+        builder.addCase(fetchApiGetGroup.fulfilled, (state, action) => {
             state.data = action.payload;
         });
     },
 });
 
-export const fetchApiGetInternInfo = createAsyncThunk('login/fetchApiGetInternInfo', async () => {
+export const fetchApiGetGroup = createAsyncThunk('login/fetchApiGetGroup', async () => {
     try {
-        const res = await apiConfig.get('interns/get');
+        const res = await apiConfig.get('group-zalos/get');
+        console.log(res);
         return res;
     } catch (error: any) {
         if (error.message === 'Request failed with status code 400') {
@@ -34,4 +35,4 @@ export const fetchApiGetInternInfo = createAsyncThunk('login/fetchApiGetInternIn
     }
 });
 
-export default ApproveCvSlice;
+export default GroupSlice;

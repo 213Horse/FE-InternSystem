@@ -91,7 +91,7 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
                     <div className="flex-1 p-3 rounded-lg bg-secondary">{children || <Outlet />}</div>
                 </div> */}
                 <div className="flex flex-col w-full h-full transition-all duration-300 ease-linear">
-                    <div className="flex items-center w-full gap-2 p-1 border-b-2 shadow-lg ">
+                    <div className="flex items-center w-full gap-2 p-2 border-b-2 shadow-lg ">
                         <span
                             className="block pr-1 text-xl cursor-pointer sm:pr-3"
                             onClick={() => {
@@ -104,8 +104,8 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
                         <div className="flex items-center gap-10 pr-5">
                             <div className="flex items-center gap-5">
                                 <img
-                                    className="object-cover w-8 h-8 rounded-full cursor-pointer"
-                                    src="https://i.pinimg.com/originals/75/d6/12/75d6122004849a1b812e17ecd0771eb1.jpg"
+                                    className="object-cover w-10 h-10 rounded-full"
+                                    src="https://app.abaha.vn/images/admin.png"
                                     alt="image"
                                 />
                                 <div>
