@@ -3,7 +3,7 @@ import FormSearchApprove from '@/components/ui/FormSearchApprove';
 import Modal from '@/components/ui/Modal';
 import Table from '@/components/ui/Table';
 import { Button } from '@/components/ui/button';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AiOutlineClockCircle } from 'react-icons/ai';
 import { FaEye, FaPlus, FaRegArrowAltCircleDown, FaRegEdit, FaRegTrashAlt, FaSearch } from 'react-icons/fa';
 import { IoFilterSharp } from 'react-icons/io5';
@@ -11,7 +11,9 @@ import FormViewDetailIntern from './FormViewDetailIntern';
 import DropdownStatus from '@/components/ui/DropDownStatus';
 import { useMediaQuery } from 'react-responsive';
 import { CiMenuKebab } from 'react-icons/ci';
-// import TabsApprove from './TabsApprove';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchApiGetInternInfo } from '@/redux/slices/ApproveCvSlice';
+import { AppDispatch, RootState } from '@/redux/store';
 
 type Props = {};
 
@@ -21,8 +23,132 @@ const ApproveCV = ({}: Props) => {
     const [showModalView, setShowModalView] = useState<boolean>(false);
     const [showModalComment, setShowModalComment] = useState<boolean>(false);
     const [showModalFeedback, setShowModalFeedback] = useState<boolean>(false);
-
+    const dispatch = useDispatch<AppDispatch>();
     const isMobile = useMediaQuery({ query: '(max-width:678px)' });
+
+    // useSelector
+
+    const columns = [
+        { label: 'MSSV', accessor: 'mssv' },
+        { label: 'Ngày bắt đầu', accessor: 'startDate' },
+        { label: 'Ngày kết thúc', accessor: 'endDate' },
+        { label: 'Họ Tên', accessor: 'hoTen' },
+        { label: 'Ngày sinh', accessor: 'ngaySinh' },
+        { label: 'số điện thoại', accessor: 'sdt' },
+        {
+            label: 'vị trí',
+            accessor: 'viTri',
+            Cell: ({ value }: { value: string[] | null }) => (
+                <span>
+                    {Array.isArray(value) &&
+                        value.map((item, index) => (
+                            <span
+                                key={index}
+                                style={{
+                                    backgroundColor: index % 2 === 0 ? 'lightblue' : 'lightgreen',
+                                }}
+                                className={`inline-block px-2 py-1 mr-2 rounded-lg`}
+                            >
+                                {item}
+                            </span>
+                        ))}
+                </span>
+            ),
+        },
+        { label: 'địa chỉ', accessor: 'diaChi' },
+        { label: 'Email cá nhân', accessor: 'emailCaNhan' },
+
+        { label: 'Email trường', accessor: 'emailTruong' },
+        {
+            label: 'Cv',
+            accessor: 'linkCV',
+            Cell: ({ value }: { value: string }) => (
+                <a href="#" className="underline cursor-pointer">
+                    {value}
+                </a>
+            ),
+        },
+        { label: 'Giới tính', accessor: 'gioiTinh' },
+        { label: 'Tiếng Anh', accessor: 'trinhDoTiengAnh' },
+        {
+            label: 'Dự án',
+            accessor: 'duAn',
+            Cell: ({ value }: { value: string[] | null }) => (
+                <span>
+                    {Array.isArray(value) &&
+                        value.map((item, index) => (
+                            <span
+                                key={index}
+                                style={{
+                                    backgroundColor: index % 2 === 0 ? 'lightblue' : 'lightgreen',
+                                }}
+                                className={`inline-block px-2 py-1 mr-2 rounded-lg `}
+                            >
+                                {item}
+                            </span>
+                        ))}
+                </span>
+            ),
+        },
+        {
+            label: 'Nhóm zalo',
+            accessor: 'nhomZalo',
+            Cell: ({ value }: { value: string[] | null }) => (
+                <span>
+                    {Array.isArray(value) &&
+                        value.map((item, index) => (
+                            <span
+                                key={index}
+                                style={{
+                                    backgroundColor: index % 2 === 0 ? 'lightblue' : 'lightgreen',
+                                }}
+                                className={`inline-block px-2 py-1 mr-2 rounded-lg `}
+                            >
+                                {item}
+                            </span>
+                        ))}
+                </span>
+            ),
+        },
+        { label: 'Trường', accessor: 'truongHoc' },
+        {
+            label: 'Comments CV',
+            accessor: 'commentCv',
+            Cell: ({}) => (
+                <div className="flex items-center gap-2">
+                    <Button className="text-black border-black" rightIcon={<FaEye />} variant={'outline'} size={'sm'}>
+                        2 Comments
+                    </Button>
+                    <FaPlus onClick={handleOpenModalComment} className="cursor-pointer" />
+                </div>
+            ),
+        },
+        {
+            label: 'Status',
+            accessor: 'status',
+            Cell: ({ value }: { value: string }) => (
+                <DropdownStatus
+                    statusOptions={['true', 'false']}
+                    selectOption={value !== null ? value : 'pending'}
+                    // onClick={}
+                />
+            ),
+        },
+        {
+            label: 'Button',
+            accessor: 'button',
+            Cell: () => (
+                <div className="flex gap-2">
+                    <Button variant={'outline'} onClick={handleOpenModalView}>
+                        view
+                    </Button>
+                    <Button variant={'outline'} onClick={handleOpenModalFeedback}>
+                        feedbacks
+                    </Button>
+                </div>
+            ),
+        },
+    ];
 
     const handleOpenModal = () => {
         setShowModal((prev) => !prev);
@@ -44,93 +170,11 @@ const ApproveCV = ({}: Props) => {
     //     setIsOpen(false);
     // };
 
-    const columns = [
-        { label: "intern's ID", accessor: 'id' },
-        { label: 'Date Submitted Form', accessor: 'dateSubmit' },
-        { label: 'Full Name', accessor: 'fullName' },
-        { label: 'Date Of Birth', accessor: 'dateOfBirth' },
-        { label: 'Phone number', accessor: 'phone' },
-        { label: 'Position', accessor: 'position' },
+    const data1 = useSelector((state: RootState) => state.approve.data);
 
-        { label: 'School', accessor: 'school' },
-        { label: 'Address', accessor: 'address' },
-        { label: 'Email', accessor: 'email' },
-        {
-            label: 'CV',
-            accessor: 'cv',
-            Cell: ({}) => (
-                <a href="#" className="underline">
-                    Link
-                </a>
-            ),
-        },
-        {
-            label: 'Comments CV',
-            accessor: 'commentCv',
-            Cell: ({}) => (
-                <div className="flex items-center gap-2">
-                    <Button className="text-black border-black" rightIcon={<FaEye />} variant={'outline'} size={'sm'}>
-                        2 Comments
-                    </Button>
-                    <FaPlus onClick={handleOpenModalComment} className="cursor-pointer" />
-                </div>
-            ),
-        },
-        {
-            label: 'Status',
-            accessor: 'status',
-            Cell: ({}) => <DropdownStatus statusOptions={['passed', 'failed', 'Pending']} />,
-        },
-        {
-            label: 'Button',
-            accessor: 'button',
-            Cell: () => (
-                <div className="flex gap-2">
-                    <Button variant={'outline'} onClick={handleOpenModalView}>
-                        view
-                    </Button>
-                    <Button variant={'outline'} onClick={handleOpenModalFeedback}>
-                        feedbacks
-                    </Button>
-                </div>
-            ),
-        },
-    ];
-    const data = [
-        {
-            id: 1,
-            dateSubmit: '12/09/2023',
-            fullName: 'Phạm Văn vĩ',
-            dateOfBirth: '25/08/2000',
-            phone: '0796880078',
-            position: 'Front End',
-            school: 'Tôn Đức Thắng University',
-            address: 'Dương Bá Trạc,Quận 8, Tp HCM',
-            email: 'phamviabc@gamil.com',
-        },
-        {
-            id: 2,
-            dateSubmit: '12/09/2023',
-            fullName: 'Phạm Văn Nhiên',
-            dateOfBirth: '25/08/2000',
-            phone: '0796880078',
-            position: 'Front End developer',
-            school: 'Tôn Đức Thắng',
-            address: 'Quận 8, Tp HCM',
-            email: 'phamviabc@gamil.com',
-        },
-        {
-            id: 3,
-            dateSubmit: '12/12/2023',
-            fullName: 'Nguyễn Minh Thùy',
-            dateOfBirth: '05/04/2000',
-            phone: '0776586818',
-            position: 'Back-end',
-            school: 'Tôn Đức Thắng',
-            address: 'Quận 8, Tp HCM',
-            email: 'nmthuy@gamil.com',
-        },
-    ];
+    useEffect(() => {
+        dispatch(fetchApiGetInternInfo());
+    }, [dispatch]);
     return (
         <div className="flex flex-col gap-2">
             <div className="rounded-2xl bg-white mb-6 flex items-center justify-between h-[40px] px-3 lg:h-[60px] lg:px-6">
@@ -232,7 +276,7 @@ const ApproveCV = ({}: Props) => {
                     </div>
                 </form>
 
-                <Table columns={columns} data={data} check />
+                <Table columns={columns} data={data1} check />
             </main>
 
             <Modal

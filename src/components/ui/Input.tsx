@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { ChangeEvent, ReactNode } from 'react';
 
 type Props = {
     icon?: ReactNode;
@@ -6,9 +6,11 @@ type Props = {
     type?: string;
     className?: string;
     value?: string;
+    onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
+    name?: string;
 };
 
-export default function Input({ icon, title, type, className, value, ...props }: Props) {
+export default function Input({ icon, title, type, className, value, onChange, name, ...props }: Props) {
     return (
         <main className="relative">
             <input
@@ -16,6 +18,8 @@ export default function Input({ icon, title, type, className, value, ...props }:
                 type={type ? type : 'text'}
                 placeholder={title}
                 value={value}
+                onChange={onChange}
+                name={name}
                 {...props}
             />
             <div className="absolute right-[3%] top-1/2 -translate-y-[50%] text-gray-500">{icon}</div>

@@ -60,12 +60,12 @@ const ForgotPassword: React.FC = ({}: Props) => {
     return (
         <Login>
             {!changeOTP && !changePass ? (
-                <form action="" method="" className="flex items-center justify-center h-full flex-col">
+                <form action="" method="" className="flex flex-col items-center justify-center w-full h-full mx-auto">
                     <h1 className="font-semibold text-[40px] text-[#4889E9]">Reset your password</h1>
                     <p className="font-normal text-base text-[#667085]">
                         Please provide the email address that you used when you signed up for your account.{' '}
                     </p>
-                    <div className="flex flex-col mt-2 relative w-[420px]">
+                    <div className="flex flex-col mt-2 relative w-full lg:w-[420px]">
                         <label className="text-base font-medium left-5 text-[#344054]" htmlFor="">
                             Email
                         </label>
@@ -90,18 +90,18 @@ const ForgotPassword: React.FC = ({}: Props) => {
                 <form
                     action=""
                     method=""
-                    className="flex items-center justify-center h-full flex-col w-[550px] mx-auto"
+                    className=" flex items-center justify-center h-full flex-col w-full lg:w-[550px] mx-auto"
                 >
                     <h1 className="font-semibold text-[40px] text-[#4889E9]">OTP Verification</h1>
-                    <p className="font-normal text-[20px] text-[#667085] leading-6">
+                    <p className="font-normal text-base lg:text-[20px] text-[#667085] leading-6">
                         Enter the 4 digit verification code received on your Email ID.
                     </p>
-                    <div className="w-full flex items-center justify-between text-[24px] font-normal text-black mt-5 px-7">
-                        <div className="flex gap-3">
+                    <div className="w-full flex items-center justify-between text-base lg:text-[24px] font-normal text-black mt-5 lg:px-7">
+                        <div className="flex gap-1 lg:gap-3">
                             <p>Verification code:</p>
                             <p>0:{timeLeft}</p>
                         </div>
-                        <a href="" className="text-[24px] font-normal text-[#4889E9] hover:underline">
+                        <a href="" className="text-base lg:text-[24px] font-normal text-[#4889E9] hover:underline">
                             Resend OTP
                         </a>
                     </div>
@@ -150,11 +150,11 @@ const ForgotPassword: React.FC = ({}: Props) => {
                 <form
                     action=""
                     method=""
-                    className="flex items-center justify-center h-full flex-col w-[474px] mx-auto"
+                    className="flex items-center justify-center h-full flex-col w-full lg:w-[474px] mx-auto"
                 >
-                    <h1 className="font-semibold text-[40px] text-[#4889E9]">Change Password</h1>
-                    <div className="flex flex-col mt-2 relative w-full">
-                        <label className="text-md font-medium left-5" htmlFor="">
+                    <h1 className="font-semibold text-xl lg:text-[40px] text-[#4889E9]">Change Password</h1>
+                    <div className="relative flex flex-col w-full mt-2">
+                        <label className="font-medium text-md left-5" htmlFor="">
                             New Password *
                         </label>
                         <input
@@ -175,8 +175,8 @@ const ForgotPassword: React.FC = ({}: Props) => {
                             onClick={handleHidePass}
                         />
                     </div>
-                    <div className="flex flex-col mt-2 relative w-full">
-                        <label className="text-md font-medium left-5" htmlFor="">
+                    <div className="relative flex flex-col w-full mt-2">
+                        <label className="font-medium text-md left-5" htmlFor="">
                             Confirm New Password*
                         </label>
                         <input

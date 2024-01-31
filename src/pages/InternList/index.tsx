@@ -27,8 +27,6 @@ const ListManagement = () => {
     const dispatch = useDispatch<any>();
     const internsData = useSelector((state: RootState) => state.interns.data);
 
-    console.log(internsData);
-
     useEffect(() => {
         dispatch(fetchInternList('https://internsystem.zouzoumanagement.xyz/api/interns/get'));
     }, [dispatch]);
@@ -139,6 +137,7 @@ const ListManagement = () => {
             width: '160',
             height: '45px',
             children: 'Send email',
+            onClick: handleShowModal,
         },
         {
             id: 4,
@@ -236,6 +235,7 @@ const ListManagement = () => {
                                 width={item.width}
                                 height={item.height}
                                 className={item.className}
+                                onClick={item.onClick}
                             >
                                 {item.children}
                             </ButtonCustom>
@@ -378,12 +378,7 @@ const ListManagement = () => {
                 </div>
             </Modal>
 
-            <Modal
-                width={800}
-                title={'View details of Intern'}
-                toggleShow={handleShowModalReport}
-                Isvisible={showModalReport}
-            >
+            <Modal width={800} title={'Report Process'} toggleShow={handleShowModalReport} Isvisible={showModalReport}>
                 <div className="flex flex-col">
                     <div className="grid grid-cols-3 gap-5 p-4">
                         <div className="flex flex-col gap-2">

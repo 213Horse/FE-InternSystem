@@ -34,4 +34,45 @@ interface Project {
     thoiGianKetThuc: Date;
 }
 
-  
+// Intern info
+type IndividualType = {
+  mssv: string;
+  startDate: string | null;
+  endDate: string | null;
+  hoTen: string;
+  ngaySinh: string;
+  sdt: string;
+  viTri: any[]; // You might want to replace 'any[]' with a more specific type
+  diaChi: string;
+  emailCaNhan: string;
+  emailTruong: string;
+  linkCV: string;
+  gioiTinh: string;
+  trinhDoTiengAnh: string;
+  duAn: any[]; // You might want to replace 'any[]' with a more specific type
+  nhomZalo: any[]; // You might want to replace 'any[]' with a more specific type
+  truongHoc: string | null;
+  status: string;
+  createdTime: string;
+  createdBy: string | null;
+  deletedBy: string | null;
+  deletedTime: string | null;
+  lastUpdateBy: string | null;
+  lastUpdatedTime: string;
+};
+
+// group zalo
+type Group = {
+  "tenNhom": string,
+  "linkNhom": string,
+  "idMentor": string,
+  "mentor": string,
+  "userNhomZalos": any[],
+  "id": string,
+  "createdBy": string,
+  "lastUpdatedBy": string,
+  "deletedBy": string,
+  "createdTime": string,
+  "lastUpdatedTime": string,
+  "deletedTime": string
+}

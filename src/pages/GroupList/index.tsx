@@ -5,13 +5,17 @@ import Modal from '@/components/ui/Modal';
 import Table from '@/components/ui/Table';
 import { Button } from '@/components/ui/button';
 
-import { useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { AiOutlineClockCircle } from 'react-icons/ai';
 import { CiMenuKebab } from 'react-icons/ci';
 import { FaEye, FaPlus, FaRegArrowAltCircleDown, FaRegEdit, FaRegTrashAlt, FaSearch, FaUser } from 'react-icons/fa';
 import { IoFilterSharp } from 'react-icons/io5';
 import { useMediaQuery } from 'react-responsive';
 import FormAddnewIntern from './FormAddNewIntern';
+import { useDispatch } from 'react-redux';
+import { fetchApiGetGroup, fetchApiPostGroup } from '@/redux/slices/GroupZaloSlice';
+import { AppDispatch, RootState } from '@/redux/store';
+import { useSelector } from 'react-redux';
 
 type Props = {};
 
@@ -21,29 +25,32 @@ export default function GroupList({}: Props) {
     const [openModalAdd, setOpenModalAdd] = useState<boolean>(false);
     const [openModalView, setOpenModalView] = useState<boolean>(false);
     const isMobile = useMediaQuery({ query: '(max-width:678px)' });
-    const toggleDropdown = () => {
-        setIsOpen(!isOpen);
-    };
+
+    const dispatch = useDispatch<AppDispatch>();
+
+    const data = useSelector((state: RootState) => state.group.data);
     const columns = [
-        { label: "intern's ID", accessor: 'id' },
-        { label: 'Date Interview', accessor: 'dateinterview' },
-        { label: 'Time Interview', accessor: 'timeinterview' },
-        { label: 'Full Name', accessor: 'fullname' },
-        { label: 'Date Of Birth', accessor: 'dateofbirth' },
-        { label: 'Phone Number', accessor: 'phone' },
-        { label: 'Position', accessor: 'position' },
-        { label: 'School', accessor: 'school' },
-        { label: 'Address', accessor: 'address' },
-        { label: 'Email', accessor: 'email' },
         {
-            label: 'CV',
-            accessor: 'cv',
-            Cell: ({}) => (
-                <a href="#" className="underline">
-                    Link
-                </a>
-            ),
+            label: 'Tên nhóm',
+            accessor: 'tenNhom',
         },
+        {
+            label: 'Link nhóm',
+            accessor: 'linkNhom',
+        },
+        {
+            label: 'Id Mentor',
+            accessor: 'idMentor',
+        },
+        {
+            label: 'Mentor',
+            accessor: 'mentor',
+        },
+        {
+            label: 'User Nhóm zalo',
+            accessor: 'userNhomZalos',
+        },
+
         {
             label: 'Comments',
             accessor: 'commentCv',
@@ -59,13 +66,13 @@ export default function GroupList({}: Props) {
         {
             label: 'Confirm Email',
             accessor: 'confirmEmail',
-            Cell: ({}) => <DropdownStatus statusOptions={['passed', 'failed', 'Pending']} />,
+            Cell: ({}) => <DropdownStatus statusOptions={['passed', 'failed', 'Pending']} selectOption="Pending" />,
         },
         { label: 'Interviewer', accessor: 'interviewer' },
         {
             label: 'Status',
             accessor: 'status',
-            Cell: ({}) => <DropdownStatus statusOptions={['passed', 'failed', 'Pending']} />,
+            Cell: ({}) => <DropdownStatus statusOptions={['passed', 'failed', 'Pending']} selectOption="Pending" />,
         },
         {
             label: 'Button',
@@ -79,42 +86,10 @@ export default function GroupList({}: Props) {
             ),
         },
     ];
-    const data = [
-        {
-            id: 1,
-            dateSubmit: '12/09/2023',
-            fullName: 'Phạm Văn vĩ',
-            dateOfBirth: '25/08/2000',
-            phone: '0796880078',
-            position: 'Front End',
-            school: 'Tôn Đức Thắng University',
-            address: 'Dương Bá Trạc,Quận 8, Tp HCM',
-            email: 'phamviabc@gamil.com',
-        },
-        {
-            id: 2,
-            dateSubmit: '12/09/2023',
-            fullName: 'Phạm Văn Nhiên',
-            dateOfBirth: '25/08/2000',
-            phone: '0796880078',
-            position: 'Front End developer',
-            school: 'Tôn Đức Thắng',
-            address: 'Quận 8, Tp HCM',
-            email: 'phamviabc@gamil.com',
-        },
-        {
-            id: 3,
-            dateSubmit: '12/12/2023',
-            fullName: 'Nguyễn Minh Thùy',
-            dateOfBirth: '05/04/2000',
-            phone: '0776586818',
-            position: 'Back-end',
-            school: 'Tôn Đức Thắng',
-            address: 'Quận 8, Tp HCM',
-            email: 'nmthuy@gamil.com',
-        },
-    ];
 
+    const toggleDropdown = () => {
+        setIsOpen(!isOpen);
+    };
     const handleOpenModalCreateGroup = () => {
         setOpenModalCreateGroup((prev) => !prev);
     };
@@ -124,6 +99,21 @@ export default function GroupList({}: Props) {
     const handleOpenModalAdd = () => {
         setOpenModalAdd((prev) => !prev);
     };
+
+    useEffect(() => {
+        dispatch(fetchApiGetGroup());
+    }, [dispatch]);
+
+    const [dataGroup, setDataGroup] = useState<{ [key: string]: string }>({});
+    const handleChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setDataGroup((prev) => ({ ...prev, [name]: value }));
+    };
+    const handleCreateGroupZalo = (e: any) => {
+        e.preventDefault();
+        dispatch(fetchApiPostGroup(dataGroup));
+    };
+
     return (
         <div className="flex flex-col gap-2">
             <div className="rounded-2xl bg-white mb-6 flex items-center justify-between h-[40px] px-3 lg:h-[60px] lg:px-6">
@@ -224,7 +214,7 @@ export default function GroupList({}: Props) {
                     </div>
                 </form>
                 <div className="grid grid-cols-1">
-                    <Table columns={columns} data={data} />
+                    <Table columns={columns} data={data} check />
                 </div>
             </main>
 
@@ -237,7 +227,7 @@ export default function GroupList({}: Props) {
             >
                 <form>
                     <div className="grid grid-cols-2 gap-4 lg:grid-cols-3">
-                        <div className="flex flex-col gap-2">
+                        {/* <div className="flex flex-col gap-2">
                             <label className="text-base font-semibold" htmlFor="">
                                 Role
                             </label>
@@ -258,18 +248,43 @@ export default function GroupList({}: Props) {
                                 <option value="Leader">Leader</option>
                                 <option value="Intern">Intern</option>
                             </select>
-                        </div>
+                        </div> */}
                         <div className="flex flex-col gap-2">
                             <label className="text-base font-semibold" htmlFor="">
                                 Group Zalo
                             </label>
-                            <Input className="py-2" title="FE Intern System" />
+                            <Input
+                                value={dataGroup.tenNhom}
+                                name="tenNhom"
+                                onChange={handleChangeInput}
+                                className="py-2"
+                                title="FE Intern System"
+                            />
                         </div>
+                        <div className="flex flex-col gap-2">
+                            <label className="text-base font-semibold" htmlFor="">
+                                Link Group
+                            </label>
+                            <Input
+                                value={dataGroup.linkNhom}
+                                name="linkNhom"
+                                onChange={handleChangeInput}
+                                className="py-2"
+                                title="Nhập link group"
+                            />
+                        </div>
+
                         <div className="flex flex-col gap-2">
                             <label className="text-base font-semibold" htmlFor="">
                                 Mentor
                             </label>
-                            <Input className="py-2" title=" Mentor" />
+                            <Input
+                                value={dataGroup.idMentor}
+                                name="idMentor"
+                                onChange={handleChangeInput}
+                                className="py-2"
+                                title=" Mentor"
+                            />
                         </div>
                     </div>
                     <Button
@@ -277,6 +292,7 @@ export default function GroupList({}: Props) {
                         size={'default'}
                         leftIcon={<FaUser />}
                         className="mt-4 lg:float-right lg:mr-10"
+                        onClick={handleCreateGroupZalo}
                     >
                         Create Group
                     </Button>

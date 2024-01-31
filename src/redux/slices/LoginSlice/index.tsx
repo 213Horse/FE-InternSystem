@@ -5,11 +5,11 @@ export interface User {
     username: string;
     password: string;
 }
+
 const loginSlice = createSlice({
     name: 'login',
     initialState: {
         token: {},
-        register: {},
     },
     reducers: {},
     extraReducers: (builder) => {
@@ -19,13 +19,15 @@ const loginSlice = createSlice({
     },
 });
 
-export const fetchApiLogin = createAsyncThunk('login/fetchApiLogin', async (data: User) => {
+export const fetchApiLogin = createAsyncThunk('login/fetchApiLogin', async (data: User, { rejectWithValue }) => {
     try {
-        const res = await apiConfig.post('auth/login', data);
-        console.log(res);
+        const { username, password } = data;
+        const res = await apiConfig.post('auth/login', { username, password });
         return res.data;
-    } catch (error) {
-        console.log(error);
+    } catch (error: any) {
+        if (error.message === 'Request failed with status code 400') {
+            return rejectWithValue('Username không tồn tại!');
+        }
     }
 });
 

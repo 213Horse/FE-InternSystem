@@ -1,14 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import iconGoogle from '@/assets/icons_google.png';
 import { RiCloseCircleLine, RiEyeLine, RiEyeOffLine } from 'react-icons/ri';
 import SignUp from '../../SignUp';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { useDispatch } from 'react-redux';
-import { User, fetchApiLogin } from '@/redux/LoginSlice';
-import useDebounce from '@/hooks/useDebound';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store';
 
 type Props = {
     title: string;
@@ -16,7 +11,6 @@ type Props = {
 };
 
 export default function index(props: Props) {
-    const dispatch = useDispatch<any>();
     const { title, id } = props;
     const [signUp, setSignUp] = useState<boolean>(false);
     const [showPass, setShowPass] = useState<boolean>(false);
@@ -39,17 +33,6 @@ export default function index(props: Props) {
     };
     const handleHidePass = () => {
         setShowPass(false);
-    };
-
-    const emailValue = useDebounce(email, 1000);
-    const passwordValue = useDebounce(passWord, 1000);
-    const data: User = {
-        username: emailValue,
-        password: passwordValue,
-    };
-    const handleLogin = (e: any) => {
-        e.preventDefault();
-        dispatch(fetchApiLogin(data));
     };
 
     return (
@@ -112,7 +95,7 @@ export default function index(props: Props) {
                             </button>
                         </div>
 
-                        <Button variant={'default'} size={'lg'} className="w-full mt-3" onClick={handleLogin}>
+                        <Button variant={'default'} size={'lg'} className="w-full mt-3">
                             Sign in
                         </Button>
                         <Button

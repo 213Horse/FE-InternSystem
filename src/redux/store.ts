@@ -1,14 +1,19 @@
 import { configureStore } from "@reduxjs/toolkit";
-import loginSlice from "./LoginSlice";
+
 import internSlice from "./slices/InternListSlice";
 import projectSlice from "./slices/ProjectSlice";
+import loginSlice from "./slices/LoginSlice";
+import ApproveCvSlice from "./slices/ApproveCvSlice";
+import GroupSlice from "./slices/GroupZaloSlice";
 // ...
 
 export const store = configureStore({
   reducer: {
     LoginSlice:loginSlice.reducer,
     interns: internSlice,
-    projects : projectSlice
+    projects : projectSlice,
+    approve:ApproveCvSlice.reducer,
+    group:GroupSlice.reducer
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(),
 });

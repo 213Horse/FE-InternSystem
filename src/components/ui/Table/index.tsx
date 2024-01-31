@@ -12,8 +12,8 @@ export interface TableColumn {
 
 interface CustomTableProps {
     // headers: TableColumn[];
-    // data: { [key: string]: string | number | string[] | ReactNode }[];
-    data: any[];
+    data: { [key: string]: string | number | string[] | ReactNode | any }[];
+    // data: any[];
     columns: Column[];
     check?: boolean;
     // className?: string;
@@ -37,12 +37,14 @@ const Table: React.FC<CustomTableProps> = ({ columns, data, width, check, ...pro
 
     const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable({ columns, data });
 
+    console.log(data);
+
     return (
         <div className="flex flex-col gap-3">
             <div className="min-w-full overflow-x-auto md:overflow-x-auto">
                 <table
                     {...getTableProps()}
-                    className="overflow-x-auto table table-auto bg-white lg:table-auto sm:table-auto md:table-fixed"
+                    className="table overflow-x-auto bg-white table-auto lg:table-auto sm:table-auto md:table-fixed"
                     style={{ width: width ? width + 'px' : '' }}
                 >
                     <thead>
@@ -58,8 +60,10 @@ const Table: React.FC<CustomTableProps> = ({ columns, data, width, check, ...pro
                                                 if (selectedRows.length === rows.length) {
                                                     setSelectedRows([]);
                                                 } else {
-                                                    const allRowIds = rows.map((row) => row.id);
-                                                    setSelectedRows(allRowIds);
+                                                    const allRowIds = rows.map((row) => row.values);
+                                                    console.log(allRowIds);
+
+                                                    // setSelectedRows(allRowIds.mssv);
                                                 }
                                             }}
                                             checked={selectedRows.length === rows.length}
@@ -70,7 +74,7 @@ const Table: React.FC<CustomTableProps> = ({ columns, data, width, check, ...pro
                                     <th
                                         {...column.getHeaderProps()}
                                         style={{ width: column.width }}
-                                        className="px-2 py-1 text-sm font-semibold text-black table-cell"
+                                        className="table-cell px-2 py-1 text-sm font-semibold text-black"
                                     >
                                         {column.render('label')}
                                     </th>
@@ -79,7 +83,7 @@ const Table: React.FC<CustomTableProps> = ({ columns, data, width, check, ...pro
                         ))}
                     </thead>
                     <tbody {...getTableBodyProps()} className="table-row-group">
-                        {rows.map((row) => {
+                        {rows?.map((row) => {
                             prepareRow(row);
                             const isSelected = selectedRows.includes(row.id);
                             return (
@@ -103,7 +107,7 @@ const Table: React.FC<CustomTableProps> = ({ columns, data, width, check, ...pro
                                                     columns.find((col) => col.accessor === cell.column.id)?.width ||
                                                     'auto',
                                             }}
-                                            className="px-2 py-1 text-sm table-cell text-left text-black"
+                                            className="table-cell px-2 py-1 text-sm text-left text-black"
                                         >
                                             {/* Check if the cell value is a ReactNode */}
                                             {React.isValidElement(cell.value) ? (
