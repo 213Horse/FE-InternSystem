@@ -1,8 +1,11 @@
 import DropdownStatus from '@/components/ui/DropDownStatus';
 import Input from '@/components/ui/Input';
 import { Button } from '@/components/ui/button';
+import { RootState } from '@/redux/store';
 import React, { useState } from 'react';
 import { FaSave } from 'react-icons/fa';
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 type Props = {
     tabShow: number;
@@ -10,6 +13,9 @@ type Props = {
 
 export default function FormViewDetailIntern({ tabShow }: Props) {
     const [activeIndex, setActiveIndex] = useState<number>(tabShow);
+    const data = useSelector((state: RootState) => state.approve.dataByMSSV);
+    console.log(data);
+
     const handleClick = (index: number) => {
         setActiveIndex(index);
     };
@@ -52,66 +58,77 @@ export default function FormViewDetailIntern({ tabShow }: Props) {
                     <div className="grid grid-cols-2 gap-5 lg:grid-cols-3">
                         <div className="flex flex-col gap-2">
                             <label htmlFor="" className="text-base font-semibold">
-                                Intern ID
+                                MSSV
                             </label>
-                            <Input title="Intern Id" className="rounded-[15px]" />
+                            <Input title="Intern Id" value={data.mssv} className="rounded-[15px]" />
                         </div>
                         <div className="flex flex-col gap-2">
                             <label htmlFor="" className="text-base font-semibold">
                                 Full Name
                             </label>
-                            <Input title="Intern Id" className="rounded-[15px]" />
+                            <Input title="Intern Id" value={data.hoTen} className="rounded-[15px]" />
                         </div>
                         <div className="flex flex-col gap-2">
                             <label htmlFor="" className="text-base font-semibold">
                                 Date of birth
                             </label>
-                            <Input title="Intern Id" className="rounded-[15px]" />
+                            <Input title="Intern Id" value={data.ngaySinh} className="rounded-[15px]" />
                         </div>
                         <div className="flex flex-col gap-2">
                             <label htmlFor="" className="text-base font-semibold">
                                 Phone Number
                             </label>
-                            <Input title="Intern Id" className="rounded-[15px]" />
+                            <Input title="Intern Id" value={data.sdt} className="rounded-[15px]" />
                         </div>
                         <div className="flex flex-col gap-2">
                             <label htmlFor="" className="text-base font-semibold">
                                 Position
                             </label>
-                            <Input title="Intern Id" className="rounded-[15px]" />
+                            <Input
+                                value={Array.isArray(data.viTri) ? data.viTri?.map((item: any) => item) : 'ite'}
+                                title="Intern Id"
+                                className="rounded-[15px]"
+                            />
                         </div>
                         <div className="flex flex-col gap-2">
                             <label htmlFor="" className="text-base font-semibold">
                                 School
                             </label>
-                            <Input title="Intern Id" className="rounded-[15px]" />
+                            <Input
+                                value={data.truongHoc === null ? 'null' : data.truongHoc}
+                                title="Intern Id"
+                                className="rounded-[15px]"
+                            />
                         </div>
                         <div className="flex flex-col gap-2">
                             <label htmlFor="" className="text-base font-semibold">
                                 Address
                             </label>
-                            <Input title="Intern Id" className="rounded-[15px]" />
+                            <Input value={data.diaChi} title="Intern Id" className="rounded-[15px]" />
                         </div>
                         <div className="flex flex-col gap-2">
                             <label htmlFor="" className="text-base font-semibold">
                                 Email
                             </label>
-                            <Input title="Intern Id" className="rounded-[15px]" />
+                            <Input value={data.emailCaNhan} title="Intern Id" className="rounded-[15px]" />
                         </div>
                         <div className="flex flex-col gap-2">
                             <label htmlFor="" className="text-base font-semibold">
                                 Link CV
                             </label>
                             {/* <Input title="Intern Id" className="rounded-[15px]" /> */}
-                            <a href="" className="text-base text-black hover:underline">
+                            <Link
+                                to={(data.linkCV as string) ? (data.linkCV as string) : ''}
+                                className="text-base text-black hover:underline"
+                            >
                                 Link
-                            </a>
+                            </Link>
                         </div>
                         <div className="flex flex-col gap-2">
                             <label htmlFor="" className="text-base font-semibold">
-                                Rank
+                                Trình độ tiếng anh
                             </label>
-                            <Input title="Intern Id" className="rounded-[15px]" />
+                            <Input title="Intern Id" value={data.trinhDoTiengAnh} className="rounded-[15px]" />
                         </div>
                     </div>
                 </form>
@@ -308,7 +325,7 @@ export default function FormViewDetailIntern({ tabShow }: Props) {
                     </div>
                     <div className="flex items-center gap-3 mt-3">
                         <div className="text-xl font-semibold text-[#A03B0F]">Final result:</div>
-                        <DropdownStatus statusOptions={['passed', 'failed']} />
+                        <DropdownStatus selectOption="pending" statusOptions={['passed', 'failed']} />
                     </div>
                     <Button
                         leftIcon={<FaSave />}

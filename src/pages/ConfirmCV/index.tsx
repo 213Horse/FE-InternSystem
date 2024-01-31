@@ -58,13 +58,13 @@ export default function ConfirmCV({}: Props) {
         {
             label: 'Confirm Email',
             accessor: 'confirmEmail',
-            Cell: ({}) => <DropdownStatus statusOptions={['passed', 'failed', 'Pending']} />,
+            Cell: ({}) => <DropdownStatus selectOption="pending" statusOptions={['passed', 'failed', 'Pending']} />,
         },
         { label: 'Interviewer', accessor: 'interviewer' },
         {
             label: 'Status',
             accessor: 'status',
-            Cell: ({}) => <DropdownStatus statusOptions={['passed', 'failed', 'Pending']} />,
+            Cell: ({}) => <DropdownStatus selectOption="pending" statusOptions={['passed', 'failed', 'Pending']} />,
         },
         {
             label: 'Button',
@@ -220,7 +220,7 @@ export default function ConfirmCV({}: Props) {
                     </div>
                 </form>
                 <div className="grid grid-cols-1">
-                    <Table columns={columns} data={data} />
+                    <Table columns={columns} data={data} check />
                 </div>
             </main>
 

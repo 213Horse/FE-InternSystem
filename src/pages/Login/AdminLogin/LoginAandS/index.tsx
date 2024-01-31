@@ -4,6 +4,11 @@ import { RiCloseCircleLine, RiEyeLine, RiEyeOffLine } from 'react-icons/ri';
 import SignUp from '../../SignUp';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
+import { useDispatch } from 'react-redux';
+import { AppDispatch, RootState } from '@/redux/store';
+import { User, fetchApiLogin } from '@/redux/slices/LoginSlice';
+import { useSelector } from 'react-redux';
+import { AiTwotoneFileMarkdown } from 'react-icons/ai';
 
 type Props = {
     title: string;
@@ -16,8 +21,8 @@ export default function index(props: Props) {
     const [showPass, setShowPass] = useState<boolean>(false);
     const navigate = useNavigate();
 
-    const [email, setEmail] = useState<string>('');
-    const [passWord, setPassword] = useState<string>('');
+    const [username, setUsername] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
 
     const handleChangeSignUp = (e: any) => {
         e.preventDefault();
@@ -34,6 +39,28 @@ export default function index(props: Props) {
     const handleHidePass = () => {
         setShowPass(false);
     };
+    const dispatch = useDispatch<AppDispatch>();
+    const token = useSelector((state: RootState) => state.LoginSlice.token);
+    // console.log(token);
+
+    const handleClicklogin = (e: any) => {
+        e.preventDefault();
+        if (username === '' || password === '') {
+            alert('Vui lòng nhập đầy đủ thông tin');
+        } else {
+            const data: User = { username, password };
+            dispatch(fetchApiLogin(data))
+                .unwrap()
+                .then(() => {
+                    navigate('/');
+                });
+        }
+    };
+    useEffect(() => {
+        if (token !== null && token !== '' && token !== undefined) {
+            sessionStorage.setItem('token', token);
+        }
+    }, [token]);
 
     return (
         <>
@@ -49,14 +76,14 @@ export default function index(props: Props) {
 
                         <div className="relative flex flex-col mt-2">
                             <label className="font-medium text-md left-5" htmlFor="">
-                                Email
+                                Username
                             </label>
                             <input
                                 className="w-full border border-[#D0D5DD] text-[#000] px-3 py-1 rounded-lg mt-1"
                                 type="text"
-                                placeholder="youremail@example.com"
-                                value={email}
-                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
+                                placeholder="Username"
+                                value={username}
+                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUsername(e.target.value)}
                             />
                             {/* <Input title="youremail@example.com" className='rounded-lg' icon={<RiCloseCircleLine />} /> */}
                             <RiCloseCircleLine className="w-[24px] h-[24px] absolute right-3 top-[50%]" />
@@ -69,7 +96,7 @@ export default function index(props: Props) {
                                 className="w-full border border-[#D0D5DD] text-[#000] px-3 py-1 rounded-lg mt-1"
                                 type={showPass ? 'text' : 'password'}
                                 placeholder="********"
-                                value={passWord}
+                                value={password}
                                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
                             />
                             <RiEyeLine
@@ -95,7 +122,7 @@ export default function index(props: Props) {
                             </button>
                         </div>
 
-                        <Button variant={'default'} size={'lg'} className="w-full mt-3">
+                        <Button variant={'default'} size={'lg'} className="w-full mt-3" onClick={handleClicklogin}>
                             Sign in
                         </Button>
                         <Button

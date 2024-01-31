@@ -12,8 +12,9 @@ import DropdownStatus from '@/components/ui/DropDownStatus';
 import { useMediaQuery } from 'react-responsive';
 import { CiMenuKebab } from 'react-icons/ci';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchApiGetInternInfo } from '@/redux/slices/ApproveCvSlice';
+import { fetchApiGetInternInfo, fetchApiGetInternInfoByMssv } from '@/redux/slices/ApproveCvSlice';
 import { AppDispatch, RootState } from '@/redux/store';
+import { Link } from 'react-router-dom';
 
 type Props = {};
 
@@ -63,9 +64,9 @@ const ApproveCV = ({}: Props) => {
             label: 'Cv',
             accessor: 'linkCV',
             Cell: ({ value }: { value: string }) => (
-                <a href="#" className="underline cursor-pointer">
-                    {value}
-                </a>
+                <Link target="#blank" to={value} className="underline cursor-pointer">
+                    Link
+                </Link>
             ),
         },
         { label: 'Giới tính', accessor: 'gioiTinh' },
@@ -175,6 +176,13 @@ const ApproveCV = ({}: Props) => {
     useEffect(() => {
         dispatch(fetchApiGetInternInfo());
     }, [dispatch]);
+
+    const handleRowClick = (rowData: any) => {
+        // Handle the data of the clicked row in the parent component
+        console.log('Clicked Row Data:', rowData.rowData);
+        dispatch(fetchApiGetInternInfoByMssv(rowData.rowData.mssv));
+        // setIdDataRow(rowData.rowData.id);
+    };
     return (
         <div className="flex flex-col gap-2">
             <div className="rounded-2xl bg-white mb-6 flex items-center justify-between h-[40px] px-3 lg:h-[60px] lg:px-6">
@@ -276,7 +284,7 @@ const ApproveCV = ({}: Props) => {
                     </div>
                 </form>
 
-                <Table columns={columns} data={data1} check />
+                <Table columns={columns} data={data1} onRowClick={handleRowClick} check />
             </main>
 
             <Modal

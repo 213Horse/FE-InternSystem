@@ -84,7 +84,7 @@ html {
 /* width */
 ::-webkit-scrollbar {
   width: 4px;
-  height: 3px;
+  height: 6px;
 }
 
 /* login tabs */

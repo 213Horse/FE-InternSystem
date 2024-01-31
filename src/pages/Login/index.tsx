@@ -8,10 +8,9 @@ type Props = {
 };
 
 const Login: React.FC<Props> = ({ children }: Props) => {
-    
     return (
-        <div>
-            <div className="container mx-auto">
+        <div className="">
+            <div className="container lg:container md:container">
                 <main className="flex items-center justify-between text-center bg-white sticky left-0 right-0 top-0 w-full z-10 h-[72px]">
                     <div className="flex items-center justify-between flex-1">
                         <div className="lg:w-[184px] lg:h-[62px] w-[92px] h-[31px]">

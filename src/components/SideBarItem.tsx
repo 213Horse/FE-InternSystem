@@ -18,7 +18,7 @@ const SideBarItem = ({ title, href, subChildren, currentRoute }: Props) => {
     console.log(href, segment + '/' + (href ? href : newhref));
 
     return (
-        <div className="w-full flex flex-col">
+        <div className="flex flex-col w-full">
             {!subChildrenLength ? (
                 <div className="w-full">
                     <NavLink
@@ -35,7 +35,7 @@ const SideBarItem = ({ title, href, subChildren, currentRoute }: Props) => {
                 </div>
             ) : (
                 <Accordion type="single" collapsible className="w-full border-0 ">
-                    <AccordionItem value={title} className="border-0 w-full">
+                    <AccordionItem value={title} className="w-full border-0">
                         <NavLink
                             to={segment + '/' + (href ? href : newhref)}
                             className={({ isActive }) => {
@@ -48,13 +48,13 @@ const SideBarItem = ({ title, href, subChildren, currentRoute }: Props) => {
                                 e.preventDefault();
                             }}
                         >
-                            <AccordionTrigger className="hover:no-underline p-0">{title}</AccordionTrigger>
+                            <AccordionTrigger className="p-0 hover:no-underline">{title}</AccordionTrigger>
                         </NavLink>
-                        <AccordionContent className="pl-4 flex flex-col py-2">
-                            <div className="w-full flex flex-col gap-2">
-                                {subChildren?.map((item) => {
+                        <AccordionContent className="flex flex-col py-2 pl-4">
+                            <div className="flex flex-col w-full gap-2">
+                                {subChildren?.map((item, index) => {
                                     return (
-                                        <div className="pl-1">
+                                        <div className="pl-1" key={index}>
                                             <SideBarItem
                                                 {...item}
                                                 currentRoute={segment + '/' + (href ? href : newhref)}

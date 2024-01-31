@@ -1,11 +1,12 @@
 import axios from 'axios';
 
+const token = sessionStorage.getItem('token');
 const apiConfig = axios.create({
     baseURL: 'https://internsystem.zouzoumanagement.xyz/api/',
     // withCredentials: false,
     headers: {
         'content-type': 'application/json',
-        // 'Authorization':`Bearer ${}`
+        Authorization: `Bearer ${token}`,
     },
 });
 
