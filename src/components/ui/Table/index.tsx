@@ -46,6 +46,8 @@ const Table: React.FC<CustomTableProps> = ({ columns, data, width, check, onRowC
             onRowClick({ rowData });
         }
     };
+    console.log(data);
+
     return (
         <div className="flex flex-col gap-3">
             {loading ? (
@@ -70,8 +72,10 @@ const Table: React.FC<CustomTableProps> = ({ columns, data, width, check, onRowC
                                                     if (selectedRows.length === rows.length) {
                                                         setSelectedRows([]);
                                                     } else {
-                                                        const allRowIds = rows.map((row) => row.id);
-                                                        setSelectedRows(allRowIds);
+                                                        const allRowIds = rows.map((row) => row.values);
+                                                        console.log(allRowIds);
+
+                                                        // setSelectedRows(allRowIds.mssv);
                                                     }
                                                 }}
                                                 checked={selectedRows.length === rows.length}

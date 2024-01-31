@@ -17,7 +17,7 @@ const ProjectManagement = () => {
     const dispatch = useDispatch<any>();
     const projectsData = useSelector((state: RootState) => state.projects.data);
 
-    console.log(projectsData);
+    console.log(showModal);
 
     useEffect(() => {
         dispatch(fetchProjects('https://internsystem.zouzoumanagement.xyz/api/du-ans/get'));
@@ -63,6 +63,7 @@ const ProjectManagement = () => {
             width: '160',
             height: '45px',
             children: 'Add New Project',
+            onClick: toogleShow,
         },
     ];
     return (
@@ -79,6 +80,7 @@ const ProjectManagement = () => {
                                 width={item.width}
                                 height={item.height}
                                 className={item.className}
+                                onClick={item.onClick}
                             >
                                 {item.children}
                             </ButtonCustom>
@@ -119,7 +121,7 @@ const ProjectManagement = () => {
                 </div>
             </div>
 
-            <AddProject toogleShow={toogleShow} show={showModal} />
+            <AddProject toggleShow={toogleShow} show={showModal} />
         </div>
     );
 };
