@@ -22,6 +22,17 @@ export const fetchProjects = createAsyncThunk('data/fetchData', async (apiUrl: s
     }
 });
 
+export const addProject = createAsyncThunk('data/addProject', async (projectData: any) => {
+    try {
+        const response = await axios.post('https://internsystem.zouzoumanagement.xyz/api/du-ans/create', projectData);
+        return response.data; // You might want to return some data if needed
+    } catch (error) {
+        console.log('Error adding project: ' + error);
+        throw error; // Re-throw the error to let the component handle it
+    }
+});
+
+
 const ProjectSlice = createSlice({
     name: 'projects',
     initialState,
@@ -36,6 +47,17 @@ const ProjectSlice = createSlice({
                 state.data = action.payload;
             })
             .addCase(fetchProjects.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.error.message ?? null;
+            })
+            .addCase(addProject.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(addProject.fulfilled, (state, action: PayloadAction<any>) => {
+                state.status = 'succeeded';
+                // You may want to update state.data if needed
+            })
+            .addCase(addProject.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.error.message ?? null;
             });

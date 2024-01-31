@@ -21,13 +21,13 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
     });
     return (
         <>
-            <div className="relative flex h-screen">
+            <div className="relative flex">
                 {transitions(
                     (style, item) =>
                         item && (
                             <animated.div
                                 style={style}
-                                className="min-w-[200px] backdrop-blur-md  z-20 sm:block sm:relative"
+                                className="min-w-[200px] backdrop-blur-md  z-20 sm:block sticky top-0 h-screen"
                             >
                                 <div className="w-5/6 h-full sm:w-full bg-background ">
                                     <h1 className="flex items-center gap-2 bg-background">

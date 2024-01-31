@@ -37,6 +37,8 @@ const Table: React.FC<CustomTableProps> = ({ columns, data, width, check, ...pro
 
     const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable({ columns, data });
 
+    console.log(data);
+
     return (
         <div className="flex flex-col gap-3">
             <div className="min-w-full overflow-x-auto md:overflow-x-auto">
@@ -58,8 +60,10 @@ const Table: React.FC<CustomTableProps> = ({ columns, data, width, check, ...pro
                                                 if (selectedRows.length === rows.length) {
                                                     setSelectedRows([]);
                                                 } else {
-                                                    const allRowIds = rows.map((row) => row.id);
-                                                    setSelectedRows(allRowIds);
+                                                    const allRowIds = rows.map((row) => row.values);
+                                                    console.log(allRowIds);
+
+                                                    // setSelectedRows(allRowIds.mssv);
                                                 }
                                             }}
                                             checked={selectedRows.length === rows.length}
