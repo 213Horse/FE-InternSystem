@@ -1,5 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import './App.css';
+
 import Login from './components/Login/Login';
 import Home from './page/Home/index';
 import Project from './page/Project/index';
@@ -30,6 +31,22 @@ function App() {
                 <Route path="settings" element={<Settings />} />
             </Route>
         </Routes>
+
+import Login from './pages/Login/Login';
+import AdminLogin from './components/AdminLogin/AdminLogin';
+import SchoolLogin from './components/SchoolLogin/SchoolLogin';
+
+
+function App() {
+    return (
+        <>
+            <Routes>
+                <Route path='/' element={<Login />} >
+                    <Route index element={<AdminLogin/>}/>
+                    <Route path='school-login' element={<SchoolLogin/>}/>
+                </Route>
+            </Routes>
+        </>
     );
 }
 
