@@ -14,12 +14,19 @@ import Settings from './page/Settings/index';
 import Login from './pages/Login/Login';
 import AdminLogin from './components/AdminLogin/AdminLogin';
 import SchoolLogin from './components/SchoolLogin/SchoolLogin';
+import RegisterAdmin from './components/Register/RegisterAdmin';
+import RegisterSchool from './components/Register/RegisterSchool';
+import RegisterIntern from './components/Register/RegisterIntern';
 function App() {
     return (
         <Routes>
             <Route path="/" element={<Login />}>
                <Route index element= {<AdminLogin/>}/> 
                <Route path='school-login' element= {<SchoolLogin />}/> 
+               <Route path='register-admin' element = {<RegisterAdmin/>}/>
+               <Route path='school-login/register-school' element = {<RegisterSchool/>} />
+               <Route path='register-intern' element = {<RegisterIntern/>}/>
+               <Route/>
             </Route>
             <Route path="/home" element={<Home />}>
                 <Route path="dashboard" element={<Dashboard />} />

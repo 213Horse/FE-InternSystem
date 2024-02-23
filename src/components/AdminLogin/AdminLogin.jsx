@@ -3,6 +3,7 @@ import { Button, Input, Tooltip } from 'antd';
 import { CloseCircleOutlined } from '@ant-design/icons';
 import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import { Checkbox } from 'antd';
+import { Link } from 'react-router-dom';
 
 function AdminLogin() {
     return (
@@ -51,7 +52,7 @@ function AdminLogin() {
                     Sign in
                 </Button>
                 <Button style={{width: "100%", backgroundColor:"#E2E8F0", border:"none", marginTop:"0.5rem"}} type="primary" ghost>
-                    Sign up
+                    <Link to='/register-admin' style={{width:'100%'}}>Register</Link>
                 </Button>
                 <p style={{textAlign:"center", textTransform:"upperCase"}}>Or Login with</p>
                 <Button style={{width: "100%", color:'#333333',border:'none', boxShadow: '0 0.25rem 0.125rem -0.125rem #E2E8F0', display:"flex", justifyContent:"center", textAlign:"center"}} type="primary" ghost>
