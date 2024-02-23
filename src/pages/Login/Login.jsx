@@ -50,8 +50,12 @@ const items = [
         key: 'school',
     },
     {
-        label: 'Intern',
-        key: 'school',
+        label:(
+            <Link to="register-intern">
+               Intern
+            </Link>
+        ),
+        key: 'intern',
     },
 ];
 
