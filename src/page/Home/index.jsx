@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 import {
     PieChartOutlined,
     FileProtectOutlined,
@@ -71,10 +71,10 @@ const App = () => {
                     </Menu.Item>
                 </Menu>
             </Sider>
-            {/* <Layout
+            <Layout
                 style={{
                     width: 1310,
-                    marginLeft: 200,
+                    // marginLeft: 200,
                 }}
             >
                 <Header
@@ -83,9 +83,23 @@ const App = () => {
                         background: colorBgContainer,
                     }}
                 />
+                <Content
+                    style={{
+                        margin: '24px 16px 0',
+                        overflow: 'initial',
+                    }}
+                >
+                    <Outlet></Outlet>
+                </Content>
+                <Footer
+                    style={{
+                        textAlign: 'center',
+                    }}
+                >
+                    Ant Design ©{new Date().getFullYear()} Created by Ant UED
+                </Footer>
 
-
-            </Layout> */}
+            </Layout>
         </Layout>
     );
 };
