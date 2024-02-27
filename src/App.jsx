@@ -1,18 +1,17 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import './App.css';
 
-import Login from './components/Login/Login';
-import Home from './page/Home/index';
-import Project from './page/Project/index';
-import Dashboard from './page/Dashboard/index';
-import Approve from "./page/Approve-CV/index";
-import Confirm from "./page/Confirm-CV/index";
-import Intern from "./page/Intern-List/index";
-import Group from "./page/Group-List/index";
-import Position from "./page/Position/index";
-import Tech from "./page/Tech/index";
-import Zalo from "./page/Zalo/index";
-import Settings from "./page/Settings/index";
+import Home from './pages/Home/index';
+import Project from './pages/Project/index';
+import Dashboard from './pages/Dashboard/index';
+import Approve from "./pages/Approve-CV/index";
+import Confirm from "./pages/Confirm-CV/index";
+import Intern from "./pages/Intern-List/index";
+import Group from "./pages/Group-List/index";
+import Position from "./pages/Position/index";
+import Tech from "./pages/Tech/index";
+import Zalo from "./pages/Zalo/index";
+import Settings from "./pages/Settings/index";
 function App() {
     return (
         <Routes>
@@ -32,22 +31,6 @@ function App() {
             </Route>
         </Routes>
 
-import Login from './pages/Login/Login';
-import AdminLogin from './components/AdminLogin/AdminLogin';
-import SchoolLogin from './components/SchoolLogin/SchoolLogin';
-
-
-function App() {
-    return (
-        <>
-            <Routes>
-                <Route path='/' element={<Login />} >
-                    <Route index element={<AdminLogin/>}/>
-                    <Route path='school-login' element={<SchoolLogin/>}/>
-                </Route>
-            </Routes>
-        </>
-    );
+    )
 }
-
-export default App;
+export default App
