@@ -1,0 +1,50 @@
+.search-column {
+    width: 660px;
+    display: flex;
+
+    padding: 16px;
+    gap: 8px;
+    flex-direction: column;
+    align-items: center;
+}
+
+.button-option {
+    display: flex;
+    padding: 16px;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.items {
+
+    display: flex;
+    gap: 8px;
+}
+
+.ant-select-selector {
+    border-radius: 0px !important;
+}
+
+.ant-input {
+    border-radius: 0px !important;
+}
+
+.btn-css {
+    padding: 10px 15px;
+    font-size: 20px;
+    height: fit-content;
+    width: 170px;
+
+}
+
+.ant-table-cell {
+    background: white;
+}
+
+.no-bottom-border {
+    border-bottom: none;
+}
+
+.ant-modal .ant-modal-content {
+    padding: 20px 40px 40px;
+}

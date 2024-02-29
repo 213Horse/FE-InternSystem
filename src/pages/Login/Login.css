@@ -1,0 +1,3 @@
+#root > div > div:nth-child(2) > div:nth-child(1) > ul > li > span {
+  color: #66708580
+}
