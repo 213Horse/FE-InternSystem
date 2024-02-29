@@ -8,7 +8,9 @@ import TableComponent from '../../components/Table/TableCompoment';
 
 
 
-const ConfirmCV = () => {
+const ApproveCV = () => {
+
+    const { Search } = Input;
 
     // Set Vertical Property
     const [form] = Form.useForm();
@@ -30,6 +32,17 @@ const ConfirmCV = () => {
 
     // Modal
     const [open, setOpen] = useState(false);
+
+    const [showForm, setShowForm] = useState(false);
+
+    const handleAddProject = () => {
+        setShowForm(true);
+    };
+
+    const handleCloseForm = () => {
+        setShowForm(false);
+    };
+
 
     const dataSource = [
         {
@@ -255,96 +268,120 @@ const ConfirmCV = () => {
 
     return (
         <>
-            {/* Filter */}
-            <Filter />
+            <div>
+                <h1 style={{ marginLeft: '10px', color: '#8A2BE2' }}>Confirm CV</h1>
+                <br></br>
+                <div>
+                    <Search
+                        placeholder="input search text"
+                        allowClear
+                        enterButton="Search"
+                        size="large"
+                        style={{ margin: '20px', width: '33%' }}
+                    />
+                    <Button size={'large'} type="primary" style={{ width: '160px', margin: '20px', backgroundColor: 'green' }}>Export Excel</Button>
+                    <Button size={'large'} type="primary" style={{ width: '160px', margin: '20px', backgroundColor: 'orange' }}>Edit</Button>
+                    <Button size={'large'} type="primary" style={{ width: '160px', margin: '20px', backgroundColor: 'red' }}>Delete</Button>
+                    <Button onClick={handleAddProject} size={'large'} type="primary" style={{ width: '160px', margin: '20px 10px 20px 20px', backgroundColor: 'blue' }}>Add New Project</Button>
 
-            {/* Table Show Data */}
-            <TableComponent columns={columns} dataSource={dataSource} />
-
-            {/* Pop-Up */}
-            <div style={{ marginLeft: 200 }}>
-                <Modal
-                    centered
-                    open={open}
-                    onOk={() => setOpen(false)}
-                    onCancel={() => setOpen(false)}
-                    width={1000}
-                >
-
-                    <Form
-                        {...formItemLayout}
-                        layout={formLayout}
-                        form={form}
-                        initialValues={{
-                            layout: formLayout,
-                        }}
-                        onValuesChange={onFormLayoutChange}
-                    >
-                        <Row>
-                            <Col style={{ maxWidth: 'none' }} span={8}>
-                                <Form.Item label="Field A">
-                                    <Input placeholder="input placeholder" disabled />
-                                </Form.Item>
-                            </Col>
-                            <Col span={8}>
-                                <Form.Item label="Field B">
-                                    <Input placeholder="input placeholder" disabled />
-                                </Form.Item>
-                            </Col>
-                            <Col span={8}>
-                                <Form.Item label="Field C">
-                                    <Input placeholder="input placeholder" disabled />
-                                </Form.Item>
-                            </Col>
-                        </Row>
-
-                        <Row>
-                            <Col span={8}>
-                                <Form.Item label="Field A">
-                                    <Input placeholder="input placeholder" disabled />
-                                </Form.Item>
-                            </Col>
-                            <Col span={8}>
-                                <Form.Item label="Field B">
-                                    <Input placeholder="input placeholder" disabled />
-                                </Form.Item>
-                            </Col>
-                            <Col span={8}>
-                                <Form.Item label="Field C">
-                                    <Input placeholder="input placeholder" disabled />
-                                </Form.Item>
-                            </Col>
-                        </Row>
-
-                        <Row>
-                            <Col span={8}>
-                                <Form.Item label="Field A">
-                                    <Input placeholder="input placeholder" disabled />
-                                </Form.Item>
-                            </Col>
-                            <Col span={8}>
-                                <Form.Item label="Field B">
-                                    <Input placeholder="input placeholder" disabled />
-                                </Form.Item>
-                            </Col>
-                            <Col span={8}>
-                                <Form.Item label="Field C">
-                                    <Input placeholder="input placeholder" disabled />
-                                </Form.Item>
-                            </Col>
-                        </Row>
-
-                        <Row>
-                            <Col span={8}>
-                                <Form.Item label="Field A">
-                                    <Input placeholder="input placeholder" disabled />
-                                </Form.Item>
-                            </Col>
-                        </Row>
-                    </Form>
-                </Modal>
+                </div>
+                <br></br>
             </div>
+
+
+            <div>
+                {/* Filter */}
+                <Filter />
+
+                {/* Table Show Data */}
+                <TableComponent columns={columns} dataSource={dataSource} />
+
+                {/* Pop-Up */}
+                <div style={{ marginLeft: 200 }}>
+                    <Modal
+                        centered
+                        open={open}
+                        onOk={() => setOpen(false)}
+                        onCancel={() => setOpen(false)}
+                        width={1000}
+                    >
+
+                        <Form
+                            {...formItemLayout}
+                            layout={formLayout}
+                            form={form}
+                            initialValues={{
+                                layout: formLayout,
+                            }}
+                            onValuesChange={onFormLayoutChange}
+                        >
+                            <Row>
+                                <Col style={{ maxWidth: 'none' }} span={8}>
+                                    <Form.Item label="Field A">
+                                        <Input placeholder="input placeholder" disabled />
+                                    </Form.Item>
+                                </Col>
+                                <Col span={8}>
+                                    <Form.Item label="Field B">
+                                        <Input placeholder="input placeholder" disabled />
+                                    </Form.Item>
+                                </Col>
+                                <Col span={8}>
+                                    <Form.Item label="Field C">
+                                        <Input placeholder="input placeholder" disabled />
+                                    </Form.Item>
+                                </Col>
+                            </Row>
+
+                            <Row>
+                                <Col span={8}>
+                                    <Form.Item label="Field A">
+                                        <Input placeholder="input placeholder" disabled />
+                                    </Form.Item>
+                                </Col>
+                                <Col span={8}>
+                                    <Form.Item label="Field B">
+                                        <Input placeholder="input placeholder" disabled />
+                                    </Form.Item>
+                                </Col>
+                                <Col span={8}>
+                                    <Form.Item label="Field C">
+                                        <Input placeholder="input placeholder" disabled />
+                                    </Form.Item>
+                                </Col>
+                            </Row>
+
+                            <Row>
+                                <Col span={8}>
+                                    <Form.Item label="Field A">
+                                        <Input placeholder="input placeholder" disabled />
+                                    </Form.Item>
+                                </Col>
+                                <Col span={8}>
+                                    <Form.Item label="Field B">
+                                        <Input placeholder="input placeholder" disabled />
+                                    </Form.Item>
+                                </Col>
+                                <Col span={8}>
+                                    <Form.Item label="Field C">
+                                        <Input placeholder="input placeholder" disabled />
+                                    </Form.Item>
+                                </Col>
+                            </Row>
+
+                            <Row>
+                                <Col span={8}>
+                                    <Form.Item label="Field A">
+                                        <Input placeholder="input placeholder" disabled />
+                                    </Form.Item>
+                                </Col>
+                            </Row>
+                        </Form>
+                    </Modal>
+                </div>
+            </div>
+
         </>
     );
 };
-export default ConfirmCV;
+export default ApproveCV;

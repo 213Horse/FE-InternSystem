@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Modal, Form, Input, Space, Col, Row, Select, Search } from 'antd';
+import { Button, Modal, Form, Input, Space, Col, Row, Select } from 'antd';
 import { EyeFilled } from '@ant-design/icons';
 
 import Filter from '../../components/Filter/filter';
@@ -9,6 +9,8 @@ import TableComponent from '../../components/Table/TableCompoment';
 
 
 const ApproveCV = () => {
+
+    const { Search } = Input;
 
     // Set Vertical Property
     const [form] = Form.useForm();
@@ -267,7 +269,7 @@ const ApproveCV = () => {
     return (
         <>
             <div>
-                <h1 style={{ marginLeft: '10px', color: '#8A2BE2' }}>Project Managemnet</h1>
+                <h1 style={{ marginLeft: '10px', color: '#8A2BE2' }}>Approve CV</h1>
                 <br></br>
                 <div>
                     <Search

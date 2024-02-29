@@ -89,12 +89,12 @@ const App = () => {
 
                 }}
             >
-                <Header
+                {/* <Header
                     style={{
                         padding: 0,
 
                     }}
-                />
+                /> */}
                 <Content
                     style={{
                         margin: '24px',
