@@ -42,7 +42,7 @@ const Position = () => {
             border: '0.5px solid black',
             borderRadius: '10px',
             boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.5)',
-            height: '280px',
+            height: '210px',
             width: '372px'
         },
         model: {
@@ -189,6 +189,7 @@ const Position = () => {
         <div style={{
             marginLeft: '200px',
             marginRight: '20px',
+            marginBottom: '40px',
             backgroundColor: 'white',
             borderRadius: '10px',
         }}>
@@ -201,12 +202,12 @@ const Position = () => {
                         allowClear
                         enterButton="Search"
                         size="large"
-                        style={{ margin: '20px', width: '33%' }}
+                        style={{ margin: '20px', width: '50%' }}
                     />
-                    <Button size={'large'} type="primary" style={{ width: '160px', margin: '20px', backgroundColor: 'green' }}>Export Excel</Button>
-                    <Button size={'large'} type="primary" style={{ width: '160px', margin: '20px', backgroundColor: 'orange' }}>Edit</Button>
-                    <Button size={'large'} type="primary" style={{ width: '160px', margin: '20px', backgroundColor: 'red' }}>Delete</Button>
-                    <Button onClick={handleAddProject} size={'large'} type="primary" style={{ width: '160px', margin: '20px 10px 20px 20px', backgroundColor: 'blue' }}>Add New Position</Button>
+                    <Button size={'large'} type="primary" style={{ margin: '20px', backgroundColor: 'green' }}>Export Excel</Button>
+                    <Button size={'large'} type="primary" style={{ margin: '20px', backgroundColor: 'orange' }}>Edit</Button>
+                    <Button size={'large'} type="primary" style={{ margin: '20px', backgroundColor: 'red' }}>Delete</Button>
+                    <Button onClick={handleAddProject} size={'large'} type="primary" style={{ margin: '20px 10px 20px 20px', backgroundColor: 'blue' }}>Add New Position</Button>
                 </div>
                 <br></br>
             </div>
@@ -242,7 +243,7 @@ const Position = () => {
                             </div>
                             <div>
                                 <Avatar.Group>
-                                    <Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=1" />
+                                    <Avatar size="small" src="https://api.dicebear.com/7.x/miniavs/svg?seed=1" />
                                     <a href="https://ant.design">
                                         <Avatar
                                             style={{
@@ -303,7 +304,7 @@ const Position = () => {
                             </div>
                             <div>
                                 <Avatar.Group>
-                                    <Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=1" />
+                                    <Avatar size="small" src="https://api.dicebear.com/7.x/miniavs/svg?seed=1" />
                                     <a href="https://ant.design">
                                         <Avatar
                                             style={{
@@ -364,7 +365,7 @@ const Position = () => {
                             </div>
                             <div>
                                 <Avatar.Group>
-                                    <Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=1" />
+                                    <Avatar size="small" src="https://api.dicebear.com/7.x/miniavs/svg?seed=1" />
                                     <a href="https://ant.design">
                                         <Avatar
                                             style={{
@@ -425,7 +426,7 @@ const Position = () => {
                             </div>
                             <div>
                                 <Avatar.Group>
-                                    <Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=1" />
+                                    <Avatar size="small" src="https://api.dicebear.com/7.x/miniavs/svg?seed=1" />
                                     <a href="https://ant.design">
                                         <Avatar
                                             style={{
@@ -486,7 +487,7 @@ const Position = () => {
                             </div>
                             <div>
                                 <Avatar.Group>
-                                    <Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=1" />
+                                    <Avatar size="small" src="https://api.dicebear.com/7.x/miniavs/svg?seed=1" />
                                     <a href="https://ant.design">
                                         <Avatar
                                             style={{
@@ -548,7 +549,7 @@ const Position = () => {
                             </div>
                             <div>
                                 <Avatar.Group>
-                                    <Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=1" />
+                                    <Avatar size="small" src="https://api.dicebear.com/7.x/miniavs/svg?seed=1" />
                                     <a href="https://ant.design">
                                         <Avatar
                                             style={{

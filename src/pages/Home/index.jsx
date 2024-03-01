@@ -33,7 +33,8 @@ const App = () => {
                 }}
             >
                 <div className="demo-logo-vertical" style={{ height: 40, }} />
-                <Menu theme="dark" mode="inline">
+                <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}
+                    defaultOpenKeys={['1']}>
                     <Menu.Item key="1" icon={<PieChartOutlined />}>
                         <Link to="/home/dashboard">Dashboard</Link>
                     </Menu.Item>
@@ -91,13 +92,7 @@ const App = () => {
                 >
                     <Outlet></Outlet>
                 </Content>
-                <Footer
-                    style={{
-                        textAlign: 'center',
-                    }}
-                >
-                    Ant Design ©{new Date().getFullYear()} Created by Ant UED
-                </Footer>
+
 
             </Layout>
         </Layout>

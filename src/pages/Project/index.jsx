@@ -2,7 +2,7 @@ import React from 'react'
 import { Avatar, Space, Checkbox, Tag, Button, Flex, Input, Tooltip, Pagination, Modal, DatePicker } from 'antd';
 import { UserOutlined, AntDesignOutlined } from '@ant-design/icons';
 import { useState } from 'react';
-
+import './project.css';
 
 
 const Project = () => {
@@ -22,7 +22,7 @@ const Project = () => {
             border: '0.5px solid black',
             borderRadius: '10px',
             boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.5)',
-            height: '280px',
+            height: '230px',
             width: '372px'
         },
         model: {
@@ -40,6 +40,7 @@ const Project = () => {
         <div style={{
             marginLeft: '200px',
             marginRight: '20px',
+            marginBottom: '40px',
             backgroundColor: 'white',
             borderRadius: '10px',
         }}>
@@ -52,12 +53,12 @@ const Project = () => {
                         allowClear
                         enterButton="Search"
                         size="large"
-                        style={{ margin: '20px', width: '33%' }}
+                        style={{ margin: '20px', width: '50%' }}
                     />
-                    <Button size={'large'} type="primary" style={{ width: '160px', margin: '20px', backgroundColor: 'green' }}>Export Excel</Button>
-                    <Button size={'large'} type="primary" style={{ width: '160px', margin: '20px', backgroundColor: 'orange' }}>Edit</Button>
-                    <Button size={'large'} type="primary" style={{ width: '160px', margin: '20px', backgroundColor: 'red' }}>Delete</Button>
-                    <Button onClick={handleAddProject} size={'large'} type="primary" style={{ width: '160px', margin: '20px 10px 20px 20px', backgroundColor: 'blue' }}>Add New Project</Button>
+                    <Button size={'large'} type="primary" style={{ margin: '20px', backgroundColor: 'green' }}>Export Excel</Button>
+                    <Button size={'large'} type="primary" style={{ margin: '20px', backgroundColor: 'orange' }}>Edit</Button>
+                    <Button size={'large'} type="primary" style={{ margin: '20px', backgroundColor: 'red' }}>Delete</Button>
+                    <Button onClick={handleAddProject} size={'large'} type="primary" style={{ margin: '20px 10px 20px 20px', backgroundColor: 'blue' }}>Add New Project</Button>
 
 
                 </div>
@@ -66,13 +67,13 @@ const Project = () => {
             <div style={{ display: 'flex', justifyContent: 'flex-start', flexWrap: 'wrap' }}>
                 <div style={styles.box}>
                     <div>
-                        <div style={{ margin: '10px', fontSize: '25px', fontWeight: 'bold', }}>
+                        <div style={{ margin: '10px', fontSize: '22px', fontWeight: 'bold', }}>
                             Intern System
                             <Tag color="gold" style={{ marginLeft: '80px', marginBottom: '5px' }}>In process</Tag>
                             <Checkbox ></Checkbox>
                         </div>
                         <div style={{ borderBottom: '2px solid #ccc' }}></div>
-                        <div style={{ color: ' #454545', marginLeft: '10px', lineHeight: 2, fontWeight: 'bold' }}>
+                        <div style={{ color: ' #454545', marginLeft: '10px', lineHeight: 1.5, fontWeight: 'bold' }}>
                             <div>
                                 Position: Back-end, Front-end, BA, Design
                             </div>
@@ -80,10 +81,10 @@ const Project = () => {
                                 Technology: .NET, Reactjs, Trello, ...
                             </div>
                             <div>
-                                Leader - Sub Leader <Avatar icon={<UserOutlined />} /> <Avatar icon={<UserOutlined />} />
+                                Leader - Sub Leader <Avatar size="small" icon={<UserOutlined />} /> <Avatar size="small" icon={<UserOutlined />} />
                             </div>
                             <div>
-                                Mentor <Avatar icon={<UserOutlined />} />
+                                Mentor <Avatar size="small" icon={<UserOutlined />} />
                             </div>
                             <div>
                                 Group Zalo : Link
@@ -98,7 +99,7 @@ const Project = () => {
                             </div>
                             <div>
                                 <Avatar.Group>
-                                    <Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=1" />
+                                    <Avatar size="small" src="https://api.dicebear.com/7.x/miniavs/svg?seed=1" />
                                     <a href="https://ant.design">
                                         <Avatar
                                             style={{
@@ -129,13 +130,13 @@ const Project = () => {
                 </div>
                 <div style={styles.box}>
                     <div>
-                        <div style={{ margin: '10px', fontSize: '25px', fontWeight: 'bold', }}>
+                        <div style={{ margin: '10px', fontSize: '22px', fontWeight: 'bold', }}>
                             Intern System
                             <Tag color="gold" style={{ marginLeft: '80px', marginBottom: '5px' }}>In process</Tag>
                             <Checkbox ></Checkbox>
                         </div>
                         <div style={{ borderBottom: '2px solid #ccc' }}></div>
-                        <div style={{ color: ' #454545', marginLeft: '10px', lineHeight: 2, fontWeight: 'bold' }}>
+                        <div style={{ color: ' #454545', marginLeft: '10px', lineHeight: 1.5, fontWeight: 'bold' }}>
                             <div>
                                 Position: Back-end, Front-end, BA, Design
                             </div>
@@ -143,10 +144,10 @@ const Project = () => {
                                 Technology: .NET, Reactjs, Trello, ...
                             </div>
                             <div>
-                                Leader - Sub Leader <Avatar icon={<UserOutlined />} /> <Avatar icon={<UserOutlined />} />
+                                Leader - Sub Leader <Avatar size="small" icon={<UserOutlined />} /> <Avatar size="small" icon={<UserOutlined />} />
                             </div>
                             <div>
-                                Mentor <Avatar icon={<UserOutlined />} />
+                                Mentor <Avatar size="small" icon={<UserOutlined />} />
                             </div>
                             <div>
                                 Group Zalo : Link
@@ -161,7 +162,7 @@ const Project = () => {
                             </div>
                             <div>
                                 <Avatar.Group>
-                                    <Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=1" />
+                                    <Avatar size="small" src="https://api.dicebear.com/7.x/miniavs/svg?seed=1" />
                                     <a href="https://ant.design">
                                         <Avatar
                                             style={{
@@ -189,16 +190,15 @@ const Project = () => {
                             </div>
                         </div>
                     </div>
-                </div>
-                <div style={styles.box}>
+                </div><div style={styles.box}>
                     <div>
-                        <div style={{ margin: '10px', fontSize: '25px', fontWeight: 'bold', }}>
+                        <div style={{ margin: '10px', fontSize: '22px', fontWeight: 'bold', }}>
                             Intern System
                             <Tag color="gold" style={{ marginLeft: '80px', marginBottom: '5px' }}>In process</Tag>
                             <Checkbox ></Checkbox>
                         </div>
                         <div style={{ borderBottom: '2px solid #ccc' }}></div>
-                        <div style={{ color: ' #454545', marginLeft: '10px', lineHeight: 2, fontWeight: 'bold' }}>
+                        <div style={{ color: ' #454545', marginLeft: '10px', lineHeight: 1.5, fontWeight: 'bold' }}>
                             <div>
                                 Position: Back-end, Front-end, BA, Design
                             </div>
@@ -206,10 +206,10 @@ const Project = () => {
                                 Technology: .NET, Reactjs, Trello, ...
                             </div>
                             <div>
-                                Leader - Sub Leader <Avatar icon={<UserOutlined />} /> <Avatar icon={<UserOutlined />} />
+                                Leader - Sub Leader <Avatar size="small" icon={<UserOutlined />} /> <Avatar size="small" icon={<UserOutlined />} />
                             </div>
                             <div>
-                                Mentor <Avatar icon={<UserOutlined />} />
+                                Mentor <Avatar size="small" icon={<UserOutlined />} />
                             </div>
                             <div>
                                 Group Zalo : Link
@@ -224,7 +224,7 @@ const Project = () => {
                             </div>
                             <div>
                                 <Avatar.Group>
-                                    <Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=1" />
+                                    <Avatar size="small" src="https://api.dicebear.com/7.x/miniavs/svg?seed=1" />
                                     <a href="https://ant.design">
                                         <Avatar
                                             style={{
@@ -252,16 +252,15 @@ const Project = () => {
                             </div>
                         </div>
                     </div>
-                </div>
-                <div style={styles.box}>
+                </div><div style={styles.box}>
                     <div>
-                        <div style={{ margin: '10px', fontSize: '25px', fontWeight: 'bold', }}>
+                        <div style={{ margin: '10px', fontSize: '22px', fontWeight: 'bold', }}>
                             Intern System
                             <Tag color="gold" style={{ marginLeft: '80px', marginBottom: '5px' }}>In process</Tag>
                             <Checkbox ></Checkbox>
                         </div>
                         <div style={{ borderBottom: '2px solid #ccc' }}></div>
-                        <div style={{ color: ' #454545', marginLeft: '10px', lineHeight: 2, fontWeight: 'bold' }}>
+                        <div style={{ color: ' #454545', marginLeft: '10px', lineHeight: 1.5, fontWeight: 'bold' }}>
                             <div>
                                 Position: Back-end, Front-end, BA, Design
                             </div>
@@ -269,10 +268,10 @@ const Project = () => {
                                 Technology: .NET, Reactjs, Trello, ...
                             </div>
                             <div>
-                                Leader - Sub Leader <Avatar icon={<UserOutlined />} /> <Avatar icon={<UserOutlined />} />
+                                Leader - Sub Leader <Avatar size="small" icon={<UserOutlined />} /> <Avatar size="small" icon={<UserOutlined />} />
                             </div>
                             <div>
-                                Mentor <Avatar icon={<UserOutlined />} />
+                                Mentor <Avatar size="small" icon={<UserOutlined />} />
                             </div>
                             <div>
                                 Group Zalo : Link
@@ -287,7 +286,7 @@ const Project = () => {
                             </div>
                             <div>
                                 <Avatar.Group>
-                                    <Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=1" />
+                                    <Avatar size="small" src="https://api.dicebear.com/7.x/miniavs/svg?seed=1" />
                                     <a href="https://ant.design">
                                         <Avatar
                                             style={{
@@ -315,16 +314,15 @@ const Project = () => {
                             </div>
                         </div>
                     </div>
-                </div>
-                <div style={styles.box}>
+                </div><div style={styles.box}>
                     <div>
-                        <div style={{ margin: '10px', fontSize: '25px', fontWeight: 'bold', }}>
+                        <div style={{ margin: '10px', fontSize: '22px', fontWeight: 'bold', }}>
                             Intern System
                             <Tag color="gold" style={{ marginLeft: '80px', marginBottom: '5px' }}>In process</Tag>
                             <Checkbox ></Checkbox>
                         </div>
                         <div style={{ borderBottom: '2px solid #ccc' }}></div>
-                        <div style={{ color: ' #454545', marginLeft: '10px', lineHeight: 2, fontWeight: 'bold' }}>
+                        <div style={{ color: ' #454545', marginLeft: '10px', lineHeight: 1.5, fontWeight: 'bold' }}>
                             <div>
                                 Position: Back-end, Front-end, BA, Design
                             </div>
@@ -332,10 +330,10 @@ const Project = () => {
                                 Technology: .NET, Reactjs, Trello, ...
                             </div>
                             <div>
-                                Leader - Sub Leader <Avatar icon={<UserOutlined />} /> <Avatar icon={<UserOutlined />} />
+                                Leader - Sub Leader <Avatar size="small" icon={<UserOutlined />} /> <Avatar size="small" icon={<UserOutlined />} />
                             </div>
                             <div>
-                                Mentor <Avatar icon={<UserOutlined />} />
+                                Mentor <Avatar size="small" icon={<UserOutlined />} />
                             </div>
                             <div>
                                 Group Zalo : Link
@@ -350,7 +348,7 @@ const Project = () => {
                             </div>
                             <div>
                                 <Avatar.Group>
-                                    <Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=1" />
+                                    <Avatar size="small" src="https://api.dicebear.com/7.x/miniavs/svg?seed=1" />
                                     <a href="https://ant.design">
                                         <Avatar
                                             style={{
@@ -378,16 +376,15 @@ const Project = () => {
                             </div>
                         </div>
                     </div>
-                </div>
-                <div style={styles.box}>
+                </div><div style={styles.box}>
                     <div>
-                        <div style={{ margin: '10px', fontSize: '25px', fontWeight: 'bold', }}>
+                        <div style={{ margin: '10px', fontSize: '22px', fontWeight: 'bold', }}>
                             Intern System
                             <Tag color="gold" style={{ marginLeft: '80px', marginBottom: '5px' }}>In process</Tag>
                             <Checkbox ></Checkbox>
                         </div>
                         <div style={{ borderBottom: '2px solid #ccc' }}></div>
-                        <div style={{ color: ' #454545', marginLeft: '10px', lineHeight: 2, fontWeight: 'bold' }}>
+                        <div style={{ color: ' #454545', marginLeft: '10px', lineHeight: 1.5, fontWeight: 'bold' }}>
                             <div>
                                 Position: Back-end, Front-end, BA, Design
                             </div>
@@ -395,10 +392,10 @@ const Project = () => {
                                 Technology: .NET, Reactjs, Trello, ...
                             </div>
                             <div>
-                                Leader - Sub Leader <Avatar icon={<UserOutlined />} /> <Avatar icon={<UserOutlined />} />
+                                Leader - Sub Leader <Avatar size="small" icon={<UserOutlined />} /> <Avatar size="small" icon={<UserOutlined />} />
                             </div>
                             <div>
-                                Mentor <Avatar icon={<UserOutlined />} />
+                                Mentor <Avatar size="small" icon={<UserOutlined />} />
                             </div>
                             <div>
                                 Group Zalo : Link
@@ -413,7 +410,7 @@ const Project = () => {
                             </div>
                             <div>
                                 <Avatar.Group>
-                                    <Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=1" />
+                                    <Avatar size="small" src="https://api.dicebear.com/7.x/miniavs/svg?seed=1" />
                                     <a href="https://ant.design">
                                         <Avatar
                                             style={{
