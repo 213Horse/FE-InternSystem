@@ -77,10 +77,11 @@ function CustomMenu({ menuActive, setMenuActive }) {
                 gap: '0.5rem',
                 marginLeft: '8.25rem',
             }}
-            defaultSelectedKeys={['1']}
+            defaultSelectedKeys={['admin']}
             defaultOpenKeys={['sub1']}
             mode="horizontal"
             items={items}
+            
         />
     );
 }
@@ -123,7 +124,7 @@ function Login() {
                     <Outlet />
                 </Col>
                 <Col span={12}>
-                    <Image src="src\assets\img\Logo\login-image.png" />
+                    <Image preview={false} src="src\assets\img\Logo\login-image.png" />
                 </Col>
             </Row>
         </div>
