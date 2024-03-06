@@ -1,12 +1,27 @@
 import React from 'react';
-import { Alert, Button, Form, Input , Checkbox  } from 'antd';
-import { Link } from 'react-router-dom';
+import { Alert, Button, Form, Input , Checkbox, message  } from 'antd';
+import { Link, useNavigate } from 'react-router-dom';
+import { callLogin } from '../../services/api';
+import { useDispatch } from 'react-redux';
+import { doLoginAction, doLogoutAction } from '../../redux/account/accountSlice';
 
 function AdminLogin() {
+    const dispatch = useDispatch();
     const [form] = Form.useForm();
+    const navigate = useNavigate("");
 
-    const onFinish = (values) => {
+    const onFinish = async(values) => {
+        const {email, password } = values;
         console.log('Success:', values);
+        let res = await callLogin(email, password);
+        console.log(res);
+        if(res && res?.data?.accessToken){
+            let accessToken = res.data?.accessToken;
+            localStorage.setItem('access_token', accessToken);
+            dispatch(doLoginAction({accessToken: accessToken}));
+            message.success("login success");
+            navigate("/home");    
+        }
     };
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
@@ -37,7 +52,7 @@ function AdminLogin() {
 
                 <Form.Item
                     label="Password"
-                    name="passowrd"
+                    name="password"
                 >
                     <Input.Password />
                 </Form.Item>
