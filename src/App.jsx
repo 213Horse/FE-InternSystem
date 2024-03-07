@@ -17,7 +17,12 @@ import SchoolLogin from './components/SchoolLogin/SchoolLogin';
 import RegisterAdmin from './components/Register/RegisterAdmin';
 import RegisterSchool from './components/Register/RegisterSchool';
 import RegisterIntern from './components/Register/RegisterIntern';
+import { useSelector } from 'react-redux';
+import ErrorPerrmission from './components/Auth/ErrorPerrmission';
+
 function App() {
+    const account = useSelector(state => state?.account);
+    const isAuthenticated = account.isAuthenticated;
     return (
         <Routes>
             <Route path="/" element={<Login />}>
@@ -28,7 +33,7 @@ function App() {
                <Route path='register-intern' element = {<RegisterIntern/>}/>
                <Route/>
             </Route>
-            <Route path="/home" element={<Home />}>
+            {isAuthenticated == true &&  <Route path="/home" element={<Home />}>
                 <Route path="dashboard" element={<Dashboard />} />
                 <Route path="approve-cv" element={<Approve />} />
                 <Route path="confirm-cv" element={<Confirm />} />
@@ -39,7 +44,8 @@ function App() {
                 <Route path="technology-management" element={<Tech />} />
                 <Route path="group-zalo-management" element={<Zalo />} />
                 <Route path="settings" element={<Settings />} />
-            </Route>
+            </Route>}
+            {isAuthenticated == true &&  <Route path="*" element={<ErrorPerrmission />}/>}
         </Routes>
     );
 }

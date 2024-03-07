@@ -15,12 +15,23 @@ const { Header, Content, Footer, Sider } = Layout;
 
 
 const App = () => {
+
+    const layoutStyle = {
+        borderRadius: 8,
+        overflow: 'hidden',
+        backgroundColor: '#E8E9EB',
+        gap: '40px',
+        height: '98vh',
+
+    };
+
+
     console.log('Home');
     const {
         token: { colorBgContainer, borderRadiusLG },
     } = theme.useToken();
     return (
-        <Layout hasSider>
+        <Layout style={{ backgroundColor: '#f5f5f5;' }} hasSider>
 
             <Sider
                 style={{
@@ -75,19 +86,22 @@ const App = () => {
             <Layout
                 style={{
                     width: 1310,
-                    // marginLeft: 200,
+                    marginLeft: 200,
+
                 }}
             >
-                <Header
+                {/* <Header
                     style={{
                         padding: 0,
-                        background: colorBgContainer,
+
                     }}
-                />
+                /> */}
                 <Content
                     style={{
-                        margin: '24px 16px 0',
+                        margin: '24px',
                         overflow: 'initial',
+                        backgroundColor: '#fff',
+                        borderRadius: 6,
                     }}
                 >
                     <Outlet></Outlet>
