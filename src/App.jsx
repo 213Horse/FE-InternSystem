@@ -1,7 +1,7 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+// import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route } from 'react-router-dom';
 import './App.css';
-import Login from './components/Login/Login';
+import Login from './components/AdminLogin/AdminLogin';
 
 function App() {
     const account = useSelector(state => state?.account);
