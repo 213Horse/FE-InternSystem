@@ -9,15 +9,15 @@ import SchoolLogin from '../../components/SchoolLogin/SchoolLogin';
 import './Login.css';
 import { Link, Outlet } from 'react-router-dom';
 
-function getItem(label, key, icon, children, type) {
-    return {
-        key,
-        icon,
-        children,
-        label,
-        type,
-    };
-}
+// function getItem(label, key, icon, children, type) {
+//     return {
+//         key,
+//         icon,
+//         children,
+//         label,
+//         type,
+//     };
+// }
 
 const items = [
 
@@ -77,7 +77,7 @@ function CustomMenu({ menuActive, setMenuActive }) {
             defaultOpenKeys={['sub1']}
             mode="horizontal"
             items={items}
-            
+
         />
     );
 }

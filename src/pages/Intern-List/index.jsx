@@ -1,9 +1,27 @@
-import React from 'react'
-
-const Intern = () => {
+import React, { useState } from 'react';
+import { Button, Modal } from 'antd';
+const App = () => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const showModal = () => {
+        setIsModalOpen(true);
+    };
+    const handleOk = () => {
+        setIsModalOpen(false);
+    };
+    const handleCancel = () => {
+        setIsModalOpen(false);
+    };
     return (
-        <h1 style={{ marginLeft: '200px' }}>Intern list hii</h1>
-    )
-}
-
-export default Intern
+        <div style={{ marginLeft: '200px' }}>
+            <Button type="primary" onClick={showModal}>
+                Open Modal
+            </Button>
+            <Modal title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+                <p>Some contents...</p>
+                <p>Some contents...</p>
+                <p>Some contents...</p>
+            </Modal>
+        </div>
+    );
+};
+export default App;
