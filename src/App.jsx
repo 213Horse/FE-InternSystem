@@ -1,24 +1,7 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
-import Home from './pages/Home/index';
-import Project from './pages/Project/index';
-import Dashboard from './pages/Dashboard/index';
-import Approve from './pages/Approve-CV/index';
-import Confirm from './pages/Confirm-CV/index';
-import Intern from './pages/Intern-List/index';
-import Group from './pages/Group-List/index';
-import Position from './pages/Position/index';
-import Tech from './pages/Tech/index';
-import Zalo from './pages/Zalo/index';
-import Settings from './pages/Settings/index';
-import Login from './pages/Login/Login';
-import AdminLogin from './components/AdminLogin/AdminLogin';
-import SchoolLogin from './components/SchoolLogin/SchoolLogin';
-import RegisterAdmin from './components/Register/RegisterAdmin';
-import RegisterSchool from './components/Register/RegisterSchool';
-import RegisterIntern from './components/Register/RegisterIntern';
-import { useSelector } from 'react-redux';
-import ErrorPerrmission from './components/Auth/ErrorPerrmission';
+import Login from './components/Login/Login';
 
 function App() {
     const account = useSelector(state => state?.account);
