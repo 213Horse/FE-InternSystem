@@ -1,0 +1,57 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Users\ADMIN\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add @ant-design/icons
+
+PATH: 
+  C:\Program Files\Amazon Corretto\jdk17.0.9_8\bin;C:\Windows\System32;D:\;D:\DOWNLOADS\gvim_8.2.2825_x86_signed.exe;C:\Users\ADMIN\Desktop\Vim\vim82\gvim;C:\Users\ADMIN\Desktop\Vim\vim82\vim.exe;C:\Users\ADMIN\Desktop\Vim\vim82\vim.exe;C:\Users\ADMIN\Desktop\Vim\vim82;D:\DOWNLOADS;C:\Users\ADMIN\Desktop\Vim\vim82\vimtutor.bat;C:\Program Files\Azure Data Studio\bin;C:\Program Files\Git\bin;C:\Program Files\Microsoft SQL Server\110\Tools\Binn\;C:\Program Files (x86)\Microsoft SQL Server\110\Tools\Binn\;C:\Program Files\Microsoft SQL Server\110\DTS\Binn\;C:\Program Files (x86)\Microsoft SQL Server\110\Tools\Binn\ManagementStudio\;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\PrivateAssemblies\;C:\Program Files (x86)\Microsoft SQL Server\110\DTS\Binn\;C:\Program Files (x86)\Microsoft SQL Server\150\DTS\Binn\;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\;C:\Program Files (x86)\Microsoft SQL Server\150\Tools\Binn\;C:\Program Files\Microsoft SQL Server\150\Tools\Binn\;C:\Program Files\Microsoft SQL Server\150\DTS\Binn\;C:\Program Files\Docker\Docker\resources\bin;C:\Users\ADMIN\AppData\Roaming\nvm;C:\Program Files\nodejs;D:\Git\cmd;C:\Program Files\Amazon Corretto\jdk17.0.9_8\BIN;C:\ProgramData\chocolatey\bin;C:\Program Files\apache-maven-3.9.5\bin;E:\software-testing-master\TrenLop\apache-tomcat-11.0.0-M6-src\bin;C:\Program Files\Java\scripts;C:\Program Files\dotnet\;C:\Program Files\MySQL\MySQL Shell 8.0\bin\;C:\Users\ADMIN\AppData\Local\Microsoft\WindowsApps;C:\Users\ADMIN\AppData\Local\Microsoft VS Code\bin;C:\Users\ADMIN\Desktop\Vim\vim82\gvim;C:\Users\ADMIN\Desktop\Vim\vim82\vim.exe;C:\Users\ADMIN\Desktop\Vim\vim82\vim.exe;C:\Users\ADMIN\Desktop\Vim\vim82;D:\;D:\DOWNLOADS;D:\Git\usr\bin;C:\Program Files\Azure Data Studio\bin;C:\Program Files\JetBrains\IntelliJ IDEA 2022.3.1\bin;;C:\Users\ADMIN\AppData\Roaming\npm;C:\Users\ADMIN\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Users\ADMIN\AppData\Local\GitHubDesktop\bin;C:\Program Files\NetBeans-13\netbeans\java\maven\bin;E:\software-testing-master\TrenLop\apache-tomcat-11.0.0-M6-src\bin;C:\Program Files\Java\scripts;C:\Users\ADMIN\.dotnet\tools;E:\Mongo DB\Community\;C:\Program Files\apache-maven-3.9.5\bin;
+
+Yarn version: 
+  1.22.19
+
+Node version: 
+  18.16.0
+
+Platform: 
+  win32 x64
+
+Trace: 
+  Error: EPERM: operation not permitted, unlink 'D:\intern-react-amazing-tech\FE-InternSystem\node_modules\@esbuild\win32-x64\esbuild.exe'
+
+npm manifest: 
+  {
+    "name": "internsystem1",
+    "private": true,
+    "version": "0.0.0",
+    "type": "module",
+    "scripts": {
+      "dev": "vite",
+      "build": "vite build",
+      "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+      "preview": "vite preview"
+    },
+    "dependencies": {
+      "@ant-design/icons": "^5.3.0",
+      "antd": "^5.14.1",
+      "axios": "^1.6.7",
+      "react": "^18.2.0",
+      "react-dom": "^18.2.0",
+      "react-redux": "^9.1.0",
+      "react-router-dom": "^6.22.1",
+      "redux-persist": "^6.0.0"
+    },
+    "devDependencies": {
+      "@types/react": "^18.2.56",
+      "@types/react-dom": "^18.2.19",
+      "@vitejs/plugin-react": "^4.2.1",
+      "eslint": "^8.56.0",
+      "eslint-plugin-react": "^7.33.2",
+      "eslint-plugin-react-hooks": "^4.6.0",
+      "eslint-plugin-react-refresh": "^0.4.5",
+      "vite": "^5.1.4"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
