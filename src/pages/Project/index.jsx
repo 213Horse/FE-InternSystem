@@ -1,7 +1,8 @@
 import { Avatar, Space, Checkbox, Tag, Button, Flex, Input, Tooltip, Pagination, Modal, DatePicker } from 'antd';
 import { UserOutlined, AntDesignOutlined } from '@ant-design/icons';
 import React, { useState, useEffect } from 'react';
-import { callGetProject, searchProjects } from '../../services/api';
+import { useDispatch } from 'react-redux';
+import {searchProjects} from '../../services/api';
 
 const Project = () => {
     const [showForm, setShowForm] = useState(false);
@@ -11,20 +12,6 @@ const Project = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [searchText, setSearchText] = useState('');
 
-    // const fetchProjects = async () => {
-    //     let res;
-    //     res = await callGetProject();
-    //     const projectArray = Object.values(res?.data?.value || {});
-    //     setProjects(projectArray);
-    // }
-
-    const searchProjects = async () => {
-        let res;
-        res = await searchProjects();
-        const projectArray = Object.values(res?.data || {});
-        setProjects(projectArray);
-        console.log('checkk', projectArray);
-    }
 
     useEffect(() => {
         searchProjects();
@@ -47,7 +34,7 @@ const Project = () => {
     const handleChangePage = (page) => {
         setCurrentPage(page);
     };
-
+    const dispatch = useDispatch();
     const handleSearch = (value) => {
         dispatch(searchProjects(value))
         // searchProjects(value);
@@ -55,6 +42,7 @@ const Project = () => {
         // filterProjects(value);
         console.log('check: ', value)
     };
+    console.log('check2: ', handleSearch)
 
     const filterProjects = (value) => {
         const filtered = projects.filter(project => project.ten.toLowerCase().includes(value.toLowerCase()));
