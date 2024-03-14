@@ -73,7 +73,7 @@ const Tech = () => {
             borderRadius: '10px',
             boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.5)',
             height: '180px',
-            width: '372px'
+            width: '362px'
         },
         model: {
             display: 'flex',
@@ -89,7 +89,7 @@ const Tech = () => {
 
     return (
         <div style={{
-            marginLeft: '200px',
+            // marginLeft: '200px',
             marginRight: '20px',
             marginBottom: '40px',
             backgroundColor: 'white',

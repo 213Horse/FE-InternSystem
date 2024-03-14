@@ -14,10 +14,13 @@ export const callLogin = (email, password) => {
 export const callGetProject = () => {
   return axios.get('/api/du-ans/get-all-projects');
 }
-// export const searchProjects = (ten) => {
-//   return axios.get('/api/du-ans/search-projects', {
-//     params: {
-//       ten: ten
-//     }
-//   });
-// }
+export const callGetPosition = () => {
+  return axios.get('/api/vi-tris/get');
+}
+export const searchProjects = (ten) => {
+  return axios.get('/api/du-ans/search-projects', {
+    params: {
+      ten: ten
+    }
+  });
+}

@@ -2,10 +2,15 @@ import axios from 'axios';
 
 const baseURL = import.meta.env.VITE_BACKEND_URL
 
+const token = localStorage.getItem('access_token');
+
+// Tạo instance axios với baseURL và header chứa token
 const instance = axios.create({
   baseURL: baseURL,
+  headers: {
+    'Authorization': token ? `Bearer ${token}` : null // Thêm token vào header nếu tồn tại
+  }
 });
-instance.defaults.headers.common = { 'Authorization': `Bearer ${localStorage.getItem('access_token')}` }
 
 // Add a request interceptor
 axios.interceptors.request.use(function (config) {

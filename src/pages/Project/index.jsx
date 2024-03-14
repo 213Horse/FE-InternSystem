@@ -1,14 +1,15 @@
 import { Avatar, Space, Checkbox, Tag, Button, Flex, Input, Tooltip, Pagination, Modal, DatePicker } from 'antd';
 import { UserOutlined, AntDesignOutlined } from '@ant-design/icons';
 import React, { useState, useEffect } from 'react';
-import { callGetProject } from '../../services/api';
+import { callGetProject, searchProjects } from '../../services/api';
 
 const Project = () => {
     const [showForm, setShowForm] = useState(false);
     const [projects, setProjects] = useState([]);
     const pageSize = 6;
+    const [filteredProjects, setFilteredProjects] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [ten, setten] = useState('');
+    const [searchText, setSearchText] = useState('');
 
     const fetchProjects = async () => {
         let res;
@@ -16,11 +17,20 @@ const Project = () => {
         const projectArray = Object.values(res?.data?.value || {});
         setProjects(projectArray);
     }
+    const searchProjects = async () => {
+        let res;
+        res = await searchProjects();
+        const projectArray = Object.values(res?.data || {});
+        setProjects(projectArray);
+    }
 
     useEffect(() => {
         fetchProjects();
-    }, [ten]);
-
+    }, []);
+    useEffect(() => {
+        // Ban đầu, hiển thị tất cả các dự án
+        filterProjects('');
+    }, [projects]);
 
 
     const handleAddProject = () => {
@@ -36,13 +46,22 @@ const Project = () => {
     };
 
     const handleSearch = (value) => {
-        setten(value);
-        console.log(ten);
-    }
+        searchProjects(value);
+        setSearchText(value);
+        filterProjects(value);
+        console.log('check: ', searchProjects)
+    };
+
+    const filterProjects = (value) => {
+        const filtered = projects.filter(project => project.ten.toLowerCase().includes(value.toLowerCase()));
+        setFilteredProjects(filtered);
+    };
+
     const indexOfLastProject = currentPage * pageSize;
     const indexOfFirstProject = indexOfLastProject - pageSize;
-    const currentProjects = projects.slice(indexOfFirstProject, indexOfLastProject);
-
+    const currentProjects = filteredProjects.slice(indexOfFirstProject, indexOfLastProject);
+    console.log(projects);
+    console.log("filter", filteredProjects);
     const styles = {
         box: {
             margin: '20px',
@@ -93,7 +112,7 @@ const Project = () => {
             </div>
             <div style={{ display: 'flex', justifyContent: 'flex-start', flexWrap: 'wrap' }}>
                 {currentProjects.map(project => (
-                    <div style={styles.box}>
+                    <div style={styles.box} key={project.id}>
                         <div>
                             <div style={{ margin: '10px', fontSize: '22px', fontWeight: 'bold', }}>
                                 {project.ten}
@@ -218,143 +237,5 @@ const Project = () => {
     )
 }
 
-// export default Project;
-// import { Avatar, Button, Input, Pagination, Modal, DatePicker } from 'antd';
-// import { UserOutlined, AntDesignOutlined } from '@ant-design/icons';
-// import React, { useState, useEffect } from 'react';
-// import { callGetProject, searchProjects } from '../../services/api';
+export default Project;
 
-// const Project = () => {
-//     const [showForm, setShowForm] = useState(false);
-//     const [projects, setProjects] = useState([]);
-//     const pageSize = 6;
-//     const [currentPage, setCurrentPage] = useState(1);
-//     const [ten, setten] = useState('');
-
-//     const fetchProjects = async () => {
-//         let res;
-//         if (ten) {
-//             res = await searchProjects(ten);
-//         } else {
-//             res = await callGetProject();
-//         }
-//         const projectArray = Object.values(res?.data?.value || {});
-//         setProjects(projectArray);
-//         console.log(projectArray);
-//     }
-
-//     useEffect(() => {
-//         fetchProjects();
-//     }, [ten]);
-
-//     const handleAddProject = () => {
-//         setShowForm(true);
-//     };
-
-//     const handleCloseForm = () => {
-//         setShowForm(false);
-//     };
-
-//     const handleChangePage = (page) => {
-//         setCurrentPage(page);
-//     };
-
-//     const handleSearch = (value) => {
-//         setten(value);
-//     }
-
-//     const indexOfLastProject = currentPage * pageSize;
-//     const indexOfFirstProject = indexOfLastProject - pageSize;
-//     const currentProjects = projects.slice(indexOfFirstProject, indexOfLastProject);
-
-//     const styles = {
-//         box: {
-//             margin: '20px',
-//             border: '0.5px solid black',
-//             borderRadius: '10px',
-//             boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.5)',
-//             height: '230px',
-//             width: '368px'
-//         }
-//     };
-
-//     return (
-//         <div style={{
-//             marginRight: '20px',
-//             marginBottom: '40px',
-//             backgroundColor: 'white',
-//             borderRadius: '10px',
-//         }}>
-//             <div>
-//                 <h1 style={{ marginLeft: '10px', color: '#8A2BE2' }}>Project Management</h1>
-//                 <br></br>
-//                 <div>
-//                     <Input.Search
-//                         placeholder="input search text"
-//                         allowClear
-//                         enterButton="Search"
-//                         size="large"
-//                         style={{ margin: '20px', width: '50%' }}
-//                         onSearch={handleSearch}
-//                     />
-//                     <Button size={'large'} type="primary" style={{ margin: '20px', backgroundColor: 'green' }}>Export Excel</Button>
-//                     <Button size={'large'} type="primary" style={{ margin: '20px', backgroundColor: 'orange' }}>Edit</Button>
-//                     <Button size={'large'} type="primary" style={{ margin: '20px', backgroundColor: 'red' }}>Delete</Button>
-//                     <Button onClick={handleAddProject} size={'large'} type="primary" style={{ margin: '20px 10px 20px 20px', backgroundColor: 'blue' }}>Add New Project</Button>
-//                 </div>
-//                 <br></br>
-//             </div>
-//             <div style={{ display: 'flex', justifyContent: 'flex-start', flexWrap: 'wrap' }}>
-//                 {currentProjects.map(project => (
-//                     <div style={styles.box} key={project.id}>
-//                         <div>
-//                             <div style={{ margin: '10px', fontSize: '22px', fontWeight: 'bold', }}>
-//                                 {project.ten}
-//                             </div>
-//                             <div>{project.id}</div>
-//                             <div style={{ borderBottom: '2px solid #ccc' }}></div>
-//                             <div style={{ color: ' #454545', marginLeft: '10px', lineHeight: 1.5, fontWeight: 'bold' }}>
-//                                 <div>
-//                                     Position: Back-end, Front-end, BA, Design
-//                                 </div>
-//                                 <div>
-//                                     Technology: .NET, Reactjs, Trello, ...
-//                                 </div>
-//                                 <div>
-//                                     Leader - Sub Leader: {project.leaderName} <Avatar size="small" icon={<UserOutlined />} /> <Avatar size="small" icon={<UserOutlined />} />
-//                                 </div>
-//                                 <div>
-//                                     Mentor <Avatar size="small" icon={<UserOutlined />} />
-//                                 </div>
-//                                 <div>
-//                                     Group Zalo : Link
-//                                 </div>
-//                                 <div style={{ display: 'flex', flexDirection: 'row', gap: '20px' }}>
-//                                     <div style={{ color: 'green' }}>
-//                                         {project.thoiGianBatDau}
-//                                     </div>
-//                                     <div style={{ color: 'red' }}>
-//                                         {project.thoiGianKetThuc}
-//                                     </div>
-//                                 </div>
-//                                 <div>
-//                                     {/* Your Avatar.Group code */}
-//                                 </div>
-//                             </div>
-//                         </div>
-//                     </div>
-//                 ))}
-//             </div>
-//             <Pagination
-//                 defaultCurrent={1}
-//                 total={projects.length}
-//                 pageSize={pageSize}
-//                 onChange={handleChangePage}
-//                 style={{ padding: '20px' }}
-//             />
-//             {/* Your Modal code */}
-//         </div>
-//     )
-// }
-
-// export default Project;
