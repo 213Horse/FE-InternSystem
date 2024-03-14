@@ -2,6 +2,7 @@ import { Avatar, Space, Checkbox, Tag, Button, Flex, Input, Tooltip, Pagination,
 import { UserOutlined, AntDesignOutlined } from '@ant-design/icons';
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+// import { callGetProject, searchProjects } from '../../services/api';
 import {searchProjects} from '../../services/api';
 
 const Project = () => {
@@ -11,7 +12,6 @@ const Project = () => {
     const [filteredProjects, setFilteredProjects] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [searchText, setSearchText] = useState('');
-
 
     useEffect(() => {
         searchProjects();
@@ -35,13 +35,9 @@ const Project = () => {
         setCurrentPage(page);
     };
     const dispatch = useDispatch();
-    const handleSearch = (value) => {
-        dispatch(searchProjects(value));
-        // setSearchText(value);
-        // filterProjects(value);
-        console.log('check1: ', value)
+    const handleSearch = (searchText) => {
+        dispatch(searchProjects(searchText));
     };
-    console.log('check2: ', handleSearch)
 
     const filterProjects = (value) => {
         const filtered = projects.filter(project => project.ten.toLowerCase().includes(value.toLowerCase()));
@@ -91,6 +87,8 @@ const Project = () => {
                         enterButton="Search"
                         size="large"
                         style={{ margin: '20px', width: '50%' }}
+                        value={searchText}
+                        onChange={e => setSearchText(e.target.value)}
                         onSearch={handleSearch}
                     />
                     <Button size={'large'} type="primary" style={{ margin: '20px', backgroundColor: 'green' }}>Export Excel</Button>
