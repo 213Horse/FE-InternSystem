@@ -18,7 +18,6 @@ export const callGetPosition = () => {
   return axios.get('/api/vi-tris/get');
 }
 export const searchProjects = (value) => {
-  return axios.get('/api/du-ans/search-projects?ten=${value}', {
-
-  }); console.log(value);
+  return axios.get(`/api/du-ans/search-projects?ten=${value}`, {
+  })
 }
