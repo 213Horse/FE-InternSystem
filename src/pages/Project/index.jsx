@@ -49,10 +49,11 @@ const Project = () => {
     };
 
     const handleSearch = (value) => {
-        dispatch(searchProjects(value));
+        dispatch(searchProjects(value))
+        // searchProjects(value);
         // setSearchText(value);
         // filterProjects(value);
-        console.log('check1: ', value)
+        console.log('check: ', value)
     };
 
     const filterProjects = (value) => {
