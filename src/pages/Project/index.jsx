@@ -11,22 +11,25 @@ const Project = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [searchText, setSearchText] = useState('');
 
-    const fetchProjects = async () => {
-        let res;
-        res = await callGetProject();
-        const projectArray = Object.values(res?.data?.value || {});
-        setProjects(projectArray);
-    }
+    // const fetchProjects = async () => {
+    //     let res;
+    //     res = await callGetProject();
+    //     const projectArray = Object.values(res?.data?.value || {});
+    //     setProjects(projectArray);
+    // }
+
     const searchProjects = async () => {
         let res;
         res = await searchProjects();
         const projectArray = Object.values(res?.data || {});
         setProjects(projectArray);
+        console.log('checkk', projectArray);
     }
 
     useEffect(() => {
-        fetchProjects();
+        searchProjects();
     }, []);
+
     useEffect(() => {
         // Ban đầu, hiển thị tất cả các dự án
         filterProjects('');
@@ -46,10 +49,10 @@ const Project = () => {
     };
 
     const handleSearch = (value) => {
-        searchProjects(value);
-        setSearchText(value);
-        filterProjects(value);
-        console.log('check: ', searchProjects)
+        dispatch(searchProjects(value));
+        // setSearchText(value);
+        // filterProjects(value);
+        console.log('check1: ', value)
     };
 
     const filterProjects = (value) => {
@@ -60,8 +63,7 @@ const Project = () => {
     const indexOfLastProject = currentPage * pageSize;
     const indexOfFirstProject = indexOfLastProject - pageSize;
     const currentProjects = filteredProjects.slice(indexOfFirstProject, indexOfLastProject);
-    console.log(projects);
-    console.log("filter", filteredProjects);
+    // console.log(projects);
     const styles = {
         box: {
             margin: '20px',
@@ -111,7 +113,7 @@ const Project = () => {
                 <br></br>
             </div>
             <div style={{ display: 'flex', justifyContent: 'flex-start', flexWrap: 'wrap' }}>
-                {currentProjects.map(project => (
+                {projects.map(project => (
                     <div style={styles.box} key={project.id}>
                         <div>
                             <div style={{ margin: '10px', fontSize: '22px', fontWeight: 'bold', }}>
