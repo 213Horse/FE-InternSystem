@@ -33,7 +33,7 @@ function App() {
                <Route path='register-intern' element = {<RegisterIntern/>}/>
                <Route/>
             </Route>
-            {isAuthenticated == true &&  <Route path="/home" element={<Home />}>
+            {isAuthenticated === true &&  <Route path="/home" element={<Home />}>
                 <Route path="dashboard" element={<Dashboard />} />
                 <Route path="approve-cv" element={<Approve />} />
                 <Route path="confirm-cv" element={<Confirm />} />
@@ -45,7 +45,7 @@ function App() {
                 <Route path="group-zalo-management" element={<Zalo />} />
                 <Route path="settings" element={<Settings />} />
             </Route>}
-            {isAuthenticated == true &&  <Route path="*" element={<ErrorPerrmission />}/>}
+            {isAuthenticated === false &&  <Route path="*" element={<ErrorPerrmission />}/>}
         </Routes>
     );
 }

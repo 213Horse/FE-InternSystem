@@ -28,12 +28,14 @@ function AdminLogin() {
             message.success("login success");
             navigate("/home");   
             return;
+        }else{
+            notification.error({
+                message: 'Login Error',
+                description: res.data && Array.isArray(message) ? res.message[0] : res.message,
+                duration: 5
+            })
         }
-        notification.error({
-            message: 'Login Error',
-            description: res.data && Array.isArray(message) ? res.message[0] : res.message,
-            duration: 5
-        })
+       
     };
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
