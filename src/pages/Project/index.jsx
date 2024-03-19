@@ -1,12 +1,27 @@
-import React from 'react'
 import { Avatar, Space, Checkbox, Tag, Button, Flex, Input, Tooltip, Pagination, Modal, DatePicker } from 'antd';
 import { UserOutlined, AntDesignOutlined } from '@ant-design/icons';
-import { useState } from 'react';
-
-
+import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+// import { callGetProject, searchProjects } from '../../services/api';
+import { searchProjects } from '../../services/api';
 
 const Project = () => {
     const [showForm, setShowForm] = useState(false);
+    const [projects, setProjects] = useState([]);
+    const pageSize = 6;
+    const [filteredProjects, setFilteredProjects] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [searchText, setSearchText] = useState('');
+
+    useEffect(() => {
+        searchProjects();
+    }, []);
+
+    useEffect(() => {
+        // Ban đầu, hiển thị tất cả các dự án
+        filterProjects('');
+    }, [projects]);
+
 
     const handleAddProject = () => {
         setShowForm(true);
@@ -15,15 +30,32 @@ const Project = () => {
     const handleCloseForm = () => {
         setShowForm(false);
     };
-    const { Search } = Input;
+
+    const handleChangePage = (page) => {
+        setCurrentPage(page);
+    };
+    const dispatch = useDispatch();
+    const handleSearch = (searchText) => {
+        dispatch(searchProjects(searchText));
+    };
+
+    const filterProjects = (value) => {
+        const filtered = projects.filter(project => project.ten.toLowerCase().includes(value.toLowerCase()));
+        setFilteredProjects(filtered);
+    };
+
+    const indexOfLastProject = currentPage * pageSize;
+    const indexOfFirstProject = indexOfLastProject - pageSize;
+    const currentProjects = filteredProjects.slice(indexOfFirstProject, indexOfLastProject);
+    // console.log(projects);
     const styles = {
         box: {
             margin: '20px',
             border: '0.5px solid black',
             borderRadius: '10px',
             boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.5)',
-            height: '280px',
-            width: '372px'
+            height: '230px',
+            width: '368px'
         },
         model: {
             display: 'flex',
@@ -33,417 +65,111 @@ const Project = () => {
             gap: '20px',
         }
     };
+
     const onChange = (date, dateString) => {
         console.log(date, dateString);
     };
+
     return (
         <div style={{
-            marginLeft: '200px',
             marginRight: '20px',
+            marginBottom: '40px',
             backgroundColor: 'white',
             borderRadius: '10px',
         }}>
             <div>
-                <h1 style={{ marginLeft: '10px', color: '#8A2BE2' }}>Project Managemnet</h1>
+                <h1 style={{ marginLeft: '10px', color: '#8A2BE2' }}>Project Management</h1>
                 <br></br>
                 <div>
-                    <Search
+                    <Input.Search
                         placeholder="input search text"
                         allowClear
                         enterButton="Search"
                         size="large"
-                        style={{ margin: '20px', width: '33%' }}
+                        style={{ margin: '20px', width: '50%' }}
+                        value={searchText}
+                        onChange={e => setSearchText(e.target.value)}
+                        onSearch={handleSearch}
                     />
-                    <Button size={'large'} type="primary" style={{ width: '160px', margin: '20px', backgroundColor: 'green' }}>Export Excel</Button>
-                    <Button size={'large'} type="primary" style={{ width: '160px', margin: '20px', backgroundColor: 'orange' }}>Edit</Button>
-                    <Button size={'large'} type="primary" style={{ width: '160px', margin: '20px', backgroundColor: 'red' }}>Delete</Button>
-                    <Button onClick={handleAddProject} size={'large'} type="primary" style={{ width: '160px', margin: '20px 10px 20px 20px', backgroundColor: 'blue' }}>Add New Project</Button>
-
-
+                    <Button size={'large'} type="primary" style={{ margin: '20px', backgroundColor: 'green' }}>Export Excel</Button>
+                    <Button size={'large'} type="primary" style={{ margin: '20px', backgroundColor: 'orange' }}>Edit</Button>
+                    <Button size={'large'} type="primary" style={{ margin: '20px', backgroundColor: 'red' }}>Delete</Button>
+                    <Button onClick={handleAddProject} size={'large'} type="primary" style={{ margin: '20px 10px 20px 20px', backgroundColor: 'blue' }}>Add New Project</Button>
                 </div>
                 <br></br>
             </div>
             <div style={{ display: 'flex', justifyContent: 'flex-start', flexWrap: 'wrap' }}>
-                <div style={styles.box}>
-                    <div>
-                        <div style={{ margin: '10px', fontSize: '25px', fontWeight: 'bold', }}>
-                            Intern System
-                            <Tag color="gold" style={{ marginLeft: '80px', marginBottom: '5px' }}>In process</Tag>
-                            <Checkbox ></Checkbox>
-                        </div>
-                        <div style={{ borderBottom: '2px solid #ccc' }}></div>
-                        <div style={{ color: ' #454545', marginLeft: '10px', lineHeight: 2, fontWeight: 'bold' }}>
-                            <div>
-                                Position: Back-end, Front-end, BA, Design
+                {projects.map(project => (
+                    <div style={styles.box} key={project.id}>
+                        <div>
+                            <div style={{ margin: '10px', fontSize: '22px', fontWeight: 'bold', }}>
+                                {project.ten}
                             </div>
-                            <div>
-                                Technology: .NET, Reactjs, Trello, ...
-                            </div>
-                            <div>
-                                Leader - Sub Leader <Avatar icon={<UserOutlined />} /> <Avatar icon={<UserOutlined />} />
-                            </div>
-                            <div>
-                                Mentor <Avatar icon={<UserOutlined />} />
-                            </div>
-                            <div>
-                                Group Zalo : Link
-                            </div>
-                            <div style={{ display: 'flex', flexDirection: 'row', gap: '28px' }}>
-                                <div style={{ color: 'green' }}>
-                                    Start Date :05 Jan 2023
+                            <div style={{ borderBottom: '2px solid #ccc' }}></div>
+                            <div style={{ color: ' #454545', marginLeft: '10px', lineHeight: 1.5, fontWeight: 'bold' }}>
+                                <div>
+                                    Position: Back-end, Front-end, BA, Design
                                 </div>
-                                <div style={{ color: 'red' }}>
-                                    Release Date: 05 Apr 2023
+                                <div>
+                                    Technology: .NET, Reactjs, Trello, ...
                                 </div>
-                            </div>
-                            <div>
-                                <Avatar.Group>
-                                    <Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=1" />
-                                    <a href="https://ant.design">
+                                <div>
+                                    Leader - Sub Leader: {project.leaderName} <Avatar size="small" icon={<UserOutlined />} /> <Avatar size="small" icon={<UserOutlined />} />
+                                </div>
+                                <div>
+                                    Mentor <Avatar size="small" icon={<UserOutlined />} />
+                                </div>
+                                <div>
+                                    Group Zalo : Link
+                                </div>
+                                <div style={{ display: 'flex', flexDirection: 'row', gap: '20px' }}>
+                                    <div style={{ color: 'green' }}>
+                                        {project.thoiGianBatDau}
+                                    </div>
+                                    <div style={{ color: 'red' }}>
+                                        {project.thoiGianKetThuc}
+                                    </div>
+                                </div>
+                                <div>
+                                    <Avatar.Group>
+                                        <Avatar size="small" src="https://api.dicebear.com/7.x/miniavs/svg?seed=1" />
+                                        <a href="https://ant.design">
+                                            <Avatar
+                                                style={{
+                                                    backgroundColor: '#f56a00',
+                                                }}
+                                            >
+                                                K
+                                            </Avatar>
+                                        </a>
+                                        <Tooltip title="Ant User" placement="top">
+                                            <Avatar
+                                                style={{
+                                                    backgroundColor: '#87d068',
+                                                }}
+                                                icon={<UserOutlined />}
+                                            />
+                                        </Tooltip>
                                         <Avatar
                                             style={{
-                                                backgroundColor: '#f56a00',
+                                                backgroundColor: '#1677ff',
                                             }}
-                                        >
-                                            K
-                                        </Avatar>
-                                    </a>
-                                    <Tooltip title="Ant User" placement="top">
-                                        <Avatar
-                                            style={{
-                                                backgroundColor: '#87d068',
-                                            }}
-                                            icon={<UserOutlined />}
+                                            icon={<AntDesignOutlined />}
                                         />
-                                    </Tooltip>
-                                    <Avatar
-                                        style={{
-                                            backgroundColor: '#1677ff',
-                                        }}
-                                        icon={<AntDesignOutlined />}
-                                    />
-                                </Avatar.Group>
+                                    </Avatar.Group>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div style={styles.box}>
-                    <div>
-                        <div style={{ margin: '10px', fontSize: '25px', fontWeight: 'bold', }}>
-                            Intern System
-                            <Tag color="gold" style={{ marginLeft: '80px', marginBottom: '5px' }}>In process</Tag>
-                            <Checkbox ></Checkbox>
-                        </div>
-                        <div style={{ borderBottom: '2px solid #ccc' }}></div>
-                        <div style={{ color: ' #454545', marginLeft: '10px', lineHeight: 2, fontWeight: 'bold' }}>
-                            <div>
-                                Position: Back-end, Front-end, BA, Design
-                            </div>
-                            <div>
-                                Technology: .NET, Reactjs, Trello, ...
-                            </div>
-                            <div>
-                                Leader - Sub Leader <Avatar icon={<UserOutlined />} /> <Avatar icon={<UserOutlined />} />
-                            </div>
-                            <div>
-                                Mentor <Avatar icon={<UserOutlined />} />
-                            </div>
-                            <div>
-                                Group Zalo : Link
-                            </div>
-                            <div style={{ display: 'flex', flexDirection: 'row', gap: '28px' }}>
-                                <div style={{ color: 'green' }}>
-                                    Start Date :05 Jan 2023
-                                </div>
-                                <div style={{ color: 'red' }}>
-                                    Release Date: 05 Apr 2023
-                                </div>
-                            </div>
-                            <div>
-                                <Avatar.Group>
-                                    <Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=1" />
-                                    <a href="https://ant.design">
-                                        <Avatar
-                                            style={{
-                                                backgroundColor: '#f56a00',
-                                            }}
-                                        >
-                                            K
-                                        </Avatar>
-                                    </a>
-                                    <Tooltip title="Ant User" placement="top">
-                                        <Avatar
-                                            style={{
-                                                backgroundColor: '#87d068',
-                                            }}
-                                            icon={<UserOutlined />}
-                                        />
-                                    </Tooltip>
-                                    <Avatar
-                                        style={{
-                                            backgroundColor: '#1677ff',
-                                        }}
-                                        icon={<AntDesignOutlined />}
-                                    />
-                                </Avatar.Group>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div style={styles.box}>
-                    <div>
-                        <div style={{ margin: '10px', fontSize: '25px', fontWeight: 'bold', }}>
-                            Intern System
-                            <Tag color="gold" style={{ marginLeft: '80px', marginBottom: '5px' }}>In process</Tag>
-                            <Checkbox ></Checkbox>
-                        </div>
-                        <div style={{ borderBottom: '2px solid #ccc' }}></div>
-                        <div style={{ color: ' #454545', marginLeft: '10px', lineHeight: 2, fontWeight: 'bold' }}>
-                            <div>
-                                Position: Back-end, Front-end, BA, Design
-                            </div>
-                            <div>
-                                Technology: .NET, Reactjs, Trello, ...
-                            </div>
-                            <div>
-                                Leader - Sub Leader <Avatar icon={<UserOutlined />} /> <Avatar icon={<UserOutlined />} />
-                            </div>
-                            <div>
-                                Mentor <Avatar icon={<UserOutlined />} />
-                            </div>
-                            <div>
-                                Group Zalo : Link
-                            </div>
-                            <div style={{ display: 'flex', flexDirection: 'row', gap: '28px' }}>
-                                <div style={{ color: 'green' }}>
-                                    Start Date :05 Jan 2023
-                                </div>
-                                <div style={{ color: 'red' }}>
-                                    Release Date: 05 Apr 2023
-                                </div>
-                            </div>
-                            <div>
-                                <Avatar.Group>
-                                    <Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=1" />
-                                    <a href="https://ant.design">
-                                        <Avatar
-                                            style={{
-                                                backgroundColor: '#f56a00',
-                                            }}
-                                        >
-                                            K
-                                        </Avatar>
-                                    </a>
-                                    <Tooltip title="Ant User" placement="top">
-                                        <Avatar
-                                            style={{
-                                                backgroundColor: '#87d068',
-                                            }}
-                                            icon={<UserOutlined />}
-                                        />
-                                    </Tooltip>
-                                    <Avatar
-                                        style={{
-                                            backgroundColor: '#1677ff',
-                                        }}
-                                        icon={<AntDesignOutlined />}
-                                    />
-                                </Avatar.Group>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div style={styles.box}>
-                    <div>
-                        <div style={{ margin: '10px', fontSize: '25px', fontWeight: 'bold', }}>
-                            Intern System
-                            <Tag color="gold" style={{ marginLeft: '80px', marginBottom: '5px' }}>In process</Tag>
-                            <Checkbox ></Checkbox>
-                        </div>
-                        <div style={{ borderBottom: '2px solid #ccc' }}></div>
-                        <div style={{ color: ' #454545', marginLeft: '10px', lineHeight: 2, fontWeight: 'bold' }}>
-                            <div>
-                                Position: Back-end, Front-end, BA, Design
-                            </div>
-                            <div>
-                                Technology: .NET, Reactjs, Trello, ...
-                            </div>
-                            <div>
-                                Leader - Sub Leader <Avatar icon={<UserOutlined />} /> <Avatar icon={<UserOutlined />} />
-                            </div>
-                            <div>
-                                Mentor <Avatar icon={<UserOutlined />} />
-                            </div>
-                            <div>
-                                Group Zalo : Link
-                            </div>
-                            <div style={{ display: 'flex', flexDirection: 'row', gap: '28px' }}>
-                                <div style={{ color: 'green' }}>
-                                    Start Date :05 Jan 2023
-                                </div>
-                                <div style={{ color: 'red' }}>
-                                    Release Date: 05 Apr 2023
-                                </div>
-                            </div>
-                            <div>
-                                <Avatar.Group>
-                                    <Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=1" />
-                                    <a href="https://ant.design">
-                                        <Avatar
-                                            style={{
-                                                backgroundColor: '#f56a00',
-                                            }}
-                                        >
-                                            K
-                                        </Avatar>
-                                    </a>
-                                    <Tooltip title="Ant User" placement="top">
-                                        <Avatar
-                                            style={{
-                                                backgroundColor: '#87d068',
-                                            }}
-                                            icon={<UserOutlined />}
-                                        />
-                                    </Tooltip>
-                                    <Avatar
-                                        style={{
-                                            backgroundColor: '#1677ff',
-                                        }}
-                                        icon={<AntDesignOutlined />}
-                                    />
-                                </Avatar.Group>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div style={styles.box}>
-                    <div>
-                        <div style={{ margin: '10px', fontSize: '25px', fontWeight: 'bold', }}>
-                            Intern System
-                            <Tag color="gold" style={{ marginLeft: '80px', marginBottom: '5px' }}>In process</Tag>
-                            <Checkbox ></Checkbox>
-                        </div>
-                        <div style={{ borderBottom: '2px solid #ccc' }}></div>
-                        <div style={{ color: ' #454545', marginLeft: '10px', lineHeight: 2, fontWeight: 'bold' }}>
-                            <div>
-                                Position: Back-end, Front-end, BA, Design
-                            </div>
-                            <div>
-                                Technology: .NET, Reactjs, Trello, ...
-                            </div>
-                            <div>
-                                Leader - Sub Leader <Avatar icon={<UserOutlined />} /> <Avatar icon={<UserOutlined />} />
-                            </div>
-                            <div>
-                                Mentor <Avatar icon={<UserOutlined />} />
-                            </div>
-                            <div>
-                                Group Zalo : Link
-                            </div>
-                            <div style={{ display: 'flex', flexDirection: 'row', gap: '28px' }}>
-                                <div style={{ color: 'green' }}>
-                                    Start Date :05 Jan 2023
-                                </div>
-                                <div style={{ color: 'red' }}>
-                                    Release Date: 05 Apr 2023
-                                </div>
-                            </div>
-                            <div>
-                                <Avatar.Group>
-                                    <Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=1" />
-                                    <a href="https://ant.design">
-                                        <Avatar
-                                            style={{
-                                                backgroundColor: '#f56a00',
-                                            }}
-                                        >
-                                            K
-                                        </Avatar>
-                                    </a>
-                                    <Tooltip title="Ant User" placement="top">
-                                        <Avatar
-                                            style={{
-                                                backgroundColor: '#87d068',
-                                            }}
-                                            icon={<UserOutlined />}
-                                        />
-                                    </Tooltip>
-                                    <Avatar
-                                        style={{
-                                            backgroundColor: '#1677ff',
-                                        }}
-                                        icon={<AntDesignOutlined />}
-                                    />
-                                </Avatar.Group>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div style={styles.box}>
-                    <div>
-                        <div style={{ margin: '10px', fontSize: '25px', fontWeight: 'bold', }}>
-                            Intern System
-                            <Tag color="gold" style={{ marginLeft: '80px', marginBottom: '5px' }}>In process</Tag>
-                            <Checkbox ></Checkbox>
-                        </div>
-                        <div style={{ borderBottom: '2px solid #ccc' }}></div>
-                        <div style={{ color: ' #454545', marginLeft: '10px', lineHeight: 2, fontWeight: 'bold' }}>
-                            <div>
-                                Position: Back-end, Front-end, BA, Design
-                            </div>
-                            <div>
-                                Technology: .NET, Reactjs, Trello, ...
-                            </div>
-                            <div>
-                                Leader - Sub Leader <Avatar icon={<UserOutlined />} /> <Avatar icon={<UserOutlined />} />
-                            </div>
-                            <div>
-                                Mentor <Avatar icon={<UserOutlined />} />
-                            </div>
-                            <div>
-                                Group Zalo : Link
-                            </div>
-                            <div style={{ display: 'flex', flexDirection: 'row', gap: '28px' }}>
-                                <div style={{ color: 'green' }}>
-                                    Start Date :05 Jan 2023
-                                </div>
-                                <div style={{ color: 'red' }}>
-                                    Release Date: 05 Apr 2023
-                                </div>
-                            </div>
-                            <div>
-                                <Avatar.Group>
-                                    <Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=1" />
-                                    <a href="https://ant.design">
-                                        <Avatar
-                                            style={{
-                                                backgroundColor: '#f56a00',
-                                            }}
-                                        >
-                                            K
-                                        </Avatar>
-                                    </a>
-                                    <Tooltip title="Ant User" placement="top">
-                                        <Avatar
-                                            style={{
-                                                backgroundColor: '#87d068',
-                                            }}
-                                            icon={<UserOutlined />}
-                                        />
-                                    </Tooltip>
-                                    <Avatar
-                                        style={{
-                                            backgroundColor: '#1677ff',
-                                        }}
-                                        icon={<AntDesignOutlined />}
-                                    />
-                                </Avatar.Group>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                ))}
             </div>
-            <Pagination defaultCurrent={1} total={500} style={{ padding: '20px' }} />
+            <Pagination
+                defaultCurrent={1}
+                total={projects.length}
+                pageSize={pageSize}
+                onChange={handleChangePage}
+                style={{ padding: '20px' }}
+            />
             <Modal
                 title="Add New Project"
                 visible={showForm}
@@ -495,9 +221,9 @@ const Project = () => {
                 </div>
                 <Tag color="gold" style={{ marginBottom: '5px' }}>In process</Tag>
             </Modal>
-
         </div>
     )
 }
 
-export default Project
+export default Project;
+

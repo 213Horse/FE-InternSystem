@@ -2,6 +2,9 @@ import axios from 'axios';
 
 const baseURL = import.meta.env.VITE_BACKEND_URL
 
+const token = localStorage.getItem('access_token');
+
+// Tạo instance axios với baseURL và header chứa token
 const instance = axios.create({
   baseURL: baseURL,
   withCredentials: true,
