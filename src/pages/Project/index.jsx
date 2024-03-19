@@ -2,8 +2,8 @@ import { Avatar, Space, Checkbox, Tag, Button, Flex, Input, Tooltip, Pagination,
 import { UserOutlined, AntDesignOutlined } from '@ant-design/icons';
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-// import { callGetProject, searchProjects } from '../../services/api';
 import { searchProjects } from '../../services/api';
+import { callGetProject } from '../../services/api';
 
 const Project = () => {
     const [showForm, setShowForm] = useState(false);
@@ -18,10 +18,8 @@ const Project = () => {
     }, []);
 
     useEffect(() => {
-        // Ban đầu, hiển thị tất cả các dự án
-        filterProjects('');
-    }, [projects]);
-
+        callGetProject();
+    }, []);
 
     const handleAddProject = () => {
         setShowForm(true);
@@ -99,7 +97,7 @@ const Project = () => {
                 <br></br>
             </div>
             <div style={{ display: 'flex', justifyContent: 'flex-start', flexWrap: 'wrap' }}>
-                {projects.map(project => (
+                {currentProjects.map(project => (
                     <div style={styles.box} key={project.id}>
                         <div>
                             <div style={{ margin: '10px', fontSize: '22px', fontWeight: 'bold', }}>
