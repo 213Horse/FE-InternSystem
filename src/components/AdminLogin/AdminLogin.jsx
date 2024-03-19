@@ -1,5 +1,5 @@
-import React from 'react';
-import { Alert, Button, Form, Input , Checkbox, message  } from 'antd';
+import React, { useState } from 'react';
+import { Alert, Button, Form, Input , Checkbox, message, notification  } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import { callLogin } from '../../services/api';
 import { useDispatch } from 'react-redux';
@@ -8,20 +8,34 @@ import { doLoginAction, doLogoutAction } from '../../redux/account/accountSlice'
 function AdminLogin() {
     const dispatch = useDispatch();
     const [form] = Form.useForm();
-    const navigate = useNavigate("");
+    const [isLoading,  setIsLoading] = useState(false);
+    const navigate = useNavigate();
+
+
 
     const onFinish = async(values) => {
         const {email, password } = values;
+      
         console.log('Success:', values);
+        setIsLoading(true);
         let res = await callLogin(email, password);
-        console.log(res);
-        if(res && res?.data?.accessToken){
+        console.log('res', res);
+        setIsLoading(false);
+        if(res?.data){
             let accessToken = res.data?.accessToken;
             localStorage.setItem('access_token', accessToken);
             dispatch(doLoginAction({accessToken: accessToken}));
             message.success("login success");
-            navigate("/home");    
+            navigate("/home");   
+            return;
+        }else{
+            notification.error({
+                message: 'Login Error',
+                description: res.data && Array.isArray(message) ? res.message[0] : res.message,
+                duration: 5
+            })
         }
+       
     };
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
@@ -63,8 +77,8 @@ function AdminLogin() {
                         span: 24,
                     }}
                     >
-                    <Button type="primary" style={{width:"100%", backgroundColor:"#4889E9"}} htmlType="submit">
-                        Submit
+                    <Button type="primary" style={{width:"100%", backgroundColor:"#4889E9"}} htmlType="submit" loading={isLoading}>
+                        Sign in
                     </Button>
                 </Form.Item>
                 <Form.Item
@@ -73,8 +87,8 @@ function AdminLogin() {
                         span: 24,
                     }}
                     >
-                    <Button style={{width:"100%", backgroundColor:"##EFF4FB"}} htmlType="submit">
-                        Sign up
+                    <Button style={{width:"100%", backgroundColor:"##EFF4FB"}} >
+                        <Link to = "register-admin">Sign up</Link>                 
                     </Button>
                 </Form.Item>
                 <Form.Item
