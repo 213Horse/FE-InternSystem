@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Modal, Form, Input, Space, Col, Row, Select } from 'antd';
+import { Button, Modal, Form, Input, Space, Col, Row, Select, Typography } from 'antd';
 import { EyeFilled } from '@ant-design/icons';
 
 import Filter from '../../components/Filter/filter';
@@ -12,7 +12,16 @@ const ApproveCV = () => {
 
     const { Search } = Input;
 
-    // Set Vertical Property
+    const { TextArea } = Input;
+
+    const { Title } = Typography;
+
+    // CSS
+    const title = {
+        fontWeight: 'bold',
+    }
+
+    // Đặt thuộc tính CSS 'Vertical' cho bảng Pop-up
     const [form] = Form.useForm();
     const [formLayout, setFormLayout] = useState('vertical');
     const onFormLayoutChange = ({ layout }) => {
@@ -22,7 +31,7 @@ const ApproveCV = () => {
         formLayout === 'vertical'
             ? {
                 labelCol: {
-                    span: 4,
+                    span: 20,
                 },
                 wrapperCol: {
                     span: 23,
@@ -30,16 +39,20 @@ const ApproveCV = () => {
             }
             : null;
 
-    // Modal
+    // Table Modal (Pop-up Chính)
     const [open, setOpen] = useState(false);
 
+    // Top-Head-Bar Modal 
     const [showForm, setShowForm] = useState(false);
 
-    const handleAddProject = () => {
+    const handleSendEmail = () => {
         setShowForm(true);
     };
 
-    const handleCloseForm = () => {
+    const handleOk = () => {
+        setShowForm(false);
+    };
+    const handleCancel = () => {
         setShowForm(false);
     };
 
@@ -257,8 +270,8 @@ const ApproveCV = () => {
 
                 return (
                     <>
-                        <Button type="primary" onClick={() => setOpen(true)}>
-                            Open Modal of 1000px width
+                        <Button onClick={() => setOpen(true)}>
+                            View
                         </Button>
                     </>
                 )
@@ -279,15 +292,61 @@ const ApproveCV = () => {
                         size="large"
                         style={{ margin: '20px', width: '33%' }}
                     />
+                    <Button onClick={handleSendEmail} size={'large'} type="primary" style={{ width: '160px', margin: '20px', backgroundColor: 'purple' }}>Send Email</Button>
                     <Button size={'large'} type="primary" style={{ width: '160px', margin: '20px', backgroundColor: 'green' }}>Export Excel</Button>
                     <Button size={'large'} type="primary" style={{ width: '160px', margin: '20px', backgroundColor: 'orange' }}>Edit</Button>
                     <Button size={'large'} type="primary" style={{ width: '160px', margin: '20px', backgroundColor: 'red' }}>Delete</Button>
-                    <Button onClick={handleAddProject} size={'large'} type="primary" style={{ width: '160px', margin: '20px 10px 20px 20px', backgroundColor: 'blue' }}>Add New Project</Button>
+                    <Button size={'large'} type="primary" style={{ width: '160px', margin: '20px 10px 20px 20px', backgroundColor: 'blue' }}>Add New Project</Button>
 
                 </div>
                 <br></br>
             </div>
 
+            {/* Send Email Modal */}
+            <div>
+                <Modal width={700} open={showForm} onOk={handleOk} onCancel={handleCancel}>
+
+                    <Title level={2}>Send Email</Title>
+
+                    <h3>Choose types of Email</h3>
+
+                    <div style={{ display: 'flex' }}>
+                        <div style={{ marginRight: 12 }}>
+                            <Select
+                                showSearch
+                                style={{
+                                    width: 150,
+                                }}
+                                placeholder="Types of Email"
+                                optionFilterProp="children"
+                                filterOption={(input, option) => (option?.label ?? '').includes(input)}
+                                filterSort={(optionA, optionB) =>
+                                    (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
+                                }
+                                options={[
+                                    {
+                                        value: '1',
+                                        label: 'Email interview',
+                                    },
+                                    {
+                                        value: '2',
+                                        label: 'Emai result',
+                                    },
+                                    {
+                                        value: '3',
+                                        label: 'Intership information',
+                                    },
+                                ]}
+                            />
+                        </div>
+
+                        <div style={{ width: '100%' }}>
+                            <TextArea placeholder='Enter your email' rows={4} width={500} />
+                        </div>
+                    </div>
+
+                </Modal>
+            </div>
 
             <div>
                 {/* Filter */}
@@ -316,36 +375,18 @@ const ApproveCV = () => {
                             onValuesChange={onFormLayoutChange}
                         >
                             <Row>
-                                <Col style={{ maxWidth: 'none' }} span={8}>
-                                    <Form.Item label="Field A">
+                                <Col span={8}>
+                                    <Form.Item style={title} label="Intern ID">
                                         <Input placeholder="input placeholder" disabled />
                                     </Form.Item>
                                 </Col>
                                 <Col span={8}>
-                                    <Form.Item label="Field B">
+                                    <Form.Item style={title} label="Date Interview">
                                         <Input placeholder="input placeholder" disabled />
                                     </Form.Item>
                                 </Col>
                                 <Col span={8}>
-                                    <Form.Item label="Field C">
-                                        <Input placeholder="input placeholder" disabled />
-                                    </Form.Item>
-                                </Col>
-                            </Row>
-
-                            <Row>
-                                <Col span={8}>
-                                    <Form.Item label="Field A">
-                                        <Input placeholder="input placeholder" disabled />
-                                    </Form.Item>
-                                </Col>
-                                <Col span={8}>
-                                    <Form.Item label="Field B">
-                                        <Input placeholder="input placeholder" disabled />
-                                    </Form.Item>
-                                </Col>
-                                <Col span={8}>
-                                    <Form.Item label="Field C">
+                                    <Form.Item style={title} label="Time Interview">
                                         <Input placeholder="input placeholder" disabled />
                                     </Form.Item>
                                 </Col>
@@ -353,17 +394,17 @@ const ApproveCV = () => {
 
                             <Row>
                                 <Col span={8}>
-                                    <Form.Item label="Field A">
+                                    <Form.Item style={title} label="Full Name">
                                         <Input placeholder="input placeholder" disabled />
                                     </Form.Item>
                                 </Col>
                                 <Col span={8}>
-                                    <Form.Item label="Field B">
+                                    <Form.Item style={title} label="Date Of Birth">
                                         <Input placeholder="input placeholder" disabled />
                                     </Form.Item>
                                 </Col>
                                 <Col span={8}>
-                                    <Form.Item label="Field C">
+                                    <Form.Item style={title} label="Phone Number">
                                         <Input placeholder="input placeholder" disabled />
                                     </Form.Item>
                                 </Col>
@@ -371,7 +412,43 @@ const ApproveCV = () => {
 
                             <Row>
                                 <Col span={8}>
-                                    <Form.Item label="Field A">
+                                    <Form.Item style={title} label="Position">
+                                        <Input placeholder="input placeholder" disabled />
+                                    </Form.Item>
+                                </Col>
+                                <Col span={8}>
+                                    <Form.Item style={title} label="School">
+                                        <Input placeholder="input placeholder" disabled />
+                                    </Form.Item>
+                                </Col>
+                                <Col span={8}>
+                                    <Form.Item style={title} label="Address">
+                                        <Input placeholder="input placeholder" disabled />
+                                    </Form.Item>
+                                </Col>
+                            </Row>
+
+                            <Row>
+                                <Col span={8}>
+                                    <Form.Item style={title} label="Email">
+                                        <Input placeholder="input placeholder" disabled />
+                                    </Form.Item>
+                                </Col>
+                                <Col span={8}>
+                                    <Form.Item style={title} label="Link CV">
+                                        <Input placeholder="input placeholder" disabled />
+                                    </Form.Item>
+                                </Col>
+                                <Col span={8}>
+                                    <Form.Item style={title} label="Interviewer">
+                                        <Input placeholder="input placeholder" disabled />
+                                    </Form.Item>
+                                </Col>
+                            </Row>
+
+                            <Row>
+                                <Col span={8}>
+                                    <Form.Item style={title} label="English Proficiency">
                                         <Input placeholder="input placeholder" disabled />
                                     </Form.Item>
                                 </Col>
