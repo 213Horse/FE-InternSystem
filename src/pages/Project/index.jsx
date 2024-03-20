@@ -13,20 +13,8 @@ const Project = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [searchText, setSearchText] = useState('');
     const [currentProjects, setCurrentProjects] = useState([]);
-    useEffect(() => {
-        searchProjects();
-    }, []);
 
-    useEffect(() => {
-        fetchProjects();
-    }, []);
-
-    console.log('ko', projects);
-    const fetchProjects = async () => {
-        let res = await callGetProject();
-        setFilteredProjects(res?.data?.value);
-        setProjects(res?.data?.value);;
-    }
+    const dispatch = useDispatch();
 
     const handleAddProject = () => {
         setShowForm(true);
@@ -40,33 +28,25 @@ const Project = () => {
         setCurrentPage(page);
     };
 
-    const dispatch = useDispatch();
-
-    // const handleSearch = (searchText) => {
-    //     dispatch(searchProjects(searchText));
-    // };
-    const handleSearch = async (searchText) => {
-        dispatch(searchProjects(searchText));
-        setSearchText(searchText);
-
-        try {
-            const result = await searchProjects(searchText);
-            setFilteredProjects(result.data.value); // Cập nhật filteredProjects với dữ liệu mới từ API
-
-        } catch (error) {
-            console.error('Error searching projects:', error);
-            setFilteredProjects([]); // Nếu có lỗi, đặt filteredProjects thành mảng rỗng
-        }
+    const handleSearch = (searchText) => {
+        searchProjects(searchText)
+            .then(response => {
+                setFilteredProjects(response.data); // Cập nhật danh sách dự án đã lọc
+            })
+            .catch(error => {
+                console.error('Error searching projects:', error);
+            });
     };
-    console.log('currentProjects', handleSearch);
-    console.log('searchText', searchText);
-    console.log('filteredProjects', filteredProjects);
+
+    useEffect(() => {
+        handleSearch(searchText); // Gọi hàm tìm kiếm khi searchText thay đổi
+    }, [searchText]);
+
     useEffect(() => {
         const indexOfLastProject = currentPage * pageSize;
         const indexOfFirstProject = indexOfLastProject - pageSize;
         setCurrentProjects(filteredProjects.slice(indexOfFirstProject, indexOfLastProject));
-
-    }, [filteredProjects])
+    }, [filteredProjects, currentPage]);
 
     const styles = {
         box: {
