@@ -12,7 +12,7 @@ const Project = () => {
     const [filteredProjects, setFilteredProjects] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [searchText, setSearchText] = useState('');
-
+    const [currentProjects, setCurrentProjects] = useState([]);
     useEffect(() => {
         searchProjects();
     }, []);
@@ -48,20 +48,26 @@ const Project = () => {
     const handleSearch = async (searchText) => {
         dispatch(searchProjects(searchText));
         setSearchText(searchText);
+
         try {
             const result = await searchProjects(searchText);
             setFilteredProjects(result.data.value); // Cập nhật filteredProjects với dữ liệu mới từ API
+
         } catch (error) {
             console.error('Error searching projects:', error);
             setFilteredProjects([]); // Nếu có lỗi, đặt filteredProjects thành mảng rỗng
         }
     };
+    console.log('currentProjects', handleSearch);
+    console.log('searchText', searchText);
+    console.log('filteredProjects', filteredProjects);
+    useEffect(() => {
+        const indexOfLastProject = currentPage * pageSize;
+        const indexOfFirstProject = indexOfLastProject - pageSize;
+        setCurrentProjects(filteredProjects.slice(indexOfFirstProject, indexOfLastProject));
 
+    }, [filteredProjects])
 
-    const indexOfLastProject = currentPage * pageSize;
-    const indexOfFirstProject = indexOfLastProject - pageSize;
-    const currentProjects = filteredProjects.slice(indexOfFirstProject, indexOfLastProject);
-    console.log('fil', filteredProjects);
     const styles = {
         box: {
             margin: '20px',
