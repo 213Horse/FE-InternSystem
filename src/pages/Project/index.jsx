@@ -4,16 +4,16 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { searchProjects } from '../../services/api';
 import { callGetProject } from '../../services/api';
+import Search from 'antd/es/input/Search';
 
 const Project = () => {
     const [showForm, setShowForm] = useState(false);
-    const [projects, setProjects] = useState([]);
     const pageSize = 6;
     const [filteredProjects, setFilteredProjects] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [searchText, setSearchText] = useState('');
     const [currentProjects, setCurrentProjects] = useState([]);
-
+    console.log(filteredProjects);
     const dispatch = useDispatch();
 
     const handleAddProject = () => {
@@ -29,9 +29,10 @@ const Project = () => {
     };
 
     const handleSearch = (searchText) => {
+        setCurrentPage(1);
         searchProjects(searchText)
             .then(response => {
-                setFilteredProjects(response.data); // Cập nhật danh sách dự án đã lọc
+                setFilteredProjects(response.data);
             })
             .catch(error => {
                 console.error('Error searching projects:', error);
@@ -39,9 +40,9 @@ const Project = () => {
     };
 
     useEffect(() => {
-        handleSearch(searchText); // Gọi hàm tìm kiếm khi searchText thay đổi
+        handleSearch(searchText);
     }, [searchText]);
-
+    console.log(filteredProjects);
     useEffect(() => {
         const indexOfLastProject = currentPage * pageSize;
         const indexOfFirstProject = indexOfLastProject - pageSize;
@@ -81,16 +82,16 @@ const Project = () => {
                 <h1 style={{ marginLeft: '10px', color: '#8A2BE2' }}>Project Management</h1>
                 <br></br>
                 <div>
-                    <Input.Search
+                    <Input
                         placeholder="input search text"
                         allowClear
                         enterButton="Search"
                         size="large"
                         style={{ margin: '20px', width: '50%' }}
-                        value={searchText}
                         onChange={e => setSearchText(e.target.value)}
-                        onSearch={handleSearch}
+
                     />
+                    <Button size={'large'} type="primary" onClick={handleSearch} style={{ left: -20, backgroundColor: 'blue' }}>Search</Button>
                     <Button size={'large'} type="primary" style={{ margin: '20px', backgroundColor: 'green' }}>Export Excel</Button>
                     <Button size={'large'} type="primary" style={{ margin: '20px', backgroundColor: 'orange' }}>Edit</Button>
                     <Button size={'large'} type="primary" style={{ margin: '20px', backgroundColor: 'red' }}>Delete</Button>
@@ -165,7 +166,7 @@ const Project = () => {
             </div>
             <Pagination
                 defaultCurrent={1}
-                total={projects.length}
+                total={filteredProjects.length}
                 pageSize={pageSize}
                 onChange={handleChangePage}
                 style={{ padding: '20px' }}
