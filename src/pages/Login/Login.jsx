@@ -9,22 +9,18 @@ import SchoolLogin from '../../components/SchoolLogin/SchoolLogin';
 import './Login.css';
 import { Link, Outlet } from 'react-router-dom';
 
-function getItem(label, key, icon, children, type) {
-    return {
-        key,
-        icon,
-        children,
-        label,
-        type,
-    };
-}
+// function getItem(label, key, icon, children, type) {
+//     return {
+//         key,
+//         icon,
+//         children,
+//         label,
+//         type,
+//     };
+// }
 
 const items = [
-    // getItem('Admin'),
-    // getItem('Human Resources'),
-    // getItem('Mentor'),
-    // getItem('School'),
-    // getItem('Intern')
+
     {
         label: (
             <Link to="">
@@ -34,7 +30,7 @@ const items = [
         key: 'admin',
     },
     {
-        label:'Human Resources',
+        label: 'Human Resources',
         key: 'humanresources',
     },
     {
@@ -42,7 +38,7 @@ const items = [
         key: 'mentor',
     },
     {
-        label:(
+        label: (
             <Link to="school-login">
                 School
             </Link>
@@ -50,9 +46,9 @@ const items = [
         key: 'school',
     },
     {
-        label:(
+        label: (
             <Link to="register-intern">
-               Intern
+                Intern
             </Link>
         ),
         key: 'intern',
@@ -81,7 +77,7 @@ function CustomMenu({ menuActive, setMenuActive }) {
             defaultOpenKeys={['sub1']}
             mode="horizontal"
             items={items}
-            
+
         />
     );
 }
