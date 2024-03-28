@@ -30,19 +30,19 @@ const Project = () => {
 
 
     const handleSearch = (searchText) => {
-        // setCurrentPage(1);
+        setCurrentPage(1);
         searchProjects(searchText)
-        // .then(response => {
-        //     setFilteredProjects(response.data);
-        // })
-        // .catch(error => {
-        //     console.error('Error searching projects:', error);
-        // });
+        .then(response => {
+            setFilteredProjects(response.data);
+        })
+        .catch(error => {
+            console.error('Error searching projects:', error);
+        });
     };
     console.log(filteredProjects);
     useEffect(() => {
         handleSearch(searchText);
-    }, []);
+    }, [searchText]);
 
     useEffect(() => {
         const indexOfLastProject = currentPage * pageSize;
