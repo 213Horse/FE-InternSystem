@@ -678,7 +678,7 @@ const Position = () => {
             borderRadius: '10px',
             boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.5)',
             height: '230px',
-            width: '368px'
+            width: '348px'
         },
         model: {
             display: 'flex',
@@ -835,14 +835,14 @@ const Position = () => {
                         placeholder="input search text"
                         allowClear
                         enterButton="Search"
-                        size="large"
+                        size="middle"
                         style={{ margin: '20px', width: '50%' }}
                         onSearch={handleSearch}
                     />
-                    <Button size={'large'} type="primary" style={{ margin: '20px', backgroundColor: 'green' }}>Export Excel</Button>
-                    <Button size={'large'} type="primary" style={{ margin: '20px', backgroundColor: 'orange' }}>Edit</Button>
-                    <Button size={'large'} type="primary" style={{ margin: '20px', backgroundColor: 'red' }}>Delete</Button>
-                    <Button onClick={handleAddProject} size={'large'} type="primary" style={{ margin: '20px 10px 20px 20px', backgroundColor: 'blue' }}>Add New Position</Button>
+                    <Button size={'middle'} type="primary" style={{ margin: '20px', backgroundColor: 'green' }}>Export Excel</Button>
+                    <Button size={'middle'} type="primary" style={{ margin: '20px', backgroundColor: 'orange' }}>Edit</Button>
+                    <Button size={'middle'} type="primary" style={{ margin: '20px', backgroundColor: 'red' }}>Delete</Button>
+                    <Button onClick={handleAddProject} size={'middle'} type="primary" style={{ margin: '20px 10px 20px 20px', backgroundColor: 'blue' }}>Add New Position</Button>
                 </div>
                 <br></br>
             </div>
@@ -867,10 +867,10 @@ const Position = () => {
                                 <div>
                                     Rank: Intern, Fresher, Junior, Middle,Senior,...
                                 </div>
-                                <div>
+                                <div style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                                     Group Zalo : {position.linkNhomZalo}
                                 </div>
-                                <div style={{ display: 'flex', flexDirection: 'row', gap: '20px' }}>
+                                <div style={{ fontSize: '14px', display: 'flex', flexDirection: 'row', gap: '10px' }}>
                                     <div style={{ color: 'green' }}>
                                         Start Date :05 Jan 2023
                                     </div>

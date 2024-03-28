@@ -13,12 +13,12 @@ const Project = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [searchText, setSearchText] = useState('');
     const [currentProjects, setCurrentProjects] = useState([]);
-    console.log(filteredProjects);
     const dispatch = useDispatch();
 
     const handleAddProject = () => {
         setShowForm(true);
     };
+
 
     const handleCloseForm = () => {
         setShowForm(false);
@@ -28,21 +28,22 @@ const Project = () => {
         setCurrentPage(page);
     };
 
-    const handleSearch = (searchText) => {
-        setCurrentPage(1);
-        searchProjects(searchText)
-            .then(response => {
-                setFilteredProjects(response.data);
-            })
-            .catch(error => {
-                console.error('Error searching projects:', error);
-            });
-    };
 
+    const handleSearch = (searchText) => {
+        // setCurrentPage(1);
+        searchProjects(searchText)
+        // .then(response => {
+        //     setFilteredProjects(response.data);
+        // })
+        // .catch(error => {
+        //     console.error('Error searching projects:', error);
+        // });
+    };
+    console.log(filteredProjects);
     useEffect(() => {
         handleSearch(searchText);
-    }, [searchText]);
-    console.log(filteredProjects);
+    }, []);
+
     useEffect(() => {
         const indexOfLastProject = currentPage * pageSize;
         const indexOfFirstProject = indexOfLastProject - pageSize;
@@ -56,7 +57,7 @@ const Project = () => {
             borderRadius: '10px',
             boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.5)',
             height: '230px',
-            width: '368px'
+            width: '348px'
         },
         model: {
             display: 'flex',
@@ -85,17 +86,15 @@ const Project = () => {
                     <Input
                         placeholder="input search text"
                         allowClear
-                        enterButton="Search"
-                        size="large"
+                        size="middle"
                         style={{ margin: '20px', width: '50%' }}
                         onChange={e => setSearchText(e.target.value)}
-
                     />
-                    <Button size={'large'} type="primary" onClick={handleSearch} style={{ left: -20, backgroundColor: 'blue' }}>Search</Button>
-                    <Button size={'large'} type="primary" style={{ margin: '20px', backgroundColor: 'green' }}>Export Excel</Button>
-                    <Button size={'large'} type="primary" style={{ margin: '20px', backgroundColor: 'orange' }}>Edit</Button>
-                    <Button size={'large'} type="primary" style={{ margin: '20px', backgroundColor: 'red' }}>Delete</Button>
-                    <Button onClick={handleAddProject} size={'large'} type="primary" style={{ margin: '20px 10px 20px 20px', backgroundColor: 'blue' }}>Add New Project</Button>
+                    <Button size={'middle'} type="primary" onClick={handleSearch} style={{ left: -20, backgroundColor: 'blue' }}>Search</Button>
+                    <Button size={'middle'} type="primary" style={{ margin: '20px', backgroundColor: 'green' }}>Export Excel</Button>
+                    <Button size={'middle'} type="primary" style={{ margin: '20px', backgroundColor: 'orange' }}>Edit</Button>
+                    <Button size={'middle'} type="primary" style={{ margin: '20px', backgroundColor: 'red' }}>Delete</Button>
+                    <Button onClick={handleAddProject} size={'middle'} type="primary" style={{ margin: '10px', backgroundColor: 'blue' }}>New Project</Button>
                 </div>
                 <br></br>
             </div>
@@ -123,7 +122,7 @@ const Project = () => {
                                 <div>
                                     Group Zalo : Link
                                 </div>
-                                <div style={{ display: 'flex', flexDirection: 'row', gap: '20px' }}>
+                                <div style={{ fontSize: '12px', display: 'flex', flexDirection: 'row', gap: '10px' }}>
                                     <div style={{ color: 'green' }}>
                                         {project.thoiGianBatDau}
                                     </div>
