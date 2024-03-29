@@ -29,15 +29,15 @@ const Project = () => {
     };
 
 
-    const handleSearch = (searchText) => {
-        // setCurrentPage(1);
+    const handleSearch = () => {
+        setCurrentPage(1);
         searchProjects(searchText)
-        // .then(response => {
-        //     setFilteredProjects(response.data);
-        // })
-        // .catch(error => {
-        //     console.error('Error searching projects:', error);
-        // });
+            .then(response => {
+                setFilteredProjects(response.data);
+            })
+            .catch(error => {
+                console.error('Error searching projects:', error);
+            });
     };
     console.log(filteredProjects);
     useEffect(() => {

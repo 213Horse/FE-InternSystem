@@ -20,6 +20,12 @@ export const callGetPosition = () => {
 export const searchProjects = (value) => {
   return axios.get(`/api/du-ans/search-project?ten=${value}`)
 }
+export const createPosition = async (name, zalo) => {
+  const data = new FormData();
+  data.append('ten', name);
+  data.append('linkNhomZalo', zalo);
+  return axios.post('/api/vi-tris/create', data);
+}
 
 
 //Register Admin, HR, mentor 
