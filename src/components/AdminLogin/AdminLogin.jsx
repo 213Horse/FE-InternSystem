@@ -88,10 +88,12 @@ function AdminLogin() {
                         offset: 8,
                         span: 24,
                     }}
-                >
-                    <Button style={{ width: '100%', backgroundColor: '##EFF4FB' }}>
-                        <Link to="register-admin">Sign up</Link>
-                    </Button>
+                >             
+                    <Link to="register-admin">
+                        <Button style={{ width: '100%', backgroundColor: '##EFF4FB' }}>
+                        Sign up
+                        </Button>
+                    </Link>                   
                 </Form.Item>
                 <Form.Item
                     Col={{
