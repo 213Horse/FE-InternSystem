@@ -4,13 +4,12 @@ import Filter from '../../components/Filter/filter';
 import '../../css/filter.css';
 import TableComponent from '../../components/Table/TableCompoment';
 import { getInterns } from '../../services/api';
-import axios from "../../ultils/axios-custom";
-
+import axios from '../../ultils/axios-custom';
 
 const ApproveCV = () => {
-
     // React Hook - UseState cho List Intern http API
     const [internInfo, setInternInfo] = useState([]);
+    const [internFormInfo, setInternFormInfo] = useState([]);
 
     // Lấy API từ Swegger
 
@@ -30,20 +29,19 @@ const ApproveCV = () => {
     // cách 2: Lấy success => Chạy
     const fetchInterns = async () => {
         try {
-            const res = await axios.get("/api/interns/get");
+            const res = await axios.get('/api/interns/get');
             const interntArray = res?.data || {}; // Phải có dòng này thì code mới chạy được.
-            setInternInfo(interntArray)
-        }
-        catch (error) {
+            setInternInfo(interntArray);
+        } catch (error) {
             console.log(error);
         }
-    }
-    console.log('Danh sach Intern:' ,internInfo)
+    };
+    console.log('Danh sach Intern:', internInfo);
 
     //React Hook - UseEffect - Lấy Intern Info
     useEffect(() => {
         fetchInterns();
-    }, [])
+    }, []);
 
     const { TextArea } = Input;
 
@@ -68,13 +66,13 @@ const ApproveCV = () => {
     const formItemLayout =
         formLayout === 'vertical'
             ? {
-                labelCol: {
-                    span: 20,
-                },
-                wrapperCol: {
-                    span: 23,
-                },
-            }
+                  labelCol: {
+                      span: 20,
+                  },
+                  wrapperCol: {
+                      span: 23,
+                  },
+              }
             : null;
 
     // View Pop-up
@@ -115,7 +113,7 @@ const ApproveCV = () => {
             status: 'Option 1',
             reportProcess: 'Report Process',
             button: 'View',
-            key: 1
+            key: 1,
         },
     ];
 
@@ -147,7 +145,6 @@ const ApproveCV = () => {
         {
             title: 'Full Name',
             dataIndex: 'hoten',
-
         },
         {
             title: 'Date Of Birth',
@@ -160,50 +157,43 @@ const ApproveCV = () => {
         {
             title: 'Position',
             dataIndex: 'viTriMongMuon',
-
         },
         {
             title: 'Position',
             dataIndex: 'viTri',
-
         },
         {
             title: 'Address',
             dataIndex: 'diaChi',
-
         },
         {
             title: 'Personal Email',
             dataIndex: 'emailCaNhan',
-
         },
         {
             title: 'Shcool Email',
             dataIndex: 'emailTruong',
-
         },
         {
             title: 'CV',
             dataIndex: 'linkCV',
             render: (text) => (
-                <a href='' style={{ textDecoration: 'underline', color: 'black' }}>{text}</a>
-            )
-
+                <a href="" style={{ textDecoration: 'underline', color: 'black' }}>
+                    {text}
+                </a>
+            ),
         },
         {
             title: 'Gender',
             dataIndex: 'gioiTinh',
-
         },
         {
             title: 'English Level',
             dataIndex: 'trinhDoTiengAnh',
-
         },
         {
             title: 'Project',
             dataIndex: 'duAn',
-
         },
         // {
         //     title: 'Comments',
@@ -258,48 +248,50 @@ const ApproveCV = () => {
             render: (text, record) => {
                 return (
                     <>
-                        <Button style={{ marginRight: '12px' }} onClick={() => setOpen(true)}>
+                        <Button
+                            style={{ marginRight: '12px' }}
+                            onClick={() => {
+                                setOpen(true);
+                                setInternFormInfo(record);
+                            }}
+                        >
                             View
                         </Button>
 
-                        <Button>
-                            Feedback
-                        </Button>
+                        <Button>Feedback</Button>
                     </>
-                )
+                );
             },
         },
-    ]
+    ];
 
     // View Items Pop-Up
     const items = [
         {
             key: '1',
             label: 'View details of intern',
-            children:
+            children: (
                 <Form
-                    name='formInModal'
+                    name="formInModal"
                     {...formItemLayout}
                     layout={formLayout}
                     form={form}
-                    initialValues={{
-                        layout: formLayout,
-                    }}
+                    initialValues={internFormInfo}
                     onValuesChange={onFormLayoutChange}
                 >
                     <Row>
                         <Col span={8}>
-                            <Form.Item name='id' label="Intern ID">
+                            <Form.Item name="id" label="Intern ID">
                                 <Input placeholder="Estherne Eden" disabled />
                             </Form.Item>
                         </Col>
                         <Col span={8}>
-                            <Form.Item label="FullName">
+                            <Form.Item name="hoTen" label="FullName">
                                 <Input placeholder="Estherne Eden" disabled />
                             </Form.Item>
                         </Col>
                         <Col span={8}>
-                            <Form.Item label="Date Of Birth">
+                            <Form.Item name="ngaySinh" label="Date Of Birth">
                                 <Input placeholder="25/11/2023" disabled />
                             </Form.Item>
                         </Col>
@@ -307,17 +299,17 @@ const ApproveCV = () => {
 
                     <Row>
                         <Col span={8}>
-                            <Form.Item label="Phone Number">
+                            <Form.Item name="sdt" label="Phone Number">
                                 <Input placeholder="123456789" disabled />
                             </Form.Item>
                         </Col>
                         <Col span={8}>
-                            <Form.Item label="Position">
+                            <Form.Item name="position" label="Position">
                                 <Input placeholder="Back-End" disabled />
                             </Form.Item>
                         </Col>
                         <Col span={8}>
-                            <Form.Item label="School">
+                            <Form.Item name="truongHoc" label="School">
                                 <Input placeholder="FPT University" disabled />
                             </Form.Item>
                         </Col>
@@ -325,17 +317,17 @@ const ApproveCV = () => {
 
                     <Row>
                         <Col span={8}>
-                            <Form.Item label="Address">
+                            <Form.Item name="diaChi" label="Address">
                                 <Input placeholder="District 9" disabled />
                             </Form.Item>
                         </Col>
                         <Col span={8}>
-                            <Form.Item label="Email">
+                            <Form.Item name="emailCaNhan" label="Email">
                                 <Input placeholder="abc@gmail.com" disabled />
                             </Form.Item>
                         </Col>
                         <Col span={8}>
-                            <Form.Item label="Link CV">
+                            <Form.Item name="linkCV" label="Link CV">
                                 <Input placeholder="link" disabled />
                             </Form.Item>
                         </Col>
@@ -349,12 +341,12 @@ const ApproveCV = () => {
                         </Col>
                     </Row>
                 </Form>
-            ,
+            ),
         },
         {
             key: '2',
             label: 'Comments of CV',
-            children:
+            children: (
                 <Form
                     {...formItemLayout}
                     layout={formLayout}
@@ -400,12 +392,12 @@ const ApproveCV = () => {
                         </Col>
                     </Row>
                 </Form>
-            ,
+            ),
         },
         {
             key: '3',
             label: 'Result of interview',
-            children:
+            children: (
                 <Form
                     {...formItemLayout}
                     layout={formLayout}
@@ -525,7 +517,8 @@ const ApproveCV = () => {
                         </Col>
                     </Row>
 
-                    <h2>Final Result:
+                    <h2>
+                        Final Result:
                         <Space wrap>
                             <Select
                                 defaultValue="choose"
@@ -548,7 +541,7 @@ const ApproveCV = () => {
                         </Space>
                     </h2>
                 </Form>
-            ,
+            ),
         },
     ];
 
@@ -566,24 +559,49 @@ const ApproveCV = () => {
                         size="large"
                         style={{ margin: '20px', width: '33%' }}
                     />
-                    <Button onClick={showInterviewModal} size={'large'} type="primary" style={{ width: 'fit-content', margin: '20px', backgroundColor: 'purple' }}>Schedule Interview </Button>
-                    <Button size={'large'} type="primary" style={{ width: 'fit-content', margin: '20px', backgroundColor: 'green' }}>Export Excel</Button>
-                    <Button size={'large'} type="primary" style={{ width: 'fit-content', margin: '20px', backgroundColor: 'orange' }}>Edit</Button>
-                    <Button size={'large'} type="primary" style={{ width: 'fit-content', margin: '20px', backgroundColor: 'red' }}>Delete</Button>
-                    <Button size={'large'} type="primary" style={{ width: 'fit-content', margin: '20px 10px 20px 20px', backgroundColor: 'blue' }}>Add New Project</Button>
-
+                    <Button
+                        onClick={showInterviewModal}
+                        size={'large'}
+                        type="primary"
+                        style={{ width: 'fit-content', margin: '20px', backgroundColor: 'purple' }}
+                    >
+                        Schedule Interview{' '}
+                    </Button>
+                    <Button
+                        size={'large'}
+                        type="primary"
+                        style={{ width: 'fit-content', margin: '20px', backgroundColor: 'green' }}
+                    >
+                        Export Excel
+                    </Button>
+                    <Button
+                        size={'large'}
+                        type="primary"
+                        style={{ width: 'fit-content', margin: '20px', backgroundColor: 'orange' }}
+                    >
+                        Edit
+                    </Button>
+                    <Button
+                        size={'large'}
+                        type="primary"
+                        style={{ width: 'fit-content', margin: '20px', backgroundColor: 'red' }}
+                    >
+                        Delete
+                    </Button>
+                    <Button
+                        size={'large'}
+                        type="primary"
+                        style={{ width: 'fit-content', margin: '20px 10px 20px 20px', backgroundColor: 'blue' }}
+                    >
+                        Add New Project
+                    </Button>
                 </div>
                 <br></br>
             </div>
 
             {/*Schedule Interview Pop-up */}
             <div>
-                <Modal width={1000}
-                    centered
-                    open={interviewModal}
-                    onOk={handleOk}
-                    onCancel={handleCancel}
-                >
+                <Modal width={1000} centered open={interviewModal} onOk={handleOk} onCancel={handleCancel}>
                     <Form
                         {...formItemLayout}
                         layout={formLayout}
@@ -593,7 +611,9 @@ const ApproveCV = () => {
                         }}
                         onValuesChange={onFormLayoutChange}
                     >
-                        <Title style={{ fontWeight: 'bold' }} level={4}>Schedule interview for Intern's ID: xxxx</Title>
+                        <Title style={{ fontWeight: 'bold' }} level={4}>
+                            Schedule interview for Intern's ID: xxxx
+                        </Title>
                         {/* Row 1 */}
                         <Row>
                             <Col span={8}>
@@ -633,7 +653,9 @@ const ApproveCV = () => {
                                             optionFilterProp="children"
                                             filterOption={(input, option) => (option?.label ?? '').includes(input)}
                                             filterSort={(optionA, optionB) =>
-                                                (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
+                                                (optionA?.label ?? '')
+                                                    .toLowerCase()
+                                                    .localeCompare((optionB?.label ?? '').toLowerCase())
                                             }
                                             options={[
                                                 {
@@ -696,7 +718,9 @@ const ApproveCV = () => {
                         </Row>
 
                         {/* Row 5 */}
-                        <Title style={{ fontWeight: 'bold' }} level={4}>Choose types of Email</Title>
+                        <Title style={{ fontWeight: 'bold' }} level={4}>
+                            Choose types of Email
+                        </Title>
 
                         <div style={{ display: 'flex' }}>
                             <div style={{ marginRight: 12 }}>
@@ -709,7 +733,9 @@ const ApproveCV = () => {
                                     optionFilterProp="children"
                                     filterOption={(input, option) => (option?.label ?? '').includes(input)}
                                     filterSort={(optionA, optionB) =>
-                                        (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
+                                        (optionA?.label ?? '')
+                                            .toLowerCase()
+                                            .localeCompare((optionB?.label ?? '').toLowerCase())
                                     }
                                     options={[
                                         {
@@ -729,11 +755,10 @@ const ApproveCV = () => {
                             </div>
 
                             <div style={{ width: '100%' }}>
-                                <TextArea placeholder='Enter your email' rows={4} width={500} />
+                                <TextArea placeholder="Enter your email" rows={4} width={500} />
                             </div>
                         </div>
                     </Form>
-
                 </Modal>
             </div>
             {/* Interview Pop-up */}
@@ -759,7 +784,6 @@ const ApproveCV = () => {
                     </Modal>
                 </div>
             </div>
-
         </>
     );
 };
