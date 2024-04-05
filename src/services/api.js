@@ -18,27 +18,33 @@ export const callGetPosition = () => {
   return axios.get('/api/vi-tris/get');
 }
 export const searchProjects = (value) => {
-  return axios.get(`/api/du-ans/search-project?ten=${value}`, {
-  })
+  return axios.get(`/api/du-ans/search-project?ten=${value}`)
+}
+export const createPosition = async (name, zalo) => {
+  const data = new FormData();
+  data.append('ten', name);
+  data.append('linkNhomZalo', zalo);
+  return axios.post('/api/vi-tris/create', data);
 }
 
 
 //Register Admin, HR, mentor 
 export const callRegisterAdmin = (email, username, password, retypePassword) => {
-  return axios.post('/api/auth/login', 
-  {  email : email,
-     username : username,
-     password : password,
-     retypePassword : retypePassword
-  })
+  return axios.post('/api/auth/login',
+    {
+      email: email,
+      username: username,
+      password: password,
+      retypePassword: retypePassword
+    })
 }
 
 
 export const callRegisterIntern = (username, password, email) => {
   return axios.post('/api/auth/register/intern', {
-    username : username,
-    password : password,
-    email : email
+    username: username,
+    password: password,
+    email: email
   })
 }
 
@@ -46,11 +52,11 @@ export const callRegisterIntern = (username, password, email) => {
 
 export const callRegisterschool = (schoolName, email, username, password, phoneNumber) => {
   return axios.post('/api/auth/register/intern', {
-    schoolName : schoolName,
-    email : email,
-    username : username,
-    password : password,
-    phoneNumber : phoneNumber
+    schoolName: schoolName,
+    email: email,
+    username: username,
+    password: password,
+    phoneNumber: phoneNumber
   })
 }
 
@@ -58,7 +64,7 @@ export const callRegisterschool = (schoolName, email, username, password, phoneN
 export const callConfirmEmail = (id, token) => {
   return axios.get('/api/auth/email-confimation', {
     id: id,
-    token : token
+    token: token
   })
 }
 
@@ -84,16 +90,16 @@ export const callRedirectGoole = () => {
 
 
 export const callChangePassWord = (id) => {
-  return axios.post("/api/auth/change-password", {id: id});
+  return axios.post("/api/auth/change-password", { id: id });
 }
 
 export const callForgotPassWord = (email) => {
-  return axios.post("/api/auth/change-password", {email: email});
+  return axios.post("/api/auth/change-password", { email: email });
 }
 
 
 
 export const callChangeResetPassWord = (userId) => {
-  return axios.post("/api/auth/reset-password", {id: userId});
+  return axios.post("/api/auth/reset-password", { id: userId });
 }
 
