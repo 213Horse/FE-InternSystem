@@ -31,7 +31,7 @@ const App = () => {
         token: { colorBgContainer, borderRadiusLG },
     } = theme.useToken();
     return (
-        <Layout style={{ backgroundColor: '#f5f5f5;' }} hasSider>
+        <Layout hasSider>
 
             <Sider
                 style={{
@@ -85,9 +85,8 @@ const App = () => {
             </Sider>
             <Layout
                 style={{
-                    width: 1310,
                     marginLeft: 200,
-
+                    backgroundColor: '#ffff',
                 }}
             >
                 {/* <Header

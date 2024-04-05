@@ -13,15 +13,14 @@ const TableComponent = ({ columns, dataSource }) => {
 
 
             }}
-            style={{ padding: 16, height: '100%' }}
+            style={{}}
             pagination={{
-                pageSize: 3, position: ['bottomRight'],
+                pageSize: 5, position: ['bottomRight'],
                 showTotal: (total, range) => (
                     <span >
                         Showing {range[0]}-{range[1]} of {total}
                     </span>
                 ),
-                style: { position: 'fixed' }
             }}
         />
     );
