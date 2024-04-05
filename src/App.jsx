@@ -19,6 +19,7 @@ import RegisterSchool from './components/Register/RegisterSchool';
 import RegisterIntern from './components/Register/RegisterIntern';
 import { useSelector } from 'react-redux';
 import ErrorPerrmission from './components/Auth/ErrorPerrmission';
+import ResetPassword from './components/Password/ResetPassword';
 
 function App() {
     const account = useSelector(state => state?.account);
@@ -28,6 +29,7 @@ function App() {
             <Route path="/" element={<Login />}>
                <Route index element= {<AdminLogin/>}/> 
                <Route path='school-login' element= {<SchoolLogin />}/> 
+               <Route path='reset-password' element= {<ResetPassword />}/> 
                <Route path='register-admin' element = {<RegisterAdmin/>}/>
                <Route path='school-login/register-school' element = {<RegisterSchool/>} />
                <Route path='register-intern' element = {<RegisterIntern/>}/>
