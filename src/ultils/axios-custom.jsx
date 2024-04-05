@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 const baseURL = import.meta.env.VITE_BACKEND_URL
+// const baseURL = 'https://api-intern.lytech.vn/swagger/index.html';
 
 const token = localStorage.getItem('access_token');
 
@@ -10,7 +11,7 @@ const instance = axios.create({
   withCredentials: true,
 });
 
-instance.defaults.headers.common = {'Authorization': `Bearer ${localStorage.getItem('access_token')}`}
+instance.defaults.headers.common = { 'Authorization': `Bearer ${localStorage.getItem('access_token')}` }
 
 // Add a request interceptor
 axios.interceptors.request.use(function (config) {

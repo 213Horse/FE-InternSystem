@@ -1,14 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Modal, Form, Input, Space, Col, Row, Select, Typography } from 'antd';
 import { EyeFilled } from '@ant-design/icons';
-
 import Filter from '../../components/Filter/filter';
 import '../../css/filter.css';
 import TableComponent from '../../components/Table/TableCompoment';
-
+import { getInterns } from '../../services/api';
 
 
 const ApproveCV = () => {
+
+    // React Hook - UseState cho http API
+    const [intern, setIntern] = useState([]);
+
+    const fetchInterns = async () => {
+        try {
+            let res = await getInterns();
+            const interntArray = res?.data || {};
+            setIntern(interntArray);
+            console.log(data);
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
+    useEffect(() => {
+        fetchInterns();
+    }, [])
 
     const { Search } = Input;
 
@@ -160,94 +177,114 @@ const ApproveCV = () => {
             dataIndex: 'id',
         },
         {
+            title: 'MSSV',
+            dataIndex: 'mssv',
+        },
+        {
             title: 'Start Date',
             dataIndex: 'startDate',
         },
         {
-            title: 'Finish Date',
-            dataIndex: 'finishDate',
+            title: 'End Date',
+            dataIndex: 'endDate',
         },
         {
             title: 'Full Name',
-            dataIndex: 'fullName',
-
+            dataIndex: 'hoten',
 
         },
         {
             title: 'Date Of Birth',
-            dataIndex: 'dateOfBirth',
-
-
+            dataIndex: 'ngaySinh',
         },
         {
             title: 'Phone Number',
-            dataIndex: 'phoneNumber',
+            dataIndex: 'sdt',
+        },
+        {
+            title: 'Position',
+            dataIndex: 'viTriMongMuon',
 
         },
         {
             title: 'Position',
-            dataIndex: 'position',
-
-        },
-        {
-            title: 'School',
-            dataIndex: 'school',
+            dataIndex: 'viTri',
 
         },
         {
             title: 'Address',
-            dataIndex: 'address',
+            dataIndex: 'diaChi',
 
         },
         {
-            title: 'Email',
-            dataIndex: 'email',
+            title: 'Personal Email',
+            dataIndex: 'emailCaNhan',
+
+        },
+        {
+            title: 'Shcool Email',
+            dataIndex: 'emailTruong',
 
         },
         {
             title: 'CV',
-            dataIndex: 'cv',
+            dataIndex: 'linkCV',
             render: (text) => (
                 <a href='' style={{ textDecoration: 'underline', color: 'black' }}>{text}</a>
             )
 
         },
         {
-            title: 'Comments',
-            dataIndex: 'comment',
-            render: (text) => (
-                <div style={{ border: '2px solid #CBD2DC', borderRadius: '15px', padding: '6px 10px' }}>
-                    <Space >
-                        <span>{text}</span>
-                        <EyeFilled />
-                    </Space>
-                </div>
-            )
+            title: 'Gender',
+            dataIndex: 'gioiTinh',
+
         },
         {
-            title: 'Role',
-            dataIndex: 'role',
+            title: 'English Level',
+            dataIndex: 'trinhDoTiengAnh',
+
         },
         {
             title: 'Project',
-            dataIndex: 'project',
+            dataIndex: 'duAn',
+
         },
+        // {
+        //     title: 'Comments',
+        //     dataIndex: 'comment',
+        //     render: (text) => (
+        //         <div style={{ border: '2px solid #CBD2DC', borderRadius: '15px', padding: '6px 10px' }}>
+        //             <Space >
+        //                 <span>{text}</span>
+        //                 <EyeFilled />
+        //             </Space>
+        //         </div>
+        //     )
+        // },
         {
             title: 'Group Zalo',
-            dataIndex: 'groupZalo',
+            dataIndex: 'nhomZalo',
         },
         {
-            title: 'Mentor',
-            dataIndex: 'mentor',
+            title: 'School',
+            dataIndex: 'truongHoc',
+        },
+        {
+            title: 'OJT',
+            dataIndex: 'kiThucTap',
+        },
+        {
+            title: 'Round',
+            dataIndex: 'round',
         },
         {
             title: 'Status',
             dataIndex: 'status',
             render: (text) => {
                 const selectedOption = options.find((option) => option.label === text);
-                console.log(selectedOption);
+                // console.log(selectedOption);
                 const optionColor = selectedOption ? selectedOption.color : null;
-                console.log(optionColor);
+                // console.log(optionColor);
                 return (
                     <Select defaultValue='Option 1' variant="borderless" style={{ color: optionColor }}>
                         {options.map((option) => (
@@ -260,18 +297,17 @@ const ApproveCV = () => {
             },
         },
         {
-            title: 'Report Process',
-            dataIndex: 'reportProcess',
-        },
-        {
             title: 'Button',
             dataIndex: 'button',
             render: (text, record) => {
-
                 return (
                     <>
-                        <Button onClick={() => setOpen(true)}>
+                        <Button style={{ marginRight: '12px' }} onClick={() => setOpen(true)}>
                             View
+                        </Button>
+
+                        <Button>
+                            Feedback
                         </Button>
                     </>
                 )
@@ -292,11 +328,11 @@ const ApproveCV = () => {
                         size="large"
                         style={{ margin: '20px', width: '33%' }}
                     />
-                    <Button onClick={handleSendEmail} size={'large'} type="primary" style={{ width: '160px', margin: '20px', backgroundColor: 'purple' }}>Send Email</Button>
-                    <Button size={'large'} type="primary" style={{ width: '160px', margin: '20px', backgroundColor: 'green' }}>Export Excel</Button>
-                    <Button size={'large'} type="primary" style={{ width: '160px', margin: '20px', backgroundColor: 'orange' }}>Edit</Button>
-                    <Button size={'large'} type="primary" style={{ width: '160px', margin: '20px', backgroundColor: 'red' }}>Delete</Button>
-                    <Button size={'large'} type="primary" style={{ width: '160px', margin: '20px 10px 20px 20px', backgroundColor: 'blue' }}>Add New Project</Button>
+                    <Button onClick={handleSendEmail} size={'large'} type="primary" style={{ width: 'fit-content', margin: '20px', backgroundColor: 'purple' }}>Send Email</Button>
+                    <Button size={'large'} type="primary" style={{ width: 'fit-content', margin: '20px', backgroundColor: 'green' }}>Export Excel</Button>
+                    <Button size={'large'} type="primary" style={{ width: 'fit-content', margin: '20px', backgroundColor: 'orange' }}>Edit</Button>
+                    <Button size={'large'} type="primary" style={{ width: 'fit-content', margin: '20px', backgroundColor: 'red' }}>Delete</Button>
+                    <Button size={'large'} type="primary" style={{ width: 'fit-content', margin: '20px 10px 20px 20px', backgroundColor: 'blue' }}>Add New Project</Button>
 
                 </div>
                 <br></br>
@@ -353,7 +389,7 @@ const ApproveCV = () => {
                 <Filter />
 
                 {/* Table Show Data */}
-                <TableComponent columns={columns} dataSource={dataSource} />
+                <TableComponent columns={columns} dataSource={intern} />
 
                 {/* Pop-Up */}
                 <div style={{ marginLeft: 200 }}>

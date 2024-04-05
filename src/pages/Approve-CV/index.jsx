@@ -1,15 +1,49 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Modal, Form, Input, Space, Col, Row, Select, Tabs, Flex, Typography } from 'antd';
-import { EyeFilled, DownOutlined } from '@ant-design/icons';
-import { dataSource } from '../../apis/mock-data';
-
 import Filter from '../../components/Filter/filter';
 import '../../css/filter.css';
 import TableComponent from '../../components/Table/TableCompoment';
-
+import { getInterns } from '../../services/api';
+import axios from "../../ultils/axios-custom";
 
 
 const ApproveCV = () => {
+
+    // React Hook - UseState cho List Intern http API
+    const [internInfo, setInternInfo] = useState([]);
+
+    // Lấy API từ Swegger
+
+    // Cách 1: Lấy successs => Chạy
+    // const fetchInterns = async () => {
+    //     try {
+    //         let res = await getInterns();
+    //         const interntArray = res?.data || {};
+    //         setIntern(interntArray);
+    //         console.log(data);
+    //     }
+    //     catch (error) {
+    //         console.log(error);
+    //     }
+    // }
+
+    // cách 2: Lấy success => Chạy
+    const fetchInterns = async () => {
+        try {
+            const res = await axios.get("/api/interns/get");
+            const interntArray = res?.data || {}; // Phải có dòng này thì code mới chạy được.
+            setInternInfo(interntArray)
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
+    console.log('Danh sach Intern:' ,internInfo)
+
+    //React Hook - UseEffect - Lấy Intern Info
+    useEffect(() => {
+        fetchInterns();
+    }, [])
 
     const { TextArea } = Input;
 
@@ -43,24 +77,20 @@ const ApproveCV = () => {
             }
             : null;
 
-    // Modal
+    // View Pop-up
     const [open, setOpen] = useState(false);
 
+    // Interview Pop-up
     const [interviewModal, setInterviewModal] = useState(false);
-
-    console.log('This is interview Modal', interviewModal)
 
     const showInterviewModal = () => {
         setInterviewModal(true);
-        console.log(interviewModal, 'Modal is open')
     };
     const handleOk = () => {
         setInterviewModal(false);
-        console.log('HandleOk been clicked', interviewModal)
     };
     const handleCancel = () => {
         setInterviewModal(false);
-        console.log('Handle canncel been clicked', interviewModal)
     };
 
     // Table API
@@ -87,72 +117,6 @@ const ApproveCV = () => {
             button: 'View',
             key: 1
         },
-        {
-            id: 2,
-            startDate: '2022-02-01',
-            finishDate: '2022-11-30',
-            fullName: 'Jane Smith',
-            dateOfBirth: '1992-10-20',
-            phoneNumber: '987654321',
-            position: 'Intern',
-            school: 'XYZ University',
-            address: '456 Example Street',
-            email: 'janesmith@example.com',
-            cv: 'Link to CV',
-            comment: '2 comments',
-            role: 'Role',
-            project: 'Project',
-            groupZalo: 'Group Zalo',
-            mentor: 'Mentor',
-            status: 'Option 2',
-            reportProcess: 'Report Process',
-            button: 'View',
-            key: 2
-        },
-        {
-            id: 3,
-            startDate: '2022-01-01',
-            finishDate: '2022-12-31',
-            fullName: 'John Doe',
-            dateOfBirth: '1990-05-15',
-            phoneNumber: '123456789',
-            position: 'Intern',
-            school: 'ABC University',
-            address: '123 Example Street',
-            email: 'johndoe@example.com',
-            cv: 'Link to CV',
-            comment: '2 comments',
-            role: 'Role',
-            project: 'Project',
-            groupZalo: 'Group Zalo',
-            mentor: 'Mentor',
-            status: 'Option 3',
-            reportProcess: 'Report Process',
-            button: 'View',
-            key: 3
-        },
-        {
-            id: 4,
-            startDate: '2022-02-01',
-            finishDate: '2022-11-30',
-            fullName: 'Jane Smith',
-            dateOfBirth: '1992-10-20',
-            phoneNumber: '987654321',
-            position: 'Intern',
-            school: 'XYZ University',
-            address: '456 Example Street',
-            email: 'janesmith@example.com',
-            cv: 'Link to CV',
-            comment: '2 comments',
-            role: 'Role',
-            project: 'Project',
-            groupZalo: 'Group Zalo',
-            mentor: 'Mentor',
-            status: 'Status',
-            reportProcess: 'Report Process',
-            button: 'View',
-            key: 4
-        },
     ];
 
     // Table > Status
@@ -169,108 +133,124 @@ const ApproveCV = () => {
             dataIndex: 'id',
         },
         {
+            title: 'MSSV',
+            dataIndex: 'mssv',
+        },
+        {
             title: 'Start Date',
             dataIndex: 'startDate',
         },
         {
-            title: 'Finish Date',
-            dataIndex: 'finishDate',
+            title: 'End Date',
+            dataIndex: 'endDate',
         },
         {
             title: 'Full Name',
-            dataIndex: 'fullName',
-
+            dataIndex: 'hoten',
 
         },
         {
             title: 'Date Of Birth',
-            dataIndex: 'dateOfBirth',
-
-
+            dataIndex: 'ngaySinh',
         },
         {
             title: 'Phone Number',
-            dataIndex: 'phoneNumber',
+            dataIndex: 'sdt',
+        },
+        {
+            title: 'Position',
+            dataIndex: 'viTriMongMuon',
 
         },
         {
             title: 'Position',
-            dataIndex: 'position',
-
-        },
-        {
-            title: 'School',
-            dataIndex: 'school',
+            dataIndex: 'viTri',
 
         },
         {
             title: 'Address',
-            dataIndex: 'address',
+            dataIndex: 'diaChi',
 
         },
         {
-            title: 'Email',
-            dataIndex: 'email',
+            title: 'Personal Email',
+            dataIndex: 'emailCaNhan',
+
+        },
+        {
+            title: 'Shcool Email',
+            dataIndex: 'emailTruong',
 
         },
         {
             title: 'CV',
-            dataIndex: 'cv',
+            dataIndex: 'linkCV',
             render: (text) => (
                 <a href='' style={{ textDecoration: 'underline', color: 'black' }}>{text}</a>
             )
 
         },
         {
-            title: 'Comments',
-            dataIndex: 'comment',
-            render: (text) => (
-                <div style={{ border: '2px solid #CBD2DC', borderRadius: '15px', padding: '6px 10px' }}>
-                    <Space >
-                        <span>{text}</span>
-                        <EyeFilled />
-                    </Space>
-                </div>
-            )
+            title: 'Gender',
+            dataIndex: 'gioiTinh',
+
         },
         {
-            title: 'Role',
-            dataIndex: 'role',
+            title: 'English Level',
+            dataIndex: 'trinhDoTiengAnh',
+
         },
         {
             title: 'Project',
-            dataIndex: 'project',
+            dataIndex: 'duAn',
+
         },
+        // {
+        //     title: 'Comments',
+        //     dataIndex: 'comment',
+        //     render: (text) => (
+        //         <div style={{ border: '2px solid #CBD2DC', borderRadius: '15px', padding: '6px 10px' }}>
+        //             <Space >
+        //                 <span>{text}</span>
+        //                 <EyeFilled />
+        //             </Space>
+        //         </div>
+        //     )
+        // },
         {
             title: 'Group Zalo',
-            dataIndex: 'groupZalo',
+            dataIndex: 'nhomZalo',
         },
         {
-            title: 'Mentor',
-            dataIndex: 'mentor',
+            title: 'School',
+            dataIndex: 'truongHoc',
+        },
+        {
+            title: 'OJT',
+            dataIndex: 'kiThucTap',
+        },
+        {
+            title: 'Round',
+            dataIndex: 'round',
         },
         {
             title: 'Status',
             dataIndex: 'status',
-            render: (text) => {
-                const selectedOption = options.find((option) => option.label === text);
-                console.log(selectedOption);
-                const optionColor = selectedOption ? selectedOption.color : null;
-                console.log(optionColor);
-                return (
-                    <Select defaultValue='Option 1' variant="borderless" style={{ color: optionColor }}>
-                        {options.map((option) => (
-                            <Select.Option key={option.value} value={option.value}>
-                                {option.label}
-                            </Select.Option>
-                        ))}
-                    </Select>
-                );
-            },
-        },
-        {
-            title: 'Report Process',
-            dataIndex: 'reportProcess',
+            // render: (text) => {
+            //     const selectedOption = options.find((option) => option.label === text);
+
+            //     const optionColor = selectedOption ? selectedOption.color : null;
+
+            //     return (
+            //         <Select defaultValue='Option 1' variant="borderless" style={{ color: optionColor }}>
+            //             {options.map((option) => (
+            //                 <Select.Option key={option.value} value={option.value}>
+            //                     {option.label}
+            //                 </Select.Option>
+            //             ))}
+            //         </Select>
+            //     );
+            // },
         },
         {
             title: 'Button',
@@ -291,15 +271,14 @@ const ApproveCV = () => {
         },
     ]
 
-    // Pop-up drop down
-
-
+    // View Items Pop-Up
     const items = [
         {
             key: '1',
             label: 'View details of intern',
             children:
                 <Form
+                    name='formInModal'
                     {...formItemLayout}
                     layout={formLayout}
                     form={form}
@@ -310,8 +289,8 @@ const ApproveCV = () => {
                 >
                     <Row>
                         <Col span={8}>
-                            <Form.Item label="Intern ID">
-                                <Input placeholder="#123456" />
+                            <Form.Item name='id' label="Intern ID">
+                                <Input placeholder="Estherne Eden" disabled />
                             </Form.Item>
                         </Col>
                         <Col span={8}>
@@ -578,6 +557,7 @@ const ApproveCV = () => {
             <div>
                 <h1 style={{ marginLeft: '10px', color: '#8A2BE2' }}>Approve CV</h1>
                 <br></br>
+                {/* Top-Bar*/}
                 <div>
                     <Search
                         placeholder="input search text"
@@ -586,17 +566,17 @@ const ApproveCV = () => {
                         size="large"
                         style={{ margin: '20px', width: '33%' }}
                     />
-                    <Button onClick={showInterviewModal} size={'large'} type="primary" style={{ width: '160px', margin: '20px', backgroundColor: 'purple' }}>Schedule Interview </Button>
-                    <Button size={'large'} type="primary" style={{ width: '160px', margin: '20px', backgroundColor: 'green' }}>Export Excel</Button>
-                    <Button size={'large'} type="primary" style={{ width: '160px', margin: '20px', backgroundColor: 'orange' }}>Edit</Button>
-                    <Button size={'large'} type="primary" style={{ width: '160px', margin: '20px', backgroundColor: 'red' }}>Delete</Button>
-                    <Button size={'large'} type="primary" style={{ width: '160px', margin: '20px 10px 20px 20px', backgroundColor: 'blue' }}>Add New Project</Button>
+                    <Button onClick={showInterviewModal} size={'large'} type="primary" style={{ width: 'fit-content', margin: '20px', backgroundColor: 'purple' }}>Schedule Interview </Button>
+                    <Button size={'large'} type="primary" style={{ width: 'fit-content', margin: '20px', backgroundColor: 'green' }}>Export Excel</Button>
+                    <Button size={'large'} type="primary" style={{ width: 'fit-content', margin: '20px', backgroundColor: 'orange' }}>Edit</Button>
+                    <Button size={'large'} type="primary" style={{ width: 'fit-content', margin: '20px', backgroundColor: 'red' }}>Delete</Button>
+                    <Button size={'large'} type="primary" style={{ width: 'fit-content', margin: '20px 10px 20px 20px', backgroundColor: 'blue' }}>Add New Project</Button>
 
                 </div>
                 <br></br>
             </div>
 
-            {/* Interview Modal */}
+            {/*Schedule Interview Pop-up */}
             <div>
                 <Modal width={1000}
                     centered
@@ -604,34 +584,44 @@ const ApproveCV = () => {
                     onOk={handleOk}
                     onCancel={handleCancel}
                 >
-                    <div>
-                        <h1>Schedule interview for Intern's ID: xxxx</h1>
+                    <Form
+                        {...formItemLayout}
+                        layout={formLayout}
+                        form={form}
+                        initialValues={{
+                            layout: formLayout,
+                        }}
+                        onValuesChange={onFormLayoutChange}
+                    >
+                        <Title style={{ fontWeight: 'bold' }} level={4}>Schedule interview for Intern's ID: xxxx</Title>
+                        {/* Row 1 */}
+                        <Row>
+                            <Col span={8}>
+                                <Form.Item label="Date">
+                                    <Input placeholder="" />
+                                </Form.Item>
+                            </Col>
+                            <Col span={8}>
+                                <Form.Item label="Start Time">
+                                    <Input placeholder=" " />
+                                </Form.Item>
+                            </Col>
+                            <Col span={8}>
+                                <Form.Item label="Time Duration">
+                                    <Input placeholder="" />
+                                </Form.Item>
+                            </Col>
+                        </Row>
 
-                        <div>
-                            <Flex justify={'space-between'}>
-                                <div>
-                                    <Title style={{fontWeight: 'bold'}} level={4}>Date</Title>
-                                    <Input placeholder="DD/MM/YYYY" />
-                                </div>
-                                <div>
-                                    <Title style={{fontWeight: 'bold'}} level={4}>Start Time</Title>
-                                    <Input placeholder="12:00 AM" />
-                                </div>
-                                <div>
-                                    <Title style={{fontWeight: 'bold'}} level={4}>Time Duration</Title>
-                                    <Input placeholder="15 minutes" />
-                                </div>
-                            </Flex>
-                        </div>
-
-                        <div>
-                            <Flex justify={'space-between'}>
-                                <div>
-                                    <Title style={{fontWeight: 'bold'}} level={4}>Types of Interviews</Title>
-                                    <Input placeholder="Online/Offline" />
-                                </div>
-                                <div>
-                                    <Title style={{fontWeight: 'bold'}} level={4}>Interviewer</Title>
+                        {/* Row 2 */}
+                        <Row>
+                            <Col span={8}>
+                                <Form.Item label="Types of interviews">
+                                    <Input placeholder="" />
+                                </Form.Item>
+                            </Col>
+                            <Col span={8}>
+                                <Form.Item label="Interviewer">
                                     <div style={{ display: 'flex' }}>
                                         <Select
                                             showSearch
@@ -660,45 +650,53 @@ const ApproveCV = () => {
                                                 },
                                             ]}
                                         />
-                                        <Input style={{ width: 182 }} placeholder="Nguyen Van A" />
+                                        <Input placeholder="" />
                                     </div>
-                                </div>
-                                <div>
-                                    <Title style={{fontWeight: 'bold'}} level={4}>Link Google Meet/Address</Title>
+                                </Form.Item>
+                            </Col>
+                            <Col span={8}>
+                                <Form.Item label="Link Google Meet/Address">
                                     <Input placeholder="" />
-                                </div>
-                            </Flex>
-                        </div>
+                                </Form.Item>
+                            </Col>
+                        </Row>
 
-                        <div>
-                            <Flex justify={'space-between'}>
-                                <div>
-                                    <Title style={{fontWeight: 'bold'}} level={4}>Send Email</Title>
-                                    <Input placeholder="Types of Email" />
-                                </div>
+                        {/* Row 3 */}
+                        <Row>
+                            <Col span={8}>
+                                <Form.Item label="Send Email">
+                                    <Input placeholder="" />
+                                </Form.Item>
+                            </Col>
 
-                                <div>
-                                    <Title style={{fontWeight: 'bold'}} level={4}>Rank</Title>
-                                    <Input placeholder="intern/senior/junior" />
-                                </div>
-                            </Flex>
-                        </div>
+                            <Col span={8}></Col>
 
-                        <div>
-                            <Flex justify={'space-between'}>
-                                <div>
-                                    <Title style={{fontWeight: 'bold'}} level={4}>To:</Title>
-                                    <Input style={{ width: 350 }} placeholder="" />
-                                </div>
+                            <Col span={8}>
+                                <Form.Item label="Rank">
+                                    <Input placeholder="" />
+                                </Form.Item>
+                            </Col>
+                        </Row>
 
-                                <div>
-                                    <Title style={{fontWeight: 'bold'}} level={4}>BCC:</Title>
-                                    <Input style={{ width: 350 }} placeholder="" />
-                                </div>
-                            </Flex>
-                        </div>
+                        {/* Row 4 */}
+                        <Row>
+                            <Col span={8}>
+                                <Form.Item label="To:">
+                                    <Input placeholder="" />
+                                </Form.Item>
+                            </Col>
 
-                        <Title style={{fontWeight: 'bold'}} level={3}>Choose types of Email</Title>
+                            <Col span={8}></Col>
+
+                            <Col span={8}>
+                                <Form.Item label="BCC:">
+                                    <Input placeholder="" />
+                                </Form.Item>
+                            </Col>
+                        </Row>
+
+                        {/* Row 5 */}
+                        <Title style={{ fontWeight: 'bold' }} level={4}>Choose types of Email</Title>
 
                         <div style={{ display: 'flex' }}>
                             <div style={{ marginRight: 12 }}>
@@ -734,10 +732,11 @@ const ApproveCV = () => {
                                 <TextArea placeholder='Enter your email' rows={4} width={500} />
                             </div>
                         </div>
-                    </div>
+                    </Form>
 
                 </Modal>
             </div>
+            {/* Interview Pop-up */}
 
             {/* Main */}
             <div>
@@ -745,18 +744,18 @@ const ApproveCV = () => {
                 <Filter />
 
                 {/* Table Show Data */}
-                <TableComponent columns={columns} dataSource={dataSource} />
+                <TableComponent columns={columns} dataSource={internInfo} />
 
-                {/* View Table Pop-Up */}
+                {/* View Pop-Up */}
                 <div style={{ marginLeft: 200 }}>
                     <Modal
                         centered
                         open={open}
                         onOk={() => setOpen(false)}
                         onCancel={() => setOpen(false)}
-                        width={1000}
+                        width={1300}
                     >
-                        <Tabs defaultActiveKey="1" items={items} onChange={onChange} />;
+                        <Tabs defaultActiveKey="1" items={items} onChange={onChange} />
                     </Modal>
                 </div>
             </div>
