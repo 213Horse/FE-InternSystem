@@ -1,11 +1,14 @@
 
 
-import { Avatar, Space, Checkbox, Tag, Button, Flex, Input, Tooltip, Pagination, Modal, DatePicker, Table } from 'antd';
+import { Avatar, Space, Checkbox, Tag, Button, Flex, Input, Tooltip, Pagination, Modal, DatePicker, Table, Radio } from 'antd';
 import { UserOutlined, AntDesignOutlined } from '@ant-design/icons';
 import React, { useState, useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
-import { createPosition } from '../../services/api';
-import { callGetPosition } from '../../services/api';
+import { createPosition } from '../../redux/Slices/Position/PositionSlices';
+import { callGetPosition } from '../../redux/Slices/Position/PositionSlices';
+import { updatePosition } from '../../redux/Slices/Position/PositionSlices';
+import { deletePosition } from '../../redux/Slices/Position/PositionSlices';
+import { useDispatch } from 'react-redux';
 
 const Position = () => {
     const [showDetails, setshowDetails] = useState(false);
@@ -17,23 +20,21 @@ const Position = () => {
     const [searchText, setSearchText] = useState('');
     const [name, setName] = useState('');
     const [zalo, setZalo] = useState('');
+    const [dataUpdate, setDataUpdate] = useState('');
+    const [dataDelete, setDataDelete] = useState('');
+    const [showUpdate, setShowUpdate] = useState(false);
+
+    useEffect(() => {
+        setName(dataUpdate?.ten);
+        setZalo(dataUpdate?.linkNhomZalo);
+    }, [dataUpdate])
     const fetchPosition = async () => {
         let res;
         res = await callGetPosition();
         const projectArray = Object.values(res?.data || {});
         setPosition(projectArray);
     }
-    <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-    />
+    // console.log('position', Position);
     useEffect(() => {
         fetchPosition();
     }, []);
@@ -67,11 +68,22 @@ const Position = () => {
         setshowDetails(false);
     };
 
+    const handleUpdata = () => {
+        setShowUpdate(true);
+    }
+
+    const handleCloseUpdate = () => {
+        setShowUpdate(false);
+        setDataUpdate('');
+    }
+
     const handleAddProject = () => {
         setShowAddPosition(true);
     }
     const handleCloseAddProject = () => {
         setShowAddPosition(false);
+        setName('');
+        setZalo('');
     }
 
     const handleChangePage = (page) => {
@@ -91,8 +103,26 @@ const Position = () => {
     const indexOfLastProject = currentPage * pageSize;
     const indexOfFirstProject = indexOfLastProject - pageSize;
     const currentProjects = filteredProjects.slice(indexOfFirstProject, indexOfLastProject);
-    // console.log(Position);
-
+    const onChange = (e) => {
+        console.log('D', dataDelete);
+        console.log('U', dataUpdate);
+        setDataUpdate(e);
+        setDataDelete(e);
+    };
+    const clickDelete = async (e) => {
+        console.log('delete', dataDelete);
+        let res = await deletePosition(dataDelete.id);
+        if (res) {
+            alert(`Success Delete !!!!`)
+            handleCloseUpdate();
+            useDispatch(
+                fetchPosition()
+            )
+        }
+        if (!res) {
+            alert(`Error updating position`);
+        }
+    }
     const styles = {
         box: {
             margin: '20px',
@@ -110,10 +140,12 @@ const Position = () => {
             gap: '20px',
         }
     };
+
+
     const AddPositon = async () => {
-        console.log('hello');
+        <ToastContainer />
         if (!name) {
-            toast.error('Please fill name');
+            alert('Please fill name');
             return;
         }
         if (!zalo) {
@@ -121,11 +153,45 @@ const Position = () => {
             return;
         }
         let res = await createPosition(name, zalo);
+        alert(`Success Create!!!!`)
+        handleCloseAddProject();
+        useDispatch(
+            fetchPosition()
+        )
         console.log('check res', res);
     }
 
-    console.log(name);
-    console.log(zalo);
+    const UpdatePosition = async () => {
+        console.log('update position', dataUpdate);
+        if (!name) {
+            alert('Please fill name');
+            return;
+        }
+        if (!zalo) {
+            toast.error('Please fill link zalo');
+            return;
+        }
+        try {
+            let res = await updatePosition(dataUpdate.id, name, zalo);
+            if (res) {
+                alert(`Success Update !!!!`)
+                handleCloseUpdate();
+                console.log('check res', res);
+                console.log('update position2', dataUpdate);
+                useDispatch(
+                    fetchPosition()
+                )
+            }
+            if (!res) {
+                alert(`Error updating position`);
+            }
+
+
+        } catch (error) {
+            console.error('Error updating position:', error);
+        }
+    }
+
     const columns = [
         {
             title: 'Intern ID',
@@ -277,8 +343,8 @@ const Position = () => {
                         onSearch={handleSearch}
                     />
                     <Button size={'middle'} type="primary" style={{ margin: '20px', backgroundColor: 'green' }}>Export Excel</Button>
-                    <Button size={'middle'} type="primary" style={{ margin: '20px', backgroundColor: 'orange' }}>Edit</Button>
-                    <Button size={'middle'} type="primary" style={{ margin: '20px', backgroundColor: 'red' }}>Delete</Button>
+                    <Button onClick={handleUpdata} size={'middle'} type="primary" style={{ margin: '20px', backgroundColor: 'orange' }}>Edit</Button>
+                    <Button onClick={() => clickDelete()} size={'middle'} type="primary" style={{ margin: '20px', backgroundColor: 'red' }}>Delete</Button>
                     <Button onClick={handleAddProject} size={'middle'} type="primary" style={{ margin: '20px 10px 20px 20px', backgroundColor: 'blue' }}>Add New Position</Button>
                 </div>
                 <br></br>
@@ -293,7 +359,7 @@ const Position = () => {
                                     {position.ten}
                                 </div>
                                 <Tag color="blue" >100 People</Tag>
-                                <Checkbox style={{ marginRight: '4%' }} />
+                                <Checkbox onChange={() => onChange(position)} style={{ marginRight: '4%' }} />
                             </div>
                             <div style={{ borderBottom: '2px solid #ccc' }}></div>
                             <div style={{ color: ' #454545', marginLeft: '10px', lineHeight: 2, fontWeight: 'bold' }}>
@@ -375,6 +441,31 @@ const Position = () => {
                 onCancel={handleCloseAddProject}
                 onOk={() => AddPositon()}
                 okText="Create Position"
+                width={1000}
+            >
+                <div style={{ marginBottom: '30px', marginTop: '10px' }}>
+                    Position's Name
+                    <Input
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        placeholder="Position Title"
+                    />
+                </div>
+                <div style={{ marginBottom: '20px' }}>
+                    Link Group Zalo
+                    <Input
+                        value={zalo}
+                        onChange={(e) => setZalo(e.target.value)}
+                        placeholder="Link Zalo" />
+                </div>
+
+            </Modal>
+            <Modal
+                title="Update New Position"
+                open={showUpdate}
+                onCancel={handleCloseUpdate}
+                onOk={() => UpdatePosition()}
+                okText="Update Position"
                 width={1000}
             >
                 <div style={{ marginBottom: '30px', marginTop: '10px' }}>

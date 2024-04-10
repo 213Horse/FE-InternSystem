@@ -11,6 +11,8 @@ import {
     TeamOutlined,
 } from '@ant-design/icons';
 import { Layout, Menu, theme } from 'antd';
+import { ToastContainer, toast } from 'react-toastify';
+
 const { Header, Content, Footer, Sider } = Layout;
 
 
@@ -109,6 +111,7 @@ const App = () => {
 
 
             </Layout>
+
         </Layout>
     );
 };
