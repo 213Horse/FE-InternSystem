@@ -20,6 +20,7 @@ import RegisterIntern from './components/Register/RegisterIntern';
 import { useSelector } from 'react-redux';
 import ErrorPerrmission from './components/Auth/ErrorPerrmission';
 import ResetPassword from './components/Password/ResetPassword';
+import Profile from './pages/Profile';
 
 function App() {
     const account = useSelector(state => state?.account);
@@ -46,6 +47,7 @@ function App() {
                 <Route path="technology-management" element={<Tech />} />
                 <Route path="group-zalo-management" element={<Zalo />} />
                 <Route path="settings" element={<Settings />} />
+                <Route path="profile" element={<Profile/>}/>
             </Route>}
             {isAuthenticated === false &&  <Route path="*" element={<ErrorPerrmission />}/>}
         </Routes>

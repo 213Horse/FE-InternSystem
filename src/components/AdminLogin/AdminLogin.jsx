@@ -12,26 +12,28 @@ function AdminLogin() {
     const navigate = useNavigate();
 
     const onFinish = async (values) => {
-        const { email, password } = values;
-
-        console.log('Success:', values);
-        setIsLoading(true);
-        let res = await callLogin(email, password);
-        console.log('res', res);
-        setIsLoading(false);
-        if (res?.data) {
+        const { email, password } = values;    
+        try{
+            console.log('Success:', values);
+            setIsLoading(true);
+            let res = await callLogin(email, password);
+            console.log('res', res);
             let accessToken = res.data?.accessToken;
             localStorage.setItem('access_token', accessToken);
             dispatch(doLoginAction({ accessToken: accessToken }));
             message.success('login success');
             navigate('/home');
+            setIsLoading(false);
             return;
-        } else {
+        }catch(error){
+            console.log(error);
             notification.error({
                 message: 'Login Error',
-                description: res.data && Array.isArray(message) ? res.message[0] : res.message,
+                description: error.response.data.errors,
                 duration: 5,
-            });
+            })
+                setIsLoading(false);
+            return;
         }
     };
     const onFinishFailed = (errorInfo) => {
