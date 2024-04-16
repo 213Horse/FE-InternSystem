@@ -11,6 +11,9 @@ import {
     TeamOutlined,
 } from '@ant-design/icons';
 import { Layout, Menu, theme } from 'antd';
+import { Avatar } from "antd";
+import { Col, Row } from 'antd';
+import Profile from "../../assets/img/Logo/Profile-Pic.png";
 const { Header, Content, Footer, Sider } = Layout;
 
 
@@ -82,6 +85,24 @@ const App = () => {
                         <Link to="/home/settings">Settings</Link>
                     </Menu.Item>
                 </Menu>
+                <div style={{color: "#fff", padding: "0 15px", marginTop:"10rem"}}> 
+                    <Row>
+                        <Col span={6}>
+                            <Avatar src={Profile}/>
+                        </Col>
+                        <Col span={12}>
+                            <Row>
+                                <Col span={24} style={{color:"#FFF"}}>Natalie Brogan</Col>
+                                <Col span={24} style={{color:"#AAABAF"}}>Admin</Col>
+                            </Row>
+                        </Col>
+                        <Col span={6}>
+                            <Link to='/home/profile'>                      
+                                <SettingOutlined style={{color:"#DB0D4B"}}/>
+                            </Link>
+                        </Col>
+                    </Row>
+                </div>
             </Sider>
             <Layout
                 style={{
