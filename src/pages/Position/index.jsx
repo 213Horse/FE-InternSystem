@@ -113,14 +113,14 @@ const Position = () => {
         console.log('delete', dataDelete);
         let res = await deletePosition(dataDelete.id);
         if (res) {
-            alert(`Success Delete !!!!`)
+            toast.success(`Success Delete !!!!`)
             handleCloseUpdate();
             useDispatch(
                 fetchPosition()
             )
         }
         if (!res) {
-            alert(`Error updating position`);
+            toast.error(`Error updating position`);
         }
     }
     const styles = {
@@ -143,9 +143,8 @@ const Position = () => {
 
 
     const AddPositon = async () => {
-        <ToastContainer />
         if (!name) {
-            alert('Please fill name');
+            toast.error('Please fill name');
             return;
         }
         if (!zalo) {
@@ -153,7 +152,7 @@ const Position = () => {
             return;
         }
         let res = await createPosition(name, zalo);
-        alert(`Success Create!!!!`)
+        toast.success(`Success Create!!!!`)
         handleCloseAddProject();
         useDispatch(
             fetchPosition()
@@ -164,7 +163,7 @@ const Position = () => {
     const UpdatePosition = async () => {
         console.log('update position', dataUpdate);
         if (!name) {
-            alert('Please fill name');
+            toast.error('Please fill name');
             return;
         }
         if (!zalo) {
@@ -174,7 +173,7 @@ const Position = () => {
         try {
             let res = await updatePosition(dataUpdate.id, name, zalo);
             if (res) {
-                alert(`Success Update !!!!`)
+                toast.success(`Success Update !!!!`)
                 handleCloseUpdate();
                 console.log('check res', res);
                 console.log('update position2', dataUpdate);
@@ -183,7 +182,7 @@ const Position = () => {
                 )
             }
             if (!res) {
-                alert(`Error updating position`);
+                toast.error(`Error updating position`);
             }
 
 

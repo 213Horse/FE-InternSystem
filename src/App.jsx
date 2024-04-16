@@ -19,13 +19,15 @@ import RegisterSchool from './components/Register/RegisterSchool';
 import RegisterIntern from './components/Register/RegisterIntern';
 import { useSelector } from 'react-redux';
 import ErrorPerrmission from './components/Auth/ErrorPerrmission';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
 
 function App() {
     const account = useSelector(state => state?.account);
     const isAuthenticated = account.isAuthenticated;
     return (
         <>
-
+            <ToastContainer />
             <Routes>
                 <Route path="/" element={<Login />}>
                     <Route index element={<AdminLogin />} />
