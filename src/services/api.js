@@ -1,9 +1,4 @@
-
 import axios from '../ultils/axios-custom'
-
-export const getInterns = () => {
-  return axios.get('/api/interns/get');
-}
 
 export const callLogin = (email, password) => {
   return axios.post('/api/auth/login',
