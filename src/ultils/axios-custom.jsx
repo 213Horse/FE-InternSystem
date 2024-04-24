@@ -3,7 +3,6 @@ import axios from 'axios';
 const baseURL = import.meta.env.VITE_BACKEND_URL
 // const baseURL = 'https://api-intern.lytech.vn/swagger/index.html';
 
-const token = localStorage.getItem('access_token');
 
 // Tạo instance axios với baseURL và header chứa token
 const instance = axios.create({
