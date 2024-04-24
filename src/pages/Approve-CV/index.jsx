@@ -7,9 +7,7 @@ import { getInterns } from '../../redux/Slices/User/internInfo';
 import ViewModal from './viewModal';
 import InterviewModal from './interviewModal';
 
-
 const ApproveCV = () => {
-
     // ************************************************************
     // STATE OF MODALS
 
@@ -32,6 +30,7 @@ const ApproveCV = () => {
     const { Search } = Input;
 
     const [form] = Form.useForm();
+    const [formInterview] = Form.useForm();
 
     // Show interview Modal function
     const showInterviewModal = () => {
@@ -44,11 +43,10 @@ const ApproveCV = () => {
             let res = await getInterns();
             const interntArray = res?.data || {};
             setInternInfo(interntArray);
-        }
-        catch (error) {
+        } catch (error) {
             console.log(error);
         }
-    }
+    };
     //React Hook - UseEffect
     useEffect(() => {
         fetchInterns();
@@ -56,11 +54,13 @@ const ApproveCV = () => {
 
     const handleOK = () => {
         setView(false);
-    }
+        form.resetFields();
+    };
 
     const handlCancel = () => {
-        setView(false)
-    }
+        setView(false);
+        form.resetFields();
+    };
 
     // Table Fake API
     // const dataSource = [
@@ -297,11 +297,18 @@ const ApproveCV = () => {
             <div>
                 <Modal
                     open={interviewModal}
-                    onOk={() => setInterviewModal(false)}
-                    onCancel={() => setInterviewModal(false)}
+                    onOk={() => {
+                        setInterviewModal(false);
+                        formInterview.resetFields();
+                    }}
+                    onCancel={() => {
+                        console.log("click")
+                        setInterviewModal(false);
+                        formInterview.resetFields();
+                    }}
                     width={{ with: 'fit-content' }}
                 >
-                    <InterviewModal />
+                    <InterviewModal formInterview={formInterview} />
                 </Modal>
             </div>
 
@@ -315,13 +322,8 @@ const ApproveCV = () => {
 
                 {/* View Pop-Up */}
                 <div style={{ marginLeft: 200 }}>
-                    <Modal
-                        open={view}
-                        onOk={handleOK}
-                        onCancel={handlCancel}
-                        width={{ with: 'fit-content' }}
-                    >
-                        <ViewModal data={internFormInfo} />
+                    <Modal open={view} onOk={handleOK} onCancel={handlCancel} width={{ with: 'fit-content' }}>
+                        <ViewModal form={form} data={internFormInfo} />
                     </Modal>
                 </div>
             </div>

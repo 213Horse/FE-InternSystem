@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { Button, Modal, Form, Input, Space, Col, Row, Select, Tabs, Typography } from 'antd';
 
 
-const InterviewModal = () => {
+const InterviewModal = ({formInterview}) => {
 
     // Set Vertical Property
-    const [form] = Form.useForm();
+
     const [formLayout, setFormLayout] = useState('vertical');
     const onFormLayoutChange = ({ layout }) => {
         setFormLayout(layout);
@@ -30,7 +30,7 @@ const InterviewModal = () => {
             <Form
                 {...formItemLayout}
                 layout={formLayout}
-                form={form}
+                form={formInterview}
                 initialValues={{
                     layout: formLayout,
                 }}
