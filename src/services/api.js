@@ -9,30 +9,6 @@ export const callLogin = (email, password) => {
       // delay: 5000
     })
 }
-// export const createProject = async (ten, linkNhomZalo) => {
-//   const data = { ten, leaderId, thoiGianBatDau, thoiGianKetThuc }
-//   return axios.post('/api/du-ans/create-project', data);
-// }
-// export const searchProjects = (value) => {
-//   return axios.get(`/api/du-ans/search-project?ten=${value}`)
-// }
-// export const callGetProject = () => {
-//   return axios.get('/api/du-ans/get-all-projects');
-// }
-// export const callGetPosition = () => {
-//   return axios.get('/api/vi-tris/get');
-// }
-// export const createPosition = async (ten, linkNhomZalo) => {
-//   const data = { ten, linkNhomZalo }
-//   return axios.post('/api/vi-tris/create', data);
-// }
-// export const updatePosition = (id, ten, linkNhomZalo) => {
-//   const data = { ten, linkNhomZalo };
-//   return axios.put(`/api/vi-tris/update/${id}`, data);
-// }
-// export const deletePosition = (id) => {
-//   return axios.delete(`/api/vi-tris/delete/${id}`);
-// }
 
 
 //Register Admin, HR, mentor 

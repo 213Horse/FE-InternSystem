@@ -4,11 +4,8 @@ const initialState = {
   isAuthenticated : false,
   isLoading  : false,
   user : {
-
   }
 };
-
-
 
 export const accountSlice = createSlice({
   name: "account",

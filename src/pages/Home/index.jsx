@@ -47,7 +47,7 @@ const App = () => {
             >
                 <div className="demo-logo-vertical" style={{ height: 40, }} />
                 <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}
-                    defaultOpenKeys={['1']}>
+                    defaultOpenKeys={['sub2', 'sub1']}>
                     <Menu.Item key="1" icon={<PieChartOutlined />}>
                         <Link to="/home/dashboard">Dashboard</Link>
                     </Menu.Item>

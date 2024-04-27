@@ -1,8 +1,9 @@
-import { Avatar, Space, Checkbox, Tag, Button, Flex, Input, Tooltip, Pagination, Modal, DatePicker } from 'antd';
+import { Avatar, Space, Checkbox, Tag, Button, Flex, Input, Tooltip, Pagination, Modal, DatePicker, Select } from 'antd';
 import { UserOutlined, AntDesignOutlined } from '@ant-design/icons';
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { searchProjects } from '../../redux/Slices/Project/ProjectSlice';
+import { ToastContainer, toast } from 'react-toastify';
+import { searchProjects, callGetProject, createProject, updateProject, deleteProject } from '../../redux/Slices/Project/ProjectSlice';
 import Search from 'antd/es/input/Search';
 
 const Project = () => {
@@ -12,25 +13,141 @@ const Project = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [searchText, setSearchText] = useState('');
     const [currentProjects, setCurrentProjects] = useState([]);
+    const [leaderName, setLeaderName] = useState('');
+    const [leaderId, setLeaderId] = useState('');
+    const [options, setOptions] = useState([]);
+    const [name, setName] = useState('');
+    const [timeStart, setTimeStart] = useState('');
+    const [timeEnd, setTimeEnd] = useState('');
+    const [idLeader, setIdLeader] = useState('');
+    const [dataDelete, setDataDelete] = useState('');
+    const [dataUpdate, setDataUpdate] = useState('');
+    const [showUpdate, setShowUpdate] = useState(false);
+
     const dispatch = useDispatch();
 
     const handleAddProject = () => {
         setShowForm(true);
     };
 
+    const handleUpdateProject = () => {
+        setShowUpdate(true);
+    };
+
+    const onChanges = (value) => {
+        setIdLeader(value);
+        console.log(`selected ${value}`);
+
+    };
+
+
+    const handleCloseFormU = () => {
+        setShowUpdate(false);
+        setName('');
+        setOptions([]);
+        setTimeStart('');
+        setTimeEnd('');
+    };
 
     const handleCloseForm = () => {
         setShowForm(false);
+        setName('');
+        setOptions([]);
+        setTimeStart('');
+        setTimeEnd('');
     };
 
     const handleChangePage = (page) => {
         setCurrentPage(page);
     };
+    const AddProject = async () => {
+        if (!name) {
+            toast.error('Please fill name');
+            return;
+        }
+        if (!options) {
+            toast.error('Please select leader');
+            return;
+        }
+        if (!timeStart) {
+            toast.error('Please fill start date');
+            return;
+        }
+        if (!timeEnd) {
+            toast.error('Please fill end date');
+            return;
+        }
+        let res = await createProject(name, idLeader, timeStart, timeEnd);
+        toast.success(`Success Create!!!!`)
+        fetchProject()
+        handleCloseForm();
+
+        console.log('check res', res);
+    }
+    const UpdateProject = async () => {
+        console.log('update position', dataUpdate);
+        let res = await updateProject(dataUpdate.id, name, idLeader, timeStart, timeEnd);
+        console.log('check res', res);
+        if (res) {
+            toast.success(`Success Update !!!!`)
+            handleCloseFormU();
+            console.log('check res', res);
+            console.log('update position2', dataUpdate);
+            fetchProject()
+
+        }
+        if (!res) {
+            toast.error(`Error updating project`);
+        }
+    }
+    const clickDelete = async (e) => {
+        console.log('delete', dataDelete);
+        let res = await deleteProject(dataDelete.id);
+        if (res) {
+            toast.success(`Success Delete !!!!`)
+            fetchProject()
+        }
+        if (!res) {
+            toast.error(`Error updating position`);
+        }
+    }
+
+    const fetchProject = async () => {
+        let res;
+        res = await callGetProject();
+        setFilteredProjects(res.data.value);
+        res.data.value.forEach(project => {
+            setLeaderName(prev => [...prev, project.leaderName]);
+            setLeaderId(prev => [...prev, project.leaderId]);
+        });
+    }
+    const uniqueName = [...new Set(leaderName)];
+    const uniqueID = [...new Set(leaderId)];
+    console.log(uniqueName);
+    console.log(uniqueID);
+    useEffect(() => {
+        fetchProject();
+    }, []);
 
 
-    const handleSearch = () => {
+    const buildOptions = () => {
+        return uniqueID.map((id, index) => ({
+            value: id,
+            label: uniqueName[index]
+        }))
+    }
+    console.log('check opp', options);
+    useEffect(() => {
+        const newOptions = buildOptions();
+
+        if (JSON.stringify(newOptions) !== JSON.stringify(options)) {
+            setOptions(newOptions);
+        }
+    }, [uniqueID, uniqueName]);
+
+    const handleSearch = async () => {
         setCurrentPage(1);
-        searchProjects(searchText)
+        await searchProjects(searchText)
             .then(response => {
                 setFilteredProjects(response.data);
             })
@@ -38,11 +155,23 @@ const Project = () => {
                 console.error('Error searching projects:', error);
             });
     }
-    console.log(filteredProjects);
+    const onChange = (e) => {
+        console.log('D', dataDelete);
+        console.log('U', dataUpdate);
+        setDataUpdate(e);
+        setDataDelete(e);
+    };
+    useEffect(() => {
+        setName(dataUpdate?.ten);
+        setIdLeader(dataUpdate?.leaderId);
+        // setTimeStart(dataUpdate?.thoiGianBatDau);
+        // setTimeEnd(dataUpdate?.thoiGianKetThuc);
+    }, [dataUpdate])
     useEffect(() => {
         handleSearch(searchText);
     }, []);
-
+    console.log('check tS', timeStart);
+    console.log('check tE', timeEnd);
     useEffect(() => {
         const indexOfLastProject = currentPage * pageSize;
         const indexOfFirstProject = indexOfLastProject - pageSize;
@@ -67,10 +196,7 @@ const Project = () => {
         }
     };
 
-    const onChange = (date, dateString) => {
-        console.log(date, dateString);
-    };
-
+    console.log('check o', options);
     return (
         <div style={{
             marginRight: '20px',
@@ -91,8 +217,8 @@ const Project = () => {
                     />
                     <Button size={'middle'} type="primary" onClick={handleSearch} style={{ left: -20, backgroundColor: 'blue' }}>Search</Button>
                     <Button size={'middle'} type="primary" style={{ margin: '20px', backgroundColor: 'green' }}>Export Excel</Button>
-                    <Button size={'middle'} type="primary" style={{ margin: '20px', backgroundColor: 'orange' }}>Edit</Button>
-                    <Button size={'middle'} type="primary" style={{ margin: '20px', backgroundColor: 'red' }}>Delete</Button>
+                    <Button onClick={handleUpdateProject} size={'middle'} type="primary" style={{ margin: '20px', backgroundColor: 'orange' }}>Edit</Button>
+                    <Button onClick={clickDelete} size={'middle'} type="primary" style={{ margin: '20px', backgroundColor: 'red' }}>Delete</Button>
                     <Button onClick={handleAddProject} size={'middle'} type="primary" style={{ margin: '10px', backgroundColor: 'blue' }}>New Project</Button>
                 </div>
                 <br></br>
@@ -101,8 +227,12 @@ const Project = () => {
                 {currentProjects.map(project => (
                     <div style={styles.box} key={project.id}>
                         <div>
-                            <div style={{ margin: '10px', fontSize: '22px', fontWeight: 'bold', }}>
-                                {project.ten}
+                            <div style={{ margin: '10px', fontSize: '25px', fontWeight: 'bold', display: 'flex', alignItems: 'center' }}>
+                                <div style={{ flex: '1', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>
+                                    {project.ten}
+                                </div>
+                                <Tag color="blue" >100 People</Tag>
+                                <Checkbox onChange={() => onChange(project)} style={{ marginRight: '4%' }} />
                             </div>
                             <div style={{ borderBottom: '2px solid #ccc' }}></div>
                             <div style={{ color: ' #454545', marginLeft: '10px', lineHeight: 1.5, fontWeight: 'bold' }}>
@@ -174,48 +304,79 @@ const Project = () => {
                 open={showForm}
                 onCancel={handleCloseForm}
                 okText="Create Project"
+                onOk={() => AddProject()}
                 width={1000}
             >
                 <div style={styles.model}>
                     <div style={{ flex: '1' }}>
                         Project Title
-                        <Input placeholder="Project Title" />
+                        <Input
+                            onChange={(e) => setName(e.target.value)}
+                            placeholder="Project Title"
+                        />
                     </div>
-                    <div style={{ flex: '1' }}>
-                        Position
-                        <Input placeholder="Position" />
-                    </div>
-                    <div style={{ flex: '1' }}>
-                        Technology
-                        <Input placeholder="Technology" />
-                    </div>
-                </div>
-                <div style={styles.model}>
                     <div style={{ flex: '1' }}>
                         Leader
-                        <Input placeholder="Leader" />
-                    </div>
-                    <div style={{ flex: '1' }}>
-                        Sub-Leader
-                        <Input placeholder="Sub-Leader" />
-                    </div>
-                    <div style={{ flex: '1' }}>
-                        Mentor
-                        <Input placeholder="Mentor" />
+                        <Select
+                            style={{
+                                width: '100% ',
+                            }}
+                            onChange={onChanges}
+                            placeholder="Leader"
+                            options={options}
+                        />
                     </div>
                 </div>
                 <div style={styles.model}>
                     <div style={{ flex: '1' }}>
                         <div>Start Date</div>
-                        <div><DatePicker style={{ width: '100%' }} onChange={onChange} /></div>
+                        <div><DatePicker style={{ width: '100%' }} onChange={(date, dateString) => { setTimeStart(date); }} /></div>
                     </div>
                     <div style={{ flex: '1', width: '500' }}>
                         <div>Release Date</div>
-                        <div><DatePicker style={{ width: '100%' }} onChange={onChange} /></div>
+                        <div><DatePicker style={{ width: '100%' }} onChange={(date, dateString) => { setTimeEnd(date); }} /></div>
+                    </div>
+                </div>
+                <Tag color="gold" style={{ marginBottom: '5px' }}>In process</Tag>
+            </Modal>
+            <Modal
+                title="Update New Project"
+                open={showUpdate}
+                onCancel={handleCloseFormU}
+                okText="Update Project"
+                onOk={() => UpdateProject()}
+                width={1000}
+            >
+                <div style={styles.model}>
+                    <div style={{ flex: '1' }}>
+                        Project Title
+                        <Input
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            placeholder="Project Title"
+                        />
                     </div>
                     <div style={{ flex: '1' }}>
-                        Group Zalo
-                        <Input placeholder="Zalo" />
+                        Leader
+                        <Select
+                            value={idLeader}
+                            style={{
+                                width: '100% ',
+                            }}
+                            onChange={onChanges}
+                            placeholder="Leader"
+                            options={options}
+                        />
+                    </div>
+                </div>
+                <div style={styles.model}>
+                    <div style={{ flex: '1' }}>
+                        <div>Start Date</div>
+                        <div><DatePicker value={timeStart} style={{ width: '100%' }} onChange={(date, dateString) => { setTimeStart(date); }} /></div>
+                    </div>
+                    <div style={{ flex: '1', width: '500' }}>
+                        <div>Release Date</div>
+                        <div><DatePicker value={timeEnd} style={{ width: '100%' }} onChange={(date, dateString) => { setTimeEnd(date); }} /></div>
                     </div>
                 </div>
                 <Tag color="gold" style={{ marginBottom: '5px' }}>In process</Tag>

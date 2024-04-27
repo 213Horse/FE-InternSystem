@@ -171,6 +171,7 @@ const Position = () => {
             return;
         }
         try {
+
             let res = await updatePosition(dataUpdate.id, name, zalo);
             if (res) {
                 toast.success(`Success Update !!!!`)
