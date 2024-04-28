@@ -80,7 +80,7 @@ const ViewModal = ({form, data }) => {
                             </Form.Item>
                         </Col>
                         <Col span={8}>
-                            <Form.Item name="viTri" label="Position">
+                            <Form.Item name="viTriMongMuon" label="Position">
                                 <Input placeholder="error" disabled />
                             </Form.Item>
                         </Col>
