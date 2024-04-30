@@ -11,6 +11,9 @@ import {
     TeamOutlined,
 } from '@ant-design/icons';
 import { Layout, Menu, theme } from 'antd';
+import { Avatar } from "antd";
+import { Col, Row } from 'antd';
+import Profile from "../../assets/img/Logo/Profile-Pic.png";
 import { ToastContainer, toast } from 'react-toastify';
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -33,7 +36,7 @@ const App = () => {
         token: { colorBgContainer, borderRadiusLG },
     } = theme.useToken();
     return (
-        <Layout style={{ backgroundColor: '#f5f5f5;' }} hasSider>
+        <Layout hasSider>
 
             <Sider
                 style={{
@@ -84,12 +87,29 @@ const App = () => {
                         <Link to="/home/settings">Settings</Link>
                     </Menu.Item>
                 </Menu>
+                <div style={{color: "#fff", padding: "0 15px", marginTop:"10rem"}}> 
+                    <Row>
+                        <Col span={6}>
+                            <Avatar src={Profile}/>
+                        </Col>
+                        <Col span={12}>
+                            <Row>
+                                <Col span={24} style={{color:"#FFF"}}>Natalie Brogan</Col>
+                                <Col span={24} style={{color:"#AAABAF"}}>Admin</Col>
+                            </Row>
+                        </Col>
+                        <Col span={6}>
+                            <Link to='/home/profile'>                      
+                                <SettingOutlined style={{color:"#DB0D4B"}}/>
+                            </Link>
+                        </Col>
+                    </Row>
+                </div>
             </Sider>
             <Layout
                 style={{
-                    width: 1310,
                     marginLeft: 200,
-
+                    backgroundColor: '#ffff',
                 }}
             >
                 {/* <Header

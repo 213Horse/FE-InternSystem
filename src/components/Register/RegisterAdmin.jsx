@@ -93,7 +93,7 @@ function AdminRegister() {
                     </Button>
                 </Form.Item>
                     
-                 <p style={{textAlign:"center"}}>Already have account? <Link style={{textDecoration:"underline"}}>Sign in</Link></p>   
+                 <p style={{textAlign:"center"}}>Already have account? <Link style={{textDecoration:"underline"}} to='/'>Sign in</Link></p>   
             </Form>
         </div>
     );

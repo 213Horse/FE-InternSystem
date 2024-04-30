@@ -1,139 +1,69 @@
-import React, { useState } from 'react';
-import { Button, Modal, Form, Input, Space, Col, Row, Select } from 'antd';
-import { EyeFilled } from '@ant-design/icons';
-
+import React, { useState, useEffect } from 'react';
+import { Button, Modal, Form, Input, Col, Row, Select, Typography } from 'antd';
 import Filter from '../../components/Filter/filter';
 import '../../css/filter.css';
 import TableComponent from '../../components/Table/TableCompoment';
-
-
+import { getInterns } from '../../redux/Slices/User/internInfo';
+import SendEmail from './emailModal';
+import ViewModal from './viewModal';
 
 const ApproveCV = () => {
 
-    const { Search } = Input;
+    // React Hook - UseState cho http API
+    const [intern, setIntern] = useState([]);
 
-    // Set Vertical Property
-    const [form] = Form.useForm();
-    const [formLayout, setFormLayout] = useState('vertical');
-    const onFormLayoutChange = ({ layout }) => {
-        setFormLayout(layout);
-    };
-    const formItemLayout =
-        formLayout === 'vertical'
-            ? {
-                labelCol: {
-                    span: 4,
-                },
-                wrapperCol: {
-                    span: 23,
-                },
-            }
-            : null;
-
-    // Modal
+    // State
+    // Table Modal (Pop-up Chính)
     const [open, setOpen] = useState(false);
 
-    const [showForm, setShowForm] = useState(false);
-
-    const handleAddProject = () => {
-        setShowForm(true);
+    // Send Email Btn Modal 
+    const [emailModal, setEmailModal] = useState(false);
+    const handleSendEmail = () => {
+        setEmailModal(true);
     };
 
-    const handleCloseForm = () => {
-        setShowForm(false);
-    };
+    // Fetch API Function
+    const fetchInterns = async () => {
+        try {
+            let res = await getInterns();
+            const interntArray = res?.data || {};
+            setIntern(interntArray);
+            console.log(data);
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
+    useEffect(() => {
+        fetchInterns();
+    }, [])
 
+    const { Search } = Input;
 
-    const dataSource = [
-        {
-            id: 1,
-            startDate: '2022-01-01',
-            finishDate: '2022-12-31',
-            fullName: 'John Doe',
-            dateOfBirth: '1990-05-15',
-            phoneNumber: '123456789',
-            position: 'Intern',
-            school: 'ABC University',
-            address: '123 Example Street',
-            email: 'johndoe@example.com',
-            cv: 'Link to CV',
-            comment: '2 comments',
-            role: 'Role',
-            project: 'Project',
-            groupZalo: 'Group Zalo',
-            mentor: 'Mentor',
-            status: 'Option 1',
-            reportProcess: 'Report Process',
-            button: 'View',
-            key: 1
-        },
-        {
-            id: 2,
-            startDate: '2022-02-01',
-            finishDate: '2022-11-30',
-            fullName: 'Jane Smith',
-            dateOfBirth: '1992-10-20',
-            phoneNumber: '987654321',
-            position: 'Intern',
-            school: 'XYZ University',
-            address: '456 Example Street',
-            email: 'janesmith@example.com',
-            cv: 'Link to CV',
-            comment: '2 comments',
-            role: 'Role',
-            project: 'Project',
-            groupZalo: 'Group Zalo',
-            mentor: 'Mentor',
-            status: 'Option 2',
-            reportProcess: 'Report Process',
-            button: 'View',
-            key: 2
-        },
-        {
-            id: 3,
-            startDate: '2022-01-01',
-            finishDate: '2022-12-31',
-            fullName: 'John Doe',
-            dateOfBirth: '1990-05-15',
-            phoneNumber: '123456789',
-            position: 'Intern',
-            school: 'ABC University',
-            address: '123 Example Street',
-            email: 'johndoe@example.com',
-            cv: 'Link to CV',
-            comment: '2 comments',
-            role: 'Role',
-            project: 'Project',
-            groupZalo: 'Group Zalo',
-            mentor: 'Mentor',
-            status: 'Option 3',
-            reportProcess: 'Report Process',
-            button: 'View',
-            key: 3
-        },
-        {
-            id: 4,
-            startDate: '2022-02-01',
-            finishDate: '2022-11-30',
-            fullName: 'Jane Smith',
-            dateOfBirth: '1992-10-20',
-            phoneNumber: '987654321',
-            position: 'Intern',
-            school: 'XYZ University',
-            address: '456 Example Street',
-            email: 'janesmith@example.com',
-            cv: 'Link to CV',
-            comment: '2 comments',
-            role: 'Role',
-            project: 'Project',
-            groupZalo: 'Group Zalo',
-            mentor: 'Mentor',
-            status: 'Status',
-            reportProcess: 'Report Process',
-            button: 'View',
-            key: 4
-        },
-    ];
+    // const dataSource = [
+    //     {
+    //         id: 1,
+    //         startDate: '2022-01-01',
+    //         finishDate: '2022-12-31',
+    //         fullName: 'John Doe',
+    //         dateOfBirth: '1990-05-15',
+    //         phoneNumber: '123456789',
+    //         position: 'Intern',
+    //         school: 'ABC University',
+    //         address: '123 Example Street',
+    //         email: 'johndoe@example.com',
+    //         cv: 'Link to CV',
+    //         comment: '2 comments',
+    //         role: 'Role',
+    //         project: 'Project',
+    //         groupZalo: 'Group Zalo',
+    //         mentor: 'Mentor',
+    //         status: 'Option 1',
+    //         reportProcess: 'Report Process',
+    //         button: 'View',
+    //         key: 1
+    //     },
+    // ];
 
     const options = [
         { value: '1', label: 'Option 1', color: 'orange' },
@@ -147,94 +77,114 @@ const ApproveCV = () => {
             dataIndex: 'id',
         },
         {
+            title: 'MSSV',
+            dataIndex: 'mssv',
+        },
+        {
             title: 'Start Date',
             dataIndex: 'startDate',
         },
         {
-            title: 'Finish Date',
-            dataIndex: 'finishDate',
+            title: 'End Date',
+            dataIndex: 'endDate',
         },
         {
             title: 'Full Name',
-            dataIndex: 'fullName',
-
+            dataIndex: 'hoten',
 
         },
         {
             title: 'Date Of Birth',
-            dataIndex: 'dateOfBirth',
-
-
+            dataIndex: 'ngaySinh',
         },
         {
             title: 'Phone Number',
-            dataIndex: 'phoneNumber',
+            dataIndex: 'sdt',
+        },
+        {
+            title: 'Position',
+            dataIndex: 'viTriMongMuon',
 
         },
         {
             title: 'Position',
-            dataIndex: 'position',
-
-        },
-        {
-            title: 'School',
-            dataIndex: 'school',
+            dataIndex: 'viTri',
 
         },
         {
             title: 'Address',
-            dataIndex: 'address',
+            dataIndex: 'diaChi',
 
         },
         {
-            title: 'Email',
-            dataIndex: 'email',
+            title: 'Personal Email',
+            dataIndex: 'emailCaNhan',
+
+        },
+        {
+            title: 'Shcool Email',
+            dataIndex: 'emailTruong',
 
         },
         {
             title: 'CV',
-            dataIndex: 'cv',
+            dataIndex: 'linkCV',
             render: (text) => (
                 <a href='' style={{ textDecoration: 'underline', color: 'black' }}>{text}</a>
             )
 
         },
         {
-            title: 'Comments',
-            dataIndex: 'comment',
-            render: (text) => (
-                <div style={{ border: '2px solid #CBD2DC', borderRadius: '15px', padding: '6px 10px' }}>
-                    <Space >
-                        <span>{text}</span>
-                        <EyeFilled />
-                    </Space>
-                </div>
-            )
+            title: 'Gender',
+            dataIndex: 'gioiTinh',
+
         },
         {
-            title: 'Role',
-            dataIndex: 'role',
+            title: 'English Level',
+            dataIndex: 'trinhDoTiengAnh',
+
         },
         {
             title: 'Project',
-            dataIndex: 'project',
+            dataIndex: 'duAn',
+
         },
+        // {
+        //     title: 'Comments',
+        //     dataIndex: 'comment',
+        //     render: (text) => (
+        //         <div style={{ border: '2px solid #CBD2DC', borderRadius: '15px', padding: '6px 10px' }}>
+        //             <Space >
+        //                 <span>{text}</span>
+        //                 <EyeFilled />
+        //             </Space>
+        //         </div>
+        //     )
+        // },
         {
             title: 'Group Zalo',
-            dataIndex: 'groupZalo',
+            dataIndex: 'nhomZalo',
         },
         {
-            title: 'Mentor',
-            dataIndex: 'mentor',
+            title: 'School',
+            dataIndex: 'truongHoc',
+        },
+        {
+            title: 'OJT',
+            dataIndex: 'kiThucTap',
+        },
+        {
+            title: 'Round',
+            dataIndex: 'round',
         },
         {
             title: 'Status',
             dataIndex: 'status',
             render: (text) => {
                 const selectedOption = options.find((option) => option.label === text);
-                console.log(selectedOption);
+                // console.log(selectedOption);
                 const optionColor = selectedOption ? selectedOption.color : null;
-                console.log(optionColor);
+                // console.log(optionColor);
                 return (
                     <Select defaultValue='Option 1' variant="borderless" style={{ color: optionColor }}>
                         {options.map((option) => (
@@ -247,18 +197,13 @@ const ApproveCV = () => {
             },
         },
         {
-            title: 'Report Process',
-            dataIndex: 'reportProcess',
-        },
-        {
             title: 'Button',
             dataIndex: 'button',
             render: (text, record) => {
-
                 return (
                     <>
-                        <Button type="primary" onClick={() => setOpen(true)}>
-                            Open Modal of 1000px width
+                        <Button style={{ marginRight: '12px' }} onClick={() => setOpen(true)}>
+                            View
                         </Button>
                     </>
                 )
@@ -268,9 +213,12 @@ const ApproveCV = () => {
 
     return (
         <>
-            <div>
+            <div className='header'>
+                {/* HEADER */}
                 <h1 style={{ marginLeft: '10px', color: '#8A2BE2' }}>Confirm CV</h1>
                 <br></br>
+
+                {/* TOP-BUTTON */}
                 <div>
                     <Search
                         placeholder="input search text"
@@ -279,24 +227,36 @@ const ApproveCV = () => {
                         size="large"
                         style={{ margin: '20px', width: '33%' }}
                     />
-                    <Button size={'large'} type="primary" style={{ width: '160px', margin: '20px', backgroundColor: 'green' }}>Export Excel</Button>
-                    <Button size={'large'} type="primary" style={{ width: '160px', margin: '20px', backgroundColor: 'orange' }}>Edit</Button>
-                    <Button size={'large'} type="primary" style={{ width: '160px', margin: '20px', backgroundColor: 'red' }}>Delete</Button>
-                    <Button onClick={handleAddProject} size={'large'} type="primary" style={{ width: '160px', margin: '20px 10px 20px 20px', backgroundColor: 'blue' }}>Add New Project</Button>
+                    <Button onClick={handleSendEmail} size={'large'} type="primary" style={{ width: 'fit-content', margin: '20px', backgroundColor: 'purple' }}>Send Email</Button>
+                    <Button size={'large'} type="primary" style={{ width: 'fit-content', margin: '20px', backgroundColor: 'green' }}>Export Excel</Button>
+                    <Button size={'large'} type="primary" style={{ width: 'fit-content', margin: '20px', backgroundColor: 'orange' }}>Edit</Button>
+                    <Button size={'large'} type="primary" style={{ width: 'fit-content', margin: '20px', backgroundColor: 'red' }}>Delete</Button>
+                    <Button size={'large'} type="primary" style={{ width: 'fit-content', margin: '20px 10px 20px 20px', backgroundColor: 'blue' }}>Add New Project</Button>
 
                 </div>
                 <br></br>
             </div>
 
-
+            {/* Send Email Modal */}
             <div>
+                <Modal width={700}
+                    open={emailModal}
+                    onOk={() => setEmailModal(false)}
+                    onCancel={() => setEmailModal(false)}
+                >
+                    <SendEmail />   
+                </Modal>
+            </div>
+
+            {/* BODY */}
+            <div className='main'>
                 {/* Filter */}
                 <Filter />
 
                 {/* Table Show Data */}
-                <TableComponent columns={columns} dataSource={dataSource} />
+                <TableComponent columns={columns} dataSource={intern} />
 
-                {/* Pop-Up */}
+                {/* Table View */}
                 <div style={{ marginLeft: 200 }}>
                     <Modal
                         centered
@@ -305,78 +265,7 @@ const ApproveCV = () => {
                         onCancel={() => setOpen(false)}
                         width={1000}
                     >
-
-                        <Form
-                            {...formItemLayout}
-                            layout={formLayout}
-                            form={form}
-                            initialValues={{
-                                layout: formLayout,
-                            }}
-                            onValuesChange={onFormLayoutChange}
-                        >
-                            <Row>
-                                <Col style={{ maxWidth: 'none' }} span={8}>
-                                    <Form.Item label="Field A">
-                                        <Input placeholder="input placeholder" disabled />
-                                    </Form.Item>
-                                </Col>
-                                <Col span={8}>
-                                    <Form.Item label="Field B">
-                                        <Input placeholder="input placeholder" disabled />
-                                    </Form.Item>
-                                </Col>
-                                <Col span={8}>
-                                    <Form.Item label="Field C">
-                                        <Input placeholder="input placeholder" disabled />
-                                    </Form.Item>
-                                </Col>
-                            </Row>
-
-                            <Row>
-                                <Col span={8}>
-                                    <Form.Item label="Field A">
-                                        <Input placeholder="input placeholder" disabled />
-                                    </Form.Item>
-                                </Col>
-                                <Col span={8}>
-                                    <Form.Item label="Field B">
-                                        <Input placeholder="input placeholder" disabled />
-                                    </Form.Item>
-                                </Col>
-                                <Col span={8}>
-                                    <Form.Item label="Field C">
-                                        <Input placeholder="input placeholder" disabled />
-                                    </Form.Item>
-                                </Col>
-                            </Row>
-
-                            <Row>
-                                <Col span={8}>
-                                    <Form.Item label="Field A">
-                                        <Input placeholder="input placeholder" disabled />
-                                    </Form.Item>
-                                </Col>
-                                <Col span={8}>
-                                    <Form.Item label="Field B">
-                                        <Input placeholder="input placeholder" disabled />
-                                    </Form.Item>
-                                </Col>
-                                <Col span={8}>
-                                    <Form.Item label="Field C">
-                                        <Input placeholder="input placeholder" disabled />
-                                    </Form.Item>
-                                </Col>
-                            </Row>
-
-                            <Row>
-                                <Col span={8}>
-                                    <Form.Item label="Field A">
-                                        <Input placeholder="input placeholder" disabled />
-                                    </Form.Item>
-                                </Col>
-                            </Row>
-                        </Form>
+                        <ViewModal />
                     </Modal>
                 </div>
             </div>

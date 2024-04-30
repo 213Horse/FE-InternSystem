@@ -38,5 +38,5 @@ jobs:
           docker rmi ${{secrets.DOCKER_USERNAME}}/${{secrets.DOCKER_IMAGE}} || true
           
           docker pull ${{secrets.DOCKER_USERNAME}}/${{secrets.DOCKER_IMAGE}}:latest
-          docker run -d -p 8074:3000 --name ${{secrets.DOCKER_IMAGE}}-frontend-webpage ${{secrets.DOCKER_USERNAME}}/${{secrets.DOCKER_IMAGE}}:latest
+          docker run -d -p ${{secrets.APP_PORT}}:3000 --name ${{secrets.DOCKER_IMAGE}}-frontend-webpage ${{secrets.DOCKER_USERNAME}}/${{secrets.DOCKER_IMAGE}}:latest
           "

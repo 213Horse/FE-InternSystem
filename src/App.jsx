@@ -19,6 +19,8 @@ import RegisterSchool from './components/Register/RegisterSchool';
 import RegisterIntern from './components/Register/RegisterIntern';
 import { useSelector } from 'react-redux';
 import ErrorPerrmission from './components/Auth/ErrorPerrmission';
+import ResetPassword from './components/Password/ResetPassword';
+import Profile from './pages/Profile';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 
@@ -32,7 +34,8 @@ function App() {
                 <Route path="/" element={<Login />}>
                     <Route index element={<AdminLogin />} />
                     <Route path='school-login' element={<SchoolLogin />} />
-                    <Route path='register-admin' element={<RegisterAdmin />} />
+                    <Route path='reset-password' element= {<ResetPassword />}/> 
+               <Route path='register-admin' element={<RegisterAdmin />} />
                     <Route path='school-login/register-school' element={<RegisterSchool />} />
                     <Route path='register-intern' element={<RegisterIntern />} />
                     <Route />
@@ -48,6 +51,7 @@ function App() {
                     <Route path="technology-management" element={<Tech />} />
                     <Route path="group-zalo-management" element={<Zalo />} />
                     <Route path="settings" element={<Settings />} />
+                <Route path="profile" element={<Profile/>}/>
                 </Route>}
                 {isAuthenticated === false && <Route path="*" element={<ErrorPerrmission />} />}
             </Routes>

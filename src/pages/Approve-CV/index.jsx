@@ -1,276 +1,250 @@
-import React, { useState } from 'react';
-import { Button, Modal, Form, Input, Space, Col, Row, Select } from 'antd';
-import { EyeFilled } from '@ant-design/icons';
-
+import React, { useEffect, useState } from 'react';
+import { Button, Modal, Form, Input, Space, Col, Row, Select, Tabs, Typography } from 'antd';
 import Filter from '../../components/Filter/filter';
 import '../../css/filter.css';
 import TableComponent from '../../components/Table/TableCompoment';
-
+import { getInterns } from '../../redux/Slices/User/internInfo';
+import ViewModal from './viewModal';
+import InterviewModal from './interviewModal';
 
 
 const ApproveCV = () => {
 
+    // ************************************************************
+    // STATE OF MODALS
+
+    // State Interview Modal
+    const [interviewModal, setInterviewModal] = useState(false);
+
+    // State View Modal
+    const [view, setView] = useState(false);
+
+    // State contain data from API
+    const [internInfo, setInternInfo] = useState([]);
+
+    // State contain info user in the table
+    const [internFormInfo, setInternFormInfo] = useState([]);
+
+    // STATE OF MODALS
+    // ************************************************************
+
+    // Variables
     const { Search } = Input;
 
-    // Set Vertical Property
     const [form] = Form.useForm();
-    const [formLayout, setFormLayout] = useState('vertical');
-    const onFormLayoutChange = ({ layout }) => {
-        setFormLayout(layout);
-    };
-    const formItemLayout =
-        formLayout === 'vertical'
-            ? {
-                labelCol: {
-                    span: 4,
-                },
-                wrapperCol: {
-                    span: 23,
-                },
-            }
-            : null;
 
-    // Modal
-    const [open, setOpen] = useState(false);
-
-    const [showForm, setShowForm] = useState(false);
-
-    const handleAddProject = () => {
-        setShowForm(true);
+    // Show interview Modal function
+    const showInterviewModal = () => {
+        setInterviewModal(true);
     };
 
-    const handleCloseForm = () => {
-        setShowForm(false);
-    };
+    // fetch API
+    const fetchInterns = async () => {
+        try {
+            let res = await getInterns();
+            const interntArray = res?.data || {};
+            setInternInfo(interntArray);
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
+    //React Hook - UseEffect
+    useEffect(() => {
+        fetchInterns();
+    }, []);
 
+    const handleOK = () => {
+        setView(false);
+    }
 
-    const dataSource = [
-        {
-            id: 1,
-            startDate: '2022-01-01',
-            finishDate: '2022-12-31',
-            fullName: 'John Doe',
-            dateOfBirth: '1990-05-15',
-            phoneNumber: '123456789',
-            position: 'Intern',
-            school: 'ABC University',
-            address: '123 Example Street',
-            email: 'johndoe@example.com',
-            cv: 'Link to CV',
-            comment: '2 comments',
-            role: 'Role',
-            project: 'Project',
-            groupZalo: 'Group Zalo',
-            mentor: 'Mentor',
-            status: 'Option 1',
-            reportProcess: 'Report Process',
-            button: 'View',
-            key: 1
-        },
-        {
-            id: 2,
-            startDate: '2022-02-01',
-            finishDate: '2022-11-30',
-            fullName: 'Jane Smith',
-            dateOfBirth: '1992-10-20',
-            phoneNumber: '987654321',
-            position: 'Intern',
-            school: 'XYZ University',
-            address: '456 Example Street',
-            email: 'janesmith@example.com',
-            cv: 'Link to CV',
-            comment: '2 comments',
-            role: 'Role',
-            project: 'Project',
-            groupZalo: 'Group Zalo',
-            mentor: 'Mentor',
-            status: 'Option 2',
-            reportProcess: 'Report Process',
-            button: 'View',
-            key: 2
-        },
-        {
-            id: 3,
-            startDate: '2022-01-01',
-            finishDate: '2022-12-31',
-            fullName: 'John Doe',
-            dateOfBirth: '1990-05-15',
-            phoneNumber: '123456789',
-            position: 'Intern',
-            school: 'ABC University',
-            address: '123 Example Street',
-            email: 'johndoe@example.com',
-            cv: 'Link to CV',
-            comment: '2 comments',
-            role: 'Role',
-            project: 'Project',
-            groupZalo: 'Group Zalo',
-            mentor: 'Mentor',
-            status: 'Option 3',
-            reportProcess: 'Report Process',
-            button: 'View',
-            key: 3
-        },
-        {
-            id: 4,
-            startDate: '2022-02-01',
-            finishDate: '2022-11-30',
-            fullName: 'Jane Smith',
-            dateOfBirth: '1992-10-20',
-            phoneNumber: '987654321',
-            position: 'Intern',
-            school: 'XYZ University',
-            address: '456 Example Street',
-            email: 'janesmith@example.com',
-            cv: 'Link to CV',
-            comment: '2 comments',
-            role: 'Role',
-            project: 'Project',
-            groupZalo: 'Group Zalo',
-            mentor: 'Mentor',
-            status: 'Status',
-            reportProcess: 'Report Process',
-            button: 'View',
-            key: 4
-        },
-    ];
+    const handlCancel = () => {
+        setView(false)
+    }
 
+    // Table Fake API
+    // const dataSource = [
+    //     {
+    //         id: 1,
+    //         startDate: '2022-01-01',
+    //         finishDate: '2022-12-31',
+    //         fullName: 'John Doe',
+    //         dateOfBirth: '1990-05-15',
+    //         phoneNumber: '123456789',
+    //         position: 'Intern',
+    //         school: 'ABC University',
+    //         address: '123 Example Street',
+    //         email: 'johndoe@example.com',
+    //         cv: 'Link to CV',
+    //         comment: '2 comments',
+    //         role: 'Role',
+    //         project: 'Project',
+    //         groupZalo: 'Group Zalo',
+    //         mentor: 'Mentor',
+    //         status: 'Option 1',
+    //         reportProcess: 'Report Process',
+    //         button: 'View',
+    //         key: 1,
+    //     },
+    // ];
+
+    // Table > Status
     const options = [
         { value: '1', label: 'Option 1', color: 'orange' },
         { value: '2', label: 'Option 2', color: 'blue' },
         { value: '3', label: 'Option 3', color: 'green' },
     ];
 
+    // Table Columns API
     const columns = [
         {
             title: 'Intern ID',
             dataIndex: 'id',
+            key: 'id',
+        },
+        {
+            title: 'MSSV',
+            dataIndex: 'mssv',
         },
         {
             title: 'Start Date',
             dataIndex: 'startDate',
         },
         {
-            title: 'Finish Date',
-            dataIndex: 'finishDate',
+            title: 'End Date',
+            dataIndex: 'endDate',
         },
         {
             title: 'Full Name',
-            dataIndex: 'fullName',
-
-
+            dataIndex: 'hoTen',
         },
         {
             title: 'Date Of Birth',
-            dataIndex: 'dateOfBirth',
-
-
+            dataIndex: 'ngaySinh',
         },
         {
             title: 'Phone Number',
-            dataIndex: 'phoneNumber',
-
+            dataIndex: 'sdt',
         },
         {
             title: 'Position',
-            dataIndex: 'position',
-
+            dataIndex: 'viTriMongMuon',
         },
         {
-            title: 'School',
-            dataIndex: 'school',
-
+            title: 'Position',
+            dataIndex: 'viTri',
         },
         {
             title: 'Address',
-            dataIndex: 'address',
-
+            dataIndex: 'diaChi',
         },
         {
-            title: 'Email',
-            dataIndex: 'email',
-
+            title: 'Personal Email',
+            dataIndex: 'emailCaNhan',
+        },
+        {
+            title: 'Shcool Email',
+            dataIndex: 'emailTruong',
         },
         {
             title: 'CV',
-            dataIndex: 'cv',
+            dataIndex: 'linkCV',
             render: (text) => (
-                <a href='' style={{ textDecoration: 'underline', color: 'black' }}>{text}</a>
-            )
-
+                <a href="" style={{ textDecoration: 'underline', color: 'black' }}>
+                    {text}
+                </a>
+            ),
         },
         {
-            title: 'Comments',
-            dataIndex: 'comment',
-            render: (text) => (
-                <div style={{ border: '2px solid #CBD2DC', borderRadius: '15px', padding: '6px 10px' }}>
-                    <Space >
-                        <span>{text}</span>
-                        <EyeFilled />
-                    </Space>
-                </div>
-            )
+            title: 'Gender',
+            dataIndex: 'gioiTinh',
         },
         {
-            title: 'Role',
-            dataIndex: 'role',
+            title: 'English Level',
+            dataIndex: 'trinhDoTiengAnh',
         },
         {
             title: 'Project',
-            dataIndex: 'project',
+            dataIndex: 'duAn',
         },
+        // {
+        //     title: 'Comments',
+        //     dataIndex: 'comment',
+        //     render: (text) => (
+        //         <div style={{ border: '2px solid #CBD2DC', borderRadius: '15px', padding: '6px 10px' }}>
+        //             <Space >
+        //                 <span>{text}</span>
+        //                 <EyeFilled />
+        //             </Space>
+        //         </div>
+        //     )
+        // },
         {
             title: 'Group Zalo',
-            dataIndex: 'groupZalo',
+            dataIndex: 'nhomZalo',
         },
         {
-            title: 'Mentor',
-            dataIndex: 'mentor',
+            title: 'School',
+            dataIndex: 'truongHoc',
+        },
+        {
+            title: 'OJT',
+            dataIndex: 'kiThucTap',
+        },
+        {
+            title: 'Round',
+            dataIndex: 'round',
         },
         {
             title: 'Status',
             dataIndex: 'status',
-            render: (text) => {
-                const selectedOption = options.find((option) => option.label === text);
-                console.log(selectedOption);
-                const optionColor = selectedOption ? selectedOption.color : null;
-                console.log(optionColor);
-                return (
-                    <Select defaultValue='Option 1' variant="borderless" style={{ color: optionColor }}>
-                        {options.map((option) => (
-                            <Select.Option key={option.value} value={option.value}>
-                                {option.label}
-                            </Select.Option>
-                        ))}
-                    </Select>
-                );
-            },
-        },
-        {
-            title: 'Report Process',
-            dataIndex: 'reportProcess',
+            // render: (text) => {
+            //     const selectedOption = options.find((option) => option.label === text);
+
+            //     const optionColor = selectedOption ? selectedOption.color : null;
+
+            //     return (
+            //         <Select defaultValue='Option 1' variant="borderless" style={{ color: optionColor }}>
+            //             {options.map((option) => (
+            //                 <Select.Option key={option.value} value={option.value}>
+            //                     {option.label}
+            //                 </Select.Option>
+            //             ))}
+            //         </Select>
+            //     );
+            // },
         },
         {
             title: 'Button',
             dataIndex: 'button',
             render: (text, record) => {
-
                 return (
                     <>
-                        <Button type="primary" onClick={() => setOpen(true)}>
-                            Open Modal of 1000px width
+                        <Button
+                            style={{ marginRight: '12px' }}
+                            onClick={() => {
+                                setView(true);
+                                setInternFormInfo(record);
+                                console.log('Intern Detail: ', record);
+                            }}
+                        >
+                            View
                         </Button>
+
+                        <Button>Feedback</Button>
                     </>
-                )
+                );
             },
         },
-    ]
+    ];
 
     return (
         <>
             <div>
                 <h1 style={{ marginLeft: '10px', color: '#8A2BE2' }}>Approve CV</h1>
                 <br></br>
+
+                {/* Top-Bar Btn*/}
                 <div>
                     <Search
                         placeholder="input search text"
@@ -279,108 +253,78 @@ const ApproveCV = () => {
                         size="large"
                         style={{ margin: '20px', width: '33%' }}
                     />
-                    <Button size={'large'} type="primary" style={{ width: '160px', margin: '20px', backgroundColor: 'green' }}>Export Excel</Button>
-                    <Button size={'large'} type="primary" style={{ width: '160px', margin: '20px', backgroundColor: 'orange' }}>Edit</Button>
-                    <Button size={'large'} type="primary" style={{ width: '160px', margin: '20px', backgroundColor: 'red' }}>Delete</Button>
-                    <Button onClick={handleAddProject} size={'large'} type="primary" style={{ width: '160px', margin: '20px 10px 20px 20px', backgroundColor: 'blue' }}>Add New Project</Button>
-
+                    <Button
+                        onClick={showInterviewModal}
+                        size={'large'}
+                        type="primary"
+                        style={{ width: 'fit-content', margin: '20px', backgroundColor: 'purple' }}
+                    >
+                        Schedule Interview{' '}
+                    </Button>
+                    <Button
+                        size={'large'}
+                        type="primary"
+                        style={{ width: 'fit-content', margin: '20px', backgroundColor: 'green' }}
+                    >
+                        Export Excel
+                    </Button>
+                    <Button
+                        size={'large'}
+                        type="primary"
+                        style={{ width: 'fit-content', margin: '20px', backgroundColor: 'orange' }}
+                    >
+                        Edit
+                    </Button>
+                    <Button
+                        size={'large'}
+                        type="primary"
+                        style={{ width: 'fit-content', margin: '20px', backgroundColor: 'red' }}
+                    >
+                        Delete
+                    </Button>
+                    <Button
+                        size={'large'}
+                        type="primary"
+                        style={{ width: 'fit-content', margin: '20px 10px 20px 20px', backgroundColor: 'blue' }}
+                    >
+                        Add New Project
+                    </Button>
                 </div>
                 <br></br>
             </div>
 
+            {/*Top-bar-Btn - Schedule Interview Pop-up */}
+            <div>
+                <Modal
+                    open={interviewModal}
+                    onOk={() => setInterviewModal(false)}
+                    onCancel={() => setInterviewModal(false)}
+                    width={{ with: 'fit-content' }}
+                >
+                    <InterviewModal />
+                </Modal>
+            </div>
 
+            {/* Body Main */}
             <div>
                 {/* Filter */}
                 <Filter />
 
-                {/* Table Show Data */}
-                <TableComponent columns={columns} dataSource={dataSource} />
+                {/* Table */}
+                <TableComponent columns={columns} dataSource={internInfo} />
 
-                {/* Pop-Up */}
+                {/* View Pop-Up */}
                 <div style={{ marginLeft: 200 }}>
                     <Modal
-                        centered
-                        open={open}
-                        onOk={() => setOpen(false)}
-                        onCancel={() => setOpen(false)}
-                        width={1000}
+                        open={view}
+                        onOk={handleOK}
+                        onCancel={handlCancel}
+                        width={{ with: 'fit-content' }}
                     >
-
-                        <Form
-                            {...formItemLayout}
-                            layout={formLayout}
-                            form={form}
-                            initialValues={{
-                                layout: formLayout,
-                            }}
-                            onValuesChange={onFormLayoutChange}
-                        >
-                            <Row>
-                                <Col style={{ maxWidth: 'none' }} span={8}>
-                                    <Form.Item label="Field A">
-                                        <Input placeholder="input placeholder" disabled />
-                                    </Form.Item>
-                                </Col>
-                                <Col span={8}>
-                                    <Form.Item label="Field B">
-                                        <Input placeholder="input placeholder" disabled />
-                                    </Form.Item>
-                                </Col>
-                                <Col span={8}>
-                                    <Form.Item label="Field C">
-                                        <Input placeholder="input placeholder" disabled />
-                                    </Form.Item>
-                                </Col>
-                            </Row>
-
-                            <Row>
-                                <Col span={8}>
-                                    <Form.Item label="Field A">
-                                        <Input placeholder="input placeholder" disabled />
-                                    </Form.Item>
-                                </Col>
-                                <Col span={8}>
-                                    <Form.Item label="Field B">
-                                        <Input placeholder="input placeholder" disabled />
-                                    </Form.Item>
-                                </Col>
-                                <Col span={8}>
-                                    <Form.Item label="Field C">
-                                        <Input placeholder="input placeholder" disabled />
-                                    </Form.Item>
-                                </Col>
-                            </Row>
-
-                            <Row>
-                                <Col span={8}>
-                                    <Form.Item label="Field A">
-                                        <Input placeholder="input placeholder" disabled />
-                                    </Form.Item>
-                                </Col>
-                                <Col span={8}>
-                                    <Form.Item label="Field B">
-                                        <Input placeholder="input placeholder" disabled />
-                                    </Form.Item>
-                                </Col>
-                                <Col span={8}>
-                                    <Form.Item label="Field C">
-                                        <Input placeholder="input placeholder" disabled />
-                                    </Form.Item>
-                                </Col>
-                            </Row>
-
-                            <Row>
-                                <Col span={8}>
-                                    <Form.Item label="Field A">
-                                        <Input placeholder="input placeholder" disabled />
-                                    </Form.Item>
-                                </Col>
-                            </Row>
-                        </Form>
+                        <ViewModal data={internFormInfo} />
                     </Modal>
                 </div>
             </div>
-
         </>
     );
 };
