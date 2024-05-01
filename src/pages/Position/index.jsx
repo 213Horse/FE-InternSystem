@@ -171,6 +171,7 @@ const Position = () => {
             return;
         }
         try {
+
             let res = await updatePosition(dataUpdate.id, name, zalo);
             if (res) {
                 toast.success(`Success Update !!!!`)
@@ -354,7 +355,7 @@ const Position = () => {
                     <div style={styles.box} key={position.id}>
                         <div>
                             <div style={{ margin: '10px', fontSize: '25px', fontWeight: 'bold', display: 'flex', alignItems: 'center' }}>
-                                <div style={{ flex: '1' }}>
+                                <div style={{ flex: '1', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>
                                     {position.ten}
                                 </div>
                                 <Tag color="blue" >100 People</Tag>
