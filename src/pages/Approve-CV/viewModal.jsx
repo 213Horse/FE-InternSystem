@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { Button, Modal, Form, Input, Space, Col, Row, Select, Tabs, Typography } from 'antd';
 
-const ViewModal = ({ data }) => {
+const ViewModal = ({form, data }) => {
 
     // State View Modal
     // const [view, setView] = useState(false);
 
     // Set Vertical Property
-    const [form] = Form.useForm();
+
 
     const [formLayout, setFormLayout] = useState('vertical');
     const onFormLayoutChange = ({ layout }) => {
@@ -36,8 +36,8 @@ const ViewModal = ({ data }) => {
 
     const onFinish = () => {
         form.resetFields();
-    }
-
+        }
+//  
     // Tabs child
     const items = [
         {
@@ -80,7 +80,7 @@ const ViewModal = ({ data }) => {
                             </Form.Item>
                         </Col>
                         <Col span={8}>
-                            <Form.Item name="viTri" label="Position">
+                            <Form.Item name="viTriMongMuon" label="Position">
                                 <Input placeholder="error" disabled />
                             </Form.Item>
                         </Col>
