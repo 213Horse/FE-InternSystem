@@ -35,7 +35,7 @@ function App() {
                     <Route index element={<AdminLogin />} />
                     <Route path='school-login' element={<SchoolLogin />} />
                     <Route path='reset-password' element= {<ResetPassword />}/> 
-               <Route path='register-admin' element={<RegisterAdmin />} />
+                    <Route path='register-admin' element={<RegisterAdmin />} />
                     <Route path='school-login/register-school' element={<RegisterSchool />} />
                     <Route path='register-intern' element={<RegisterIntern />} />
                     <Route />

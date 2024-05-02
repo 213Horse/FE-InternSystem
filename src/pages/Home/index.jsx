@@ -11,25 +11,21 @@ import {
     TeamOutlined,
 } from '@ant-design/icons';
 import { Layout, Menu, theme } from 'antd';
-import { Avatar } from "antd";
+import { Avatar } from 'antd';
 import { Col, Row } from 'antd';
-import Profile from "../../assets/img/Logo/Profile-Pic.png";
+import Profile from '../../assets/img/Logo/Profile-Pic.png';
 import { ToastContainer, toast } from 'react-toastify';
 
 const { Header, Content, Footer, Sider } = Layout;
 
-
 const App = () => {
-
     const layoutStyle = {
         borderRadius: 8,
         overflow: 'hidden',
         backgroundColor: '#E8E9EB',
         gap: '40px',
         height: '98vh',
-
     };
-
 
     console.log('Home');
     const {
@@ -37,7 +33,6 @@ const App = () => {
     } = theme.useToken();
     return (
         <Layout hasSider>
-
             <Sider
                 style={{
                     overflow: 'auto',
@@ -48,9 +43,8 @@ const App = () => {
                     bottom: 0,
                 }}
             >
-                <div className="demo-logo-vertical" style={{ height: 40, }} />
-                <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}
-                    defaultOpenKeys={['sub2', 'sub1']}>
+                <div className="demo-logo-vertical" style={{ height: 40 }} />
+                <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']} defaultOpenKeys={['sub2', 'sub1']}>
                     <Menu.Item key="1" icon={<PieChartOutlined />}>
                         <Link to="/home/dashboard">Dashboard</Link>
                     </Menu.Item>
@@ -87,22 +81,37 @@ const App = () => {
                         <Link to="/home/settings">Settings</Link>
                     </Menu.Item>
                 </Menu>
-                <div style={{color: "#fff", padding: "0 15px", marginTop:"10rem"}}> 
+                <div
+                    style={{
+                        color: '#fff',
+                        padding: '0 15px',
+                        position: 'fixed',
+                        bottom: '30px',
+                        display: 'flex',
+                        justifyContent: 'space-around',
+                    }}
+                >
                     <Row>
-                        <Col span={6}>
-                            <Avatar src={Profile}/>
-                        </Col>
-                        <Col span={12}>
-                            <Row>
-                                <Col span={24} style={{color:"#FFF"}}>Natalie Brogan</Col>
-                                <Col span={24} style={{color:"#AAABAF"}}>Admin</Col>
-                            </Row>
-                        </Col>
-                        <Col span={6}>
-                            <Link to='/home/profile'>                      
-                                <SettingOutlined style={{color:"#DB0D4B"}}/>
-                            </Link>
-                        </Col>
+                       
+                            <Col span={6}>
+                                <Avatar src={Profile} />
+                            </Col>
+                            <Col span={12}>
+                                <Row>
+                                    <Col span={24} style={{ color: '#FFF'}}>
+                                       <span style={{fontSize:"12px"}}> Natalie Brogan</span>
+                                    </Col>
+                                    <Col span={24} style={{ color: '#AAABAF', frontSize: '14px' }}>
+                                        Admin
+                                    </Col>
+                                </Row>
+                            </Col>
+                            <Col span={6}>
+                                <Link to="/home/profile">
+                                    <SettingOutlined style={{ color: '#DB0D4B' }} />
+                                </Link>
+                            </Col>
+                        
                     </Row>
                 </div>
             </Sider>
@@ -128,10 +137,7 @@ const App = () => {
                 >
                     <Outlet></Outlet>
                 </Content>
-
-
             </Layout>
-
         </Layout>
     );
 };
