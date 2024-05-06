@@ -1,191 +1,161 @@
 import React, { useState, useEffect } from 'react';
-import { Avatar, Input, Button, ConfigProvider, Spin } from 'antd';
+import { Avatar, Input, Button, ConfigProvider, Spin, message, notification } from 'antd';
 import profilePic from '../../assets/img/Logo/Profile-Pic.png';
-import {UsergroupDeleteOutlined, ClockCircleOutlined, EditOutlined, DeleteOutlined, UserAddOutlined} from '@ant-design/icons';
+import {
+    UsergroupDeleteOutlined,
+    ClockCircleOutlined,
+    EditOutlined,
+    DeleteOutlined,
+    UserAddOutlined,
+} from '@ant-design/icons';
 import Filter from '../../components/Filter/filter';
-import { Table, Form  } from "antd" ;
+import { Table, Form } from 'antd';
 import TableComponent from '../../components/Table/TableCompoment';
-import { getInterns } from '../../redux/Slices/User/internInfo';
-import {PacmanLoader} from "react-spinners";
+import { PacmanLoader } from 'react-spinners';
+import ModalCreate from './ModalCreate';
+import { callCreateZaloGroup, callDeleteZaloGroup, getGroupZaloExcelExport, getGroupsZalo } from '../../services/group-api';
+import ModalView from './ModalView';
+import ModalDelete from './ModalDelete';
+import ModalUpdate from './ModalUpDate';
+import { CiEdit } from "react-icons/ci";
+import { MdOutlinePreview } from "react-icons/md";
+import ModalAddUserToGroup from './ModalAddUserToGroup';
+import { getUser } from '../../services/user-api';
 const App = () => {
-      // ************************************************************
+    // ************************************************************
     // STATE OF MODALS
+  
+
+ 
 
     // State Interview Modal
-    const [interviewModal, setInterviewModal] = useState(false);
+    const [selectedRows, setSelectedRows] = useState([]);
+    const [selectedRowId, setSelectedRowId] = useState('');
+    const [users, setUsers] = useState([]);
+    console.log("users", users);
 
+    // STATE OF MODALS
+    // ************************************************************
     // State View Modal
-    const [view, setView] = useState(false);
+    const [isModalViewOpen, setIsModalViewOpen] = useState(false);
+    const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
+    const [isModalCreateOpen, setIsModalCreateOpen] = useState(false);
+    const [isModalUpdateOpen, setIsModalUpdateOpen] = useState(false);
+    const [isModalAddUserToGroup, setIsModalAddUserToGroup] = useState(false);
 
+    const [groupSelectedView, setGroupSelectedView] = useState({});
+    const showModalAddUserToGroup = () => {      
+        setIsModalAddUserToGroup(true);
+    };
+    const showModalView = () => {      
+        setIsModalViewOpen(true);
+    };
+    const showModalDelete = () => {
+        if(selectedRows.length != 1) return
+        setIsModalDeleteOpen(true);
+    };
+    const showModalCreate = () => {
+        setIsModalCreateOpen(true)
+        setSelectedRowId(selectedRows.id)
+    }
+    const showModalUpdate = () => {
+        if(selectedRows.length != 1) return
+        setIsModalUpdateOpen(true)
+    }
+
+    console.log('isModalDeleteOpen', isModalDeleteOpen);
+    console.log("isModalUpdateOpen", isModalUpdateOpen)
     // State contain data from API
-    const [internInfo, setInternInfo] = useState([]);
-
-    // State contain info user in the table
-    const [internFormInfo, setInternFormInfo] = useState([]);
+    const [groupZalo, setGroupZalo] = useState([]);
 
     // State loading
     const [loading, setLoading] = useState(false);
 
-    // STATE OF MODALS
-    // ************************************************************
-
-    // Variables
-    const { Search } = Input;
-
-    const [form] = Form.useForm();
-
-    // Show interview Modal function
-    const showInterviewModal = () => {
-        setInterviewModal(true);
-    };
-
     // fetch API
-    const fetchInterns = async () => {
+
+     
+    const fetchUser = async () => {
         try {
             setLoading(true);
-            let res = await getInterns();
-            const interntArray = res?.data || {};
-            setInternInfo(interntArray);
+            let res = await getUser();
+            const userArray = res?.data || {};
+            setUsers(userArray);
+            // Generate unique keys for each row based on index
             setLoading(false);
-        }
-        catch (error) {
+        } catch (error) {
             console.log(error);
         }
+    };
+
+    const fetchGroupsZalo = async () => {
+        try {
+            setLoading(true);
+            let res = await getGroupsZalo();
+            const groupArray = res?.data || {};
+            setGroupZalo(groupArray);
+            // Generate unique keys for each row based on index
+            setGroupZalo((groupZalo) => groupZalo.map((item, index) => ({ ...item, key: index.toString() })));
+            setLoading(false);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const getGroupsZaloExcel = async () => {
+        try {
+            let res = await getGroupZaloExcelExport();
+            fetchGroupsZalo();
+            console.log(res);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+
+    const deleteGroupZalo = async(id) => {
+        try{
+            let res = await callDeleteZaloGroup(id);
+            console.log(res);
+            
+            message.success("Delete Group Successfully!");
+        }catch (error) {
+            console.log(error);
+            notification.error({
+                message: 'Delete Group Error',
+                description: error.response.data,
+                duration: 5,
+            })
+        }
     }
+
+
     //React Hook - UseEffect
     useEffect(() => {
-        fetchInterns();
+        fetchGroupsZalo();
     }, []);
+    // useEffect(() => {
+    //     fetchGroupsZalo();
+    // }, [groupZalo]);
 
-    const handleOK = () => {
-        setView(false);
-    }
-
-    const handlCancel = () => {
-        setView(false)
-    }
-
-
+    
+    useEffect(() => {
+        fetchUser()
+      }, [])
     const columns = [
         {
-            title: 'Intern ID',
+            title: 'Group id',
             dataIndex: 'id',
-            key: 'id',
         },
         {
-            title: 'MSSV',
-            dataIndex: 'mssv',
+            title: 'Group Name',
+            dataIndex: 'tenNhom',
         },
         {
-            title: 'Start Date',
-            dataIndex: 'startDate',
+            title: 'Link Nhom',
+            dataIndex: 'linkNhom',
         },
         {
-            title: 'End Date',
-            dataIndex: 'endDate',
-        },
-        {
-            title: 'Full Name',
-            dataIndex: 'hoTen',
-        },
-        {
-            title: 'Date Of Birth',
-            dataIndex: 'ngaySinh',
-        },
-        {
-            title: 'Phone Number',
-            dataIndex: 'sdt',
-        },
-        {
-            title: 'Position',
-            dataIndex: 'viTriMongMuon',
-        },
-        {
-            title: 'Position',
-            dataIndex: 'viTri',
-        },
-        {
-            title: 'Address',
-            dataIndex: 'diaChi',
-        },
-        {
-            title: 'Personal Email',
-            dataIndex: 'emailCaNhan',
-        },
-        {
-            title: 'Shcool Email',
-            dataIndex: 'emailTruong',
-        },
-        {
-            title: 'CV',
-            dataIndex: 'linkCV',
-            render: (text) => (
-                <a href="" style={{ textDecoration: 'underline', color: 'black' }}>
-                    {text}
-                </a>
-            ),
-        },
-        {
-            title: 'Gender',
-            dataIndex: 'gioiTinh',
-        },
-        {
-            title: 'English Level',
-            dataIndex: 'trinhDoTiengAnh',
-        },
-        {
-            title: 'Project',
-            dataIndex: 'duAn',
-        },
-        // {
-        //     title: 'Comments',
-        //     dataIndex: 'comment',
-        //     render: (text) => (
-        //         <div style={{ border: '2px solid #CBD2DC', borderRadius: '15px', padding: '6px 10px' }}>
-        //             <Space >
-        //                 <span>{text}</span>
-        //                 <EyeFilled />
-        //             </Space>
-        //         </div>
-        //     )
-        // },
-        {
-            title: 'Group Zalo',
-            dataIndex: 'nhomZalo',
-        },
-        {
-            title: 'School',
-            dataIndex: 'truongHoc',
-        },
-        {
-            title: 'OJT',
-            dataIndex: 'kiThucTap',
-        },
-        {
-            title: 'Round',
-            dataIndex: 'round',
-        },
-        {
-            title: 'Status',
-            dataIndex: 'status',
-            // render: (text) => {
-            //     const selectedOption = options.find((option) => option.label === text);
-
-            //     const optionColor = selectedOption ? selectedOption.color : null;
-
-            //     return (
-            //         <Select defaultValue='Option 1' variant="borderless" style={{ color: optionColor }}>
-            //             {options.map((option) => (
-            //                 <Select.Option key={option.value} value={option.value}>
-            //                     {option.label}
-            //                 </Select.Option>
-            //             ))}
-            //         </Select>
-            //     );
-            // },
-        },
-        {
-            title: 'Button',
+            title: 'Action',
             dataIndex: 'button',
             render: (text, record) => {
                 return (
@@ -193,20 +163,40 @@ const App = () => {
                         <Button
                             style={{ marginRight: '12px' }}
                             onClick={() => {
-                                setView(true);
-                                setInternFormInfo(record);
-                                console.log('Intern Detail: ', record);
+                                setGroupSelectedView(record);
+                                showModalView();
                             }}
+                            type='primary'
                         >
-                            View
+                            <MdOutlinePreview />
                         </Button>
 
-                        <Button>Feedback</Button>
+                        <Button style={{backgroundColor:'orange'}}><CiEdit /></Button>
                     </>
                 );
             },
         },
     ];
+    console.log("selectedRows", selectedRows);
+
+    //proper ty selection in table
+    const rowSelection = {
+        onSelect: (record, selected, selectedRows, nativeEvent) => {
+            console.log(
+                `record: ${record}`,
+                'selected: ',
+                selected,
+                'selectedRows: ',
+                selectedRows,
+                'nativeEvent: ',
+                nativeEvent,
+            );
+            setSelectedRows(selectedRows);
+        },
+    };
+
+
+
 
     return (
         <div>
@@ -224,19 +214,22 @@ const App = () => {
             {/* Search Button Input */}
             <div style={{ borderRadius: '3px', display: 'flex', ':focus': 'none', borderRadius: '5px' }}>
                 <Input
-                    style={{ outline: 'none', border: 'none', padding: '5px', width: "600px" }}
+                    style={{ outline: 'none', border: 'none', padding: '5px', width: '600px' }}
                     placeholder="Search for information"
                 />
-                <div style={{marginLeft:"50px", display:"flex", justifyContent:"space-between"}}>
+                <div style={{ marginLeft: '50px', display: 'flex', justifyContent: 'space-between' }}>
                     <ConfigProvider
                         theme={{
                             button: {
                                 colorPrimary: '#00b96b',
-                                padding:"20px !important",
+                                padding: '20px !important',
                             },
                         }}
                     >
-                        <Button style={{background:"#6537B1", color:"#fff"}}><UsergroupDeleteOutlined />Create Group</Button>
+                        <Button onClick={() => showModalCreate()} style={{ background: '#6537B1', color: '#fff' }}>
+                            <UsergroupDeleteOutlined />
+                            Create Group
+                        </Button>
                     </ConfigProvider>
                     <ConfigProvider
                         theme={{
@@ -245,7 +238,13 @@ const App = () => {
                             },
                         }}
                     >
-                        <Button style={{background:"#41B137", color:"#fff", marginLeft:"30px"}}><ClockCircleOutlined />Export Excel</Button>
+                        <Button
+                            style={{ background: '#41B137', color: '#fff', marginLeft: '30px' }}
+                            onClick={() => getGroupsZaloExcel()}
+                        >
+                            <ClockCircleOutlined />
+                            Export Excel
+                        </Button>
                     </ConfigProvider>
                     <ConfigProvider
                         theme={{
@@ -254,7 +253,10 @@ const App = () => {
                             },
                         }}
                     >
-                        <Button style={{background:"#FB8632", color:"#fff", marginLeft:"30px"}}><EditOutlined />Edit</Button>
+                        <Button onClick={() => showModalUpdate()} style={{ background: '#FB8632', color: '#fff', marginLeft: '30px' }}>
+                            <EditOutlined />
+                            Edit
+                        </Button>
                     </ConfigProvider>
                     <ConfigProvider
                         theme={{
@@ -263,7 +265,13 @@ const App = () => {
                             },
                         }}
                     >
-                        <Button style={{background:"#FF3A2E", color:"#fff", marginLeft:"30px"}}><DeleteOutlined />Delete</Button>
+                        <Button
+                            onClick={() => showModalDelete()}
+                            style={{ background: '#FF3A2E', color: '#fff', marginLeft: '30px' }}
+                        >
+                            <DeleteOutlined />
+                            Delete
+                        </Button>
                     </ConfigProvider>
                     <ConfigProvider
                         theme={{
@@ -272,20 +280,70 @@ const App = () => {
                             },
                         }}
                     >
-                        <Button style={{background:"#4889E9", color:"#fff", marginLeft:"30px"}}><UserAddOutlined />Add new Intern</Button>
+                        <Button onClick={() => showModalAddUserToGroup()} style={{ background: '#4889E9', color: '#fff', marginLeft: '30px' }}>
+                            <UserAddOutlined />
+                            Add user to group zalo
+                        </Button>
                     </ConfigProvider>
                 </div>
             </div>
             {/* Content */}
-            <div style={{marginTop:"50px"}}>
-                <Filter/>
-                 {/* Table */}
-                <PacmanLoader style={{marginLeft:"50%", zIndex:1, position: "absolute", left:0, top:0}} loading={loading} color="#f1c40f" tip="Loading..." speedMultiplier={2}>                      
-                </PacmanLoader>
-                <Spin delay={10} spinning={loading} tip="Loading...">                 
-                    <TableComponent style={{marginTop:"1000px"}} columns={columns} dataSource={internInfo} />
+            <div style={{ marginTop: '50px' }}>
+                <Filter />
+                {/* Table */}
+                <PacmanLoader
+                    style={{ marginLeft: '50%', zIndex: 1, position: 'absolute', left: 0, top: 0 }}
+                    loading={loading}
+                    color="#f1c40f"
+                    tip="Loading..."
+                    speedMultiplier={2}
+                ></PacmanLoader>
+                <Spin delay={10} spinning={loading} tip="Loading...">
+                    <TableComponent
+                        style={{ marginTop: '1000px' }}
+                        columns={columns}
+                        dataSource={groupZalo}
+                        rowSelection={rowSelection}
+                    />
                 </Spin>
             </div>
+            {/* Modal  */}
+            <ModalView
+                isModalViewOpen={isModalViewOpen}
+                setIsModalViewOpen={setIsModalViewOpen}
+                showModalView={showModalView}
+                groupSelectedView={groupSelectedView}
+            />
+            <ModalDelete
+                isModalDeleteOpen={isModalDeleteOpen}
+                setIsModalDeleteOpen={setIsModalDeleteOpen}
+                showModalDelete={showModalDelete}
+                selectedRows={selectedRows}
+                deleteGroupZalo={deleteGroupZalo}
+                fetchGroupsZalo={fetchGroupsZalo}
+            />
+            <ModalCreate 
+                isModalCreateOpen={isModalCreateOpen}
+                setIsModalCreateOpen={setIsModalCreateOpen}
+                showModalCreate={showModalCreate}
+                fetchGroupsZalo={fetchGroupsZalo}
+            />
+            <ModalUpdate
+                isModalUpdateOpen={isModalUpdateOpen}
+                setIsModalUpdateOpen={setIsModalUpdateOpen}
+                showModalUpdate={showModalUpdate}
+                fetchGroupsZalo={fetchGroupsZalo}
+                selectedRows={selectedRows}
+                selectedRowId={selectedRowId}
+            />
+            <ModalAddUserToGroup
+                isModalAddUserToGroup={isModalAddUserToGroup}
+                setIsModalAddUserToGroup={setIsModalAddUserToGroup}
+                showModalAddUserToGroup={showModalAddUserToGroup}
+                fetchGroupsZalo={fetchGroupsZalo}
+                groupZalo={groupZalo}
+                users={users}
+            />
         </div>
     );
 };

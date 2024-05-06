@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Alert, Button, Form, Input, Checkbox, message, notification } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
-import { callLogin } from '../../services/api';
+import { callLogin } from '../../services/auth-api';
 import { useDispatch } from 'react-redux';
 import { doLoginAction, doLogoutAction } from '../../redux/account/accountSlice';
 

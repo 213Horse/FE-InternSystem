@@ -1,6 +1,6 @@
 import { Form, Input, Button, message } from 'antd';
 import React, { useState } from 'react'
-import { callForgotPassWord } from '../../services/api';
+import { callForgotPassWord } from '../../services/auth-api';
 
 const MyFormItemContext = React.createContext([]);
 function toArr(str) {
