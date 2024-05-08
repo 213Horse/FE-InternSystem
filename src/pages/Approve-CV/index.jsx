@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Modal, Form, Input, Space, Col, Row, Select, Tabs, Typography } from 'antd';
+import { Button, Modal, Form, Input, Space, Col, Row, Select, Tabs, Typography, DatePicker, Tag } from 'antd';
 import Filter from '../../components/Filter/filter';
 import '../../css/filter.css';
 import TableComponent from '../../components/Table/TableCompoment';
@@ -10,6 +10,9 @@ import InterviewModal from './interviewModal';
 const ApproveCV = () => {
     // ************************************************************
     // STATE OF MODALS
+
+    // State Add New Project
+    const [newProject, setNewProject] = useState(false);
 
     // State Interview Modal
     const [interviewModal, setInterviewModal] = useState(false);
@@ -60,6 +63,32 @@ const ApproveCV = () => {
     const handlCancel = () => {
         setView(false);
         form.resetFields();
+    };
+
+    const handleNewProject = () => {
+        setNewProject(true);
+    };
+
+    const styles = {
+        box: {
+            margin: '20px',
+            border: '0.5px solid black',
+            borderRadius: '10px',
+            boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.5)',
+            height: '230px',
+            width: '348px'
+        },
+        model: {
+            display: 'flex',
+            justifyContent: 'flex-start',
+            flexWrap: 'wrap',
+            marginBottom: '20px',
+            gap: '20px',
+        }
+    };
+
+    const onChange = (date, dateString) => {
+        console.log(date, dateString);
     };
 
     // Table Fake API
@@ -286,11 +315,68 @@ const ApproveCV = () => {
                         size={'large'}
                         type="primary"
                         style={{ width: 'fit-content', margin: '20px 10px 20px 20px', backgroundColor: 'blue' }}
+                        onClick={handleNewProject}
                     >
                         Add New Project
                     </Button>
                 </div>
                 <br></br>
+            </div>
+
+            {/* Add New Project Modal */}
+            <div>
+                <Modal
+                    title="Add New Project"
+                    open={newProject}
+                    onOk={()=>{setNewProject(false)}}
+                    onCancel={()=>{setNewProject(false)}}
+                    okText="Create Project"
+                    width={1000}
+                >
+                    <div style={styles.model}>
+                        <div style={{ flex: '1' }}>
+                            Project Title
+                            <Input placeholder="Project Title" />
+                        </div>
+                        <div style={{ flex: '1' }}>
+                            Position
+                            <Input placeholder="Position" />
+                        </div>
+                        <div style={{ flex: '1' }}>
+                            Technology
+                            <Input placeholder="Technology" />
+                        </div>
+                    </div>
+                    <div style={styles.model}>
+                        <div style={{ flex: '1' }}>
+                            Leader
+                            <Input placeholder="Leader" />
+                        </div>
+                        <div style={{ flex: '1' }}>
+                            Sub-Leader
+                            <Input placeholder="Sub-Leader" />
+                        </div>
+                        <div style={{ flex: '1' }}>
+                            Mentor
+                            <Input placeholder="Mentor" />
+                        </div>
+                    </div>
+                    <div style={styles.model}>
+                        <div style={{ flex: '1' }}>
+                            <div>Start Date</div>
+                            <div><DatePicker style={{ width: '100%' }} onChange={onChange} /></div>
+                        </div>
+                        <div style={{ flex: '1', width: '500' }}>
+                            <div>Release Date</div>
+                            <div><DatePicker style={{ width: '100%' }} onChange={onChange} /></div>
+                        </div>
+                        <div style={{ flex: '1' }}>
+                            Group Zalo
+                            <Input placeholder="Zalo" />
+                        </div>
+                    </div>
+                    <Tag color="gold" style={{ marginBottom: '5px' }}>In process</Tag>
+                </Modal>
             </div>
 
             {/*Top-bar-Btn - Schedule Interview Pop-up */}

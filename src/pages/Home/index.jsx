@@ -120,7 +120,7 @@ const App = () => {
                 /> */}
                 <Content
                     style={{
-                        margin: '24px',
+                        margin: '0 0 0 24px',
                         overflow: 'initial',
                         backgroundColor: '#fff',
                         borderRadius: 6,

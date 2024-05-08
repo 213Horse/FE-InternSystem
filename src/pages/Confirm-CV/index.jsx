@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Modal, Form, Input, Col, Row, Select, Typography } from 'antd';
+import { Button, Modal, Form, Input, Col, Row, Select, Typography, DatePicker, Tag } from 'antd';
 import Filter from '../../components/Filter/filter';
 import '../../css/filter.css';
 import TableComponent from '../../components/Table/TableCompoment';
@@ -13,6 +13,10 @@ const ApproveCV = () => {
     const [intern, setIntern] = useState([]);
 
     // State
+
+    // State Add New Project
+    const [newProject, setNewProject] = useState(false);
+
     // Table Modal (Pop-up Chính)
     const [open, setOpen] = useState(false);
 
@@ -20,6 +24,11 @@ const ApproveCV = () => {
     const [emailModal, setEmailModal] = useState(false);
     const handleSendEmail = () => {
         setEmailModal(true);
+    };
+
+    // Add New Project Btn
+    const handleNewProject = () => {
+        setNewProject(true);
     };
 
     // Fetch API Function
@@ -64,6 +73,28 @@ const ApproveCV = () => {
     //         key: 1
     //     },
     // ];
+
+    const onChange = (date, dateString) => {
+        console.log(date, dateString);
+    };
+
+    const styles = {
+        box: {
+            margin: '20px',
+            border: '0.5px solid black',
+            borderRadius: '10px',
+            boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.5)',
+            height: '230px',
+            width: '348px'
+        },
+        model: {
+            display: 'flex',
+            justifyContent: 'flex-start',
+            flexWrap: 'wrap',
+            marginBottom: '20px',
+            gap: '20px',
+        }
+    };
 
     const options = [
         { value: '1', label: 'Option 1', color: 'orange' },
@@ -231,7 +262,7 @@ const ApproveCV = () => {
                     <Button size={'large'} type="primary" style={{ width: 'fit-content', margin: '20px', backgroundColor: 'green' }}>Export Excel</Button>
                     <Button size={'large'} type="primary" style={{ width: 'fit-content', margin: '20px', backgroundColor: 'orange' }}>Edit</Button>
                     <Button size={'large'} type="primary" style={{ width: 'fit-content', margin: '20px', backgroundColor: 'red' }}>Delete</Button>
-                    <Button size={'large'} type="primary" style={{ width: 'fit-content', margin: '20px 10px 20px 20px', backgroundColor: 'blue' }}>Add New Project</Button>
+                    <Button onClick={handleNewProject} size={'large'} type="primary" style={{ width: 'fit-content', margin: '20px 10px 20px 20px', backgroundColor: 'blue' }}>Add New Project</Button>
 
                 </div>
                 <br></br>
@@ -266,6 +297,62 @@ const ApproveCV = () => {
                         width={1000}
                     >
                         <ViewModal />
+                    </Modal>
+                </div>
+
+                {/* Add New Project Modal */}
+                <div>
+                    <Modal
+                        title="Add New Project"
+                        open={newProject}
+                        onOk={() => { setNewProject(false) }}
+                        onCancel={() => { setNewProject(false) }}
+                        okText="Create Project"
+                        width={1000}
+                    >
+                        <div style={styles.model}>
+                            <div style={{ flex: '1' }}>
+                                Project Title
+                                <Input placeholder="Project Title" />
+                            </div>
+                            <div style={{ flex: '1' }}>
+                                Position
+                                <Input placeholder="Position" />
+                            </div>
+                            <div style={{ flex: '1' }}>
+                                Technology
+                                <Input placeholder="Technology" />
+                            </div>
+                        </div>
+                        <div style={styles.model}>
+                            <div style={{ flex: '1' }}>
+                                Leader
+                                <Input placeholder="Leader" />
+                            </div>
+                            <div style={{ flex: '1' }}>
+                                Sub-Leader
+                                <Input placeholder="Sub-Leader" />
+                            </div>
+                            <div style={{ flex: '1' }}>
+                                Mentor
+                                <Input placeholder="Mentor" />
+                            </div>
+                        </div>
+                        <div style={styles.model}>
+                            <div style={{ flex: '1' }}>
+                                <div>Start Date</div>
+                                <div><DatePicker style={{ width: '100%' }} onChange={onChange} /></div>
+                            </div>
+                            <div style={{ flex: '1', width: '500' }}>
+                                <div>Release Date</div>
+                                <div><DatePicker style={{ width: '100%' }} onChange={onChange} /></div>
+                            </div>
+                            <div style={{ flex: '1' }}>
+                                Group Zalo
+                                <Input placeholder="Zalo" />
+                            </div>
+                        </div>
+                        <Tag color="gold" style={{ marginBottom: '5px' }}>In process</Tag>
                     </Modal>
                 </div>
             </div>
