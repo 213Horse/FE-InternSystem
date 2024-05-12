@@ -5,6 +5,8 @@ import { useDispatch } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
 import { searchProjects, callGetProject, createProject, updateProject, deleteProject } from '../../redux/Slices/Project/ProjectSlice';
 import Search from 'antd/es/input/Search';
+import moment from "moment";
+
 
 const Project = () => {
     const [showForm, setShowForm] = useState(false);
@@ -185,7 +187,7 @@ const Project = () => {
             borderRadius: '10px',
             boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.5)',
             height: '230px',
-            width: '348px'
+            width: '400px'
         },
         model: {
             display: 'flex',
@@ -253,10 +255,10 @@ const Project = () => {
                                 </div>
                                 <div style={{ fontSize: '12px', display: 'flex', flexDirection: 'row', gap: '10px' }}>
                                     <div style={{ color: 'green' }}>
-                                        {project.thoiGianBatDau}
+                                        {moment(project.thoiGianBatDau).format('MMMM Do YYYY, h:mm:ss a')}
                                     </div>
                                     <div style={{ color: 'red' }}>
-                                        {project.thoiGianKetThuc}
+                                    {moment(project.thoiGianKetThuc).format('MMMM Do YYYY, h:mm:ss a')}
                                     </div>
                                 </div>
                                 <div>
