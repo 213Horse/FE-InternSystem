@@ -46,7 +46,8 @@ const ModalView = (props) => {
                 const response = await callGetAllUsersInZaloGroup(groupSelectedView.id);
                 const modifiedGroupData = response.data.map(user => ({
                     ...user,
-                    joinedTime: moment(user.joinedTime).format("DD/MM/YYYY")
+                    joinedTime: moment(user.joinedTime).format("DD/MM/YYYY"),
+                    leftTime: moment(user.leftTime).format("DD/MM/YYYY"),
                 }));
                 setGroupData(modifiedGroupData); // Update group data state with fetched data
             } catch (error) {
