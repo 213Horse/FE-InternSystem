@@ -1,6 +1,6 @@
-import axios from "../../../ultils/axios-custom";
+import { axiosClientVer2 } from "../../../ultils/axios-custom";
 
 export const getInterns = () => {
-    return axios.get('/api/interns/get');
+    return axiosClientVer2.get('/api/interns/get');
 }
 

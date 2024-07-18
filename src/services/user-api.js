@@ -1,5 +1,5 @@
-import axios from "../ultils/axios-custom"
+import { axiosClientVer2 } from "../ultils/axios-custom"
 
 export const getUser = () => {
-  return axios.get('/api/users/get');
+  return axiosClientVer2.get('/api/users/get');
 }

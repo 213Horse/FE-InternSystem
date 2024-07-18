@@ -9,6 +9,7 @@ const TableComponent = ({ columns, dataSource , rowSelection = false}) => {
         <>
             <Divider />
             <Table   
+            rowKey="id"
                 rowSelection={{ 
                     ...rowSelection,
                 }}      

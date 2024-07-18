@@ -1,19 +1,19 @@
-import axios from '../ultils/axios-custom';
+import { axiosClientVer2 } from '../ultils/axios-custom';
 
 export const getGroupsZalo = () => {
-    return axios.get('/api/group-zalos/get');
+    return axiosClientVer2.get('/api/group-zalos/get');
 };
 
 export const getGroupZaloById = (id) => {
-    return axios.get(`/api/group-zalos/get/${id}`);
+    return axiosClientVer2.get(`/api/group-zalos/get/${id}`);
 };
 
 export const getGroupZaloExcelExport = () => {
-    return axios.get('/api/group-zalos/zalo-groups-excel-export');
+    return axiosClientVer2.get('/api/group-zalos/zalo-groups-excel-export');
 };
 
 export const callDeleteZaloGroup = (id) => {
-    return axios.delete(`/api/group-zalos/delete/${id}`);
+    return axiosClientVer2.delete(`/api/group-zalos/delete/${id}`);
 };
 
 export const callCreateZaloGroup = (data) => {
