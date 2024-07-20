@@ -58,6 +58,9 @@ const App = () => {
                         </Menu.Item>
                     </Menu.SubMenu>
                     <Menu.SubMenu key="sub1" title="List Management" icon={<TeamOutlined />}>
+                        <Menu.Item key="4.0">
+                            <Link to="/home/user-list">User List</Link>
+                        </Menu.Item>
                         <Menu.Item key="4">
                             <Link to="/home/intern-list">Intern List</Link>
                         </Menu.Item>
@@ -92,26 +95,24 @@ const App = () => {
                     }}
                 >
                     <Row>
-                       
-                            <Col span={6}>
-                                <Avatar src={Profile} />
-                            </Col>
-                            <Col span={12}>
-                                <Row>
-                                    <Col span={24} style={{ color: '#FFF'}}>
-                                       <span style={{fontSize:"12px"}}> Natalie Brogan</span>
-                                    </Col>
-                                    <Col span={24} style={{ color: '#AAABAF', frontSize: '14px' }}>
-                                        Admin
-                                    </Col>
-                                </Row>
-                            </Col>
-                            <Col span={6}>
-                                <Link to="/home/profile">
-                                    <SettingOutlined style={{ color: '#DB0D4B' }} />
-                                </Link>
-                            </Col>
-                        
+                        <Col span={6}>
+                            <Avatar src={Profile} />
+                        </Col>
+                        <Col span={12}>
+                            <Row>
+                                <Col span={24} style={{ color: '#FFF' }}>
+                                    <span style={{ fontSize: '12px' }}> Natalie Brogan</span>
+                                </Col>
+                                <Col span={24} style={{ color: '#AAABAF', frontSize: '14px' }}>
+                                    Admin
+                                </Col>
+                            </Row>
+                        </Col>
+                        <Col span={6}>
+                            <Link to="/home/profile">
+                                <SettingOutlined style={{ color: '#DB0D4B' }} />
+                            </Link>
+                        </Col>
                     </Row>
                 </div>
             </Sider>

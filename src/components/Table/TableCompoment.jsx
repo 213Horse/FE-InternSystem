@@ -1,18 +1,16 @@
 import { Divider, Radio, Table } from 'antd';
 import React, { useState } from 'react';
 
-const TableComponent = ({ columns, dataSource , rowSelection = false}) => {
-
-  
- 
+const TableComponent = ({ columns, dataSource, rowSelection = false, onChange }) => {
     return (
         <>
             <Divider />
-            <Table   
-            rowKey="id"
-                rowSelection={{ 
+            <Table
+                onChange={onChange}
+                rowKey="id"
+                rowSelection={{
                     ...rowSelection,
-                }}      
+                }}
                 columns={columns}
                 dataSource={dataSource}
                 scroll={{

@@ -1,14 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { Avatar, Input, Button, ConfigProvider, Spin } from 'antd';
 import profilePic from '../../assets/img/Logo/Profile-Pic.png';
-import {UsergroupDeleteOutlined, ClockCircleOutlined, EditOutlined, DeleteOutlined, UserAddOutlined, MailOutlined} from '@ant-design/icons';
+import {
+    UsergroupDeleteOutlined,
+    ClockCircleOutlined,
+    EditOutlined,
+    DeleteOutlined,
+    UserAddOutlined,
+    MailOutlined,
+} from '@ant-design/icons';
 import Filter from '../../components/Filter/filter';
-import { Table, Form  } from "antd" ;
+import { Table, Form } from 'antd';
 import TableComponent from '../../components/Table/TableCompoment';
 import { getInterns } from '../../redux/Slices/User/internInfo';
-import {PacmanLoader} from "react-spinners";
+import { PacmanLoader } from 'react-spinners';
+import { getAllIntern } from '../../services/intern-api';
 const App = () => {
-      // ************************************************************
+    // ************************************************************
     // STATE OF MODALS
 
     // State Interview Modal
@@ -43,28 +51,27 @@ const App = () => {
     const fetchInterns = async () => {
         try {
             setLoading(true);
-            let res = await getInterns();
-            const interntArray = res?.data || {};
-            setInternInfo(interntArray);
+            let res = await getAllIntern();
+            console.log('check res data', res.data);
+            setInternInfo(res.data.data.items);
             setLoading(false);
-        }
-        catch (error) {
+
+        } catch (error) {
             console.log(error);
         }
-    }
+    };
     //React Hook - UseEffect
     useEffect(() => {
         fetchInterns();
     }, []);
-
+    console.log('check internInfo', internInfo);
     const handleOK = () => {
         setView(false);
-    }
+    };
 
     const handlCancel = () => {
-        setView(false)
-    }
-
+        setView(false);
+    };
 
     const columns = [
         {
@@ -93,16 +100,24 @@ const App = () => {
             dataIndex: 'ngaySinh',
         },
         {
+            title: 'Majors',
+            dataIndex: 'nganhHoc',
+        },
+        {
             title: 'Phone Number',
             dataIndex: 'sdt',
         },
         {
-            title: 'Position',
+            title: "Phone Number's Homie ",
+            dataIndex: 'sdtNguoiThan',
+        },
+        {
+            title: 'Want to Do',
             dataIndex: 'viTriMongMuon',
         },
         {
-            title: 'Position',
-            dataIndex: 'viTri',
+            title: 'Round',
+            dataIndex: 'round',
         },
         {
             title: 'Address',
@@ -116,9 +131,20 @@ const App = () => {
             title: 'Shcool Email',
             dataIndex: 'emailTruong',
         },
+        
         {
-            title: 'CV',
-            dataIndex: 'linkCV',
+            title: 'Link CV',
+            dataIndex: 'linkCv',
+            render: (text) => (
+                <a href="" style={{ textDecoration: 'underline', color: 'black' }}>
+                    {text}
+                </a>
+            ),
+        },
+
+        {
+            title: 'Link Facebook',
+            dataIndex: 'linkFacebook',
             render: (text) => (
                 <a href="" style={{ textDecoration: 'underline', color: 'black' }}>
                     {text}
@@ -126,63 +152,12 @@ const App = () => {
             ),
         },
         {
-            title: 'Gender',
-            dataIndex: 'gioiTinh',
-        },
-        {
             title: 'English Level',
             dataIndex: 'trinhDoTiengAnh',
         },
         {
-            title: 'Project',
-            dataIndex: 'duAn',
-        },
-        // {
-        //     title: 'Comments',
-        //     dataIndex: 'comment',
-        //     render: (text) => (
-        //         <div style={{ border: '2px solid #CBD2DC', borderRadius: '15px', padding: '6px 10px' }}>
-        //             <Space >
-        //                 <span>{text}</span>
-        //                 <EyeFilled />
-        //             </Space>
-        //         </div>
-        //     )
-        // },
-        {
-            title: 'Group Zalo',
-            dataIndex: 'nhomZalo',
-        },
-        {
-            title: 'School',
-            dataIndex: 'truongHoc',
-        },
-        {
-            title: 'OJT',
-            dataIndex: 'kiThucTap',
-        },
-        {
             title: 'Round',
             dataIndex: 'round',
-        },
-        {
-            title: 'Status',
-            dataIndex: 'status',
-            // render: (text) => {
-            //     const selectedOption = options.find((option) => option.label === text);
-
-            //     const optionColor = selectedOption ? selectedOption.color : null;
-
-            //     return (
-            //         <Select defaultValue='Option 1' variant="borderless" style={{ color: optionColor }}>
-            //             {options.map((option) => (
-            //                 <Select.Option key={option.value} value={option.value}>
-            //                     {option.label}
-            //                 </Select.Option>
-            //             ))}
-            //         </Select>
-            //     );
-            // },
         },
         {
             title: 'Button',
@@ -224,19 +199,22 @@ const App = () => {
             {/* Search Button Input */}
             <div style={{ borderRadius: '3px', display: 'flex', ':focus': 'none', borderRadius: '5px' }}>
                 <Input
-                    style={{ outline: 'none', border: 'none', padding: '5px', width: "600px" }}
+                    style={{ outline: 'none', border: 'none', padding: '5px', width: '600px' }}
                     placeholder="Search for information"
                 />
-                <div style={{marginLeft:"50px", display:"flex", justifyContent:"space-between"}}>
+                <div style={{ marginLeft: '50px', display: 'flex', justifyContent: 'space-between' }}>
                     <ConfigProvider
                         theme={{
                             button: {
                                 colorPrimary: '#00b96b',
-                                padding:"20px !important",
+                                padding: '20px !important',
                             },
                         }}
                     >
-                        <Button style={{background:"#6537B1", color:"#fff"}}><MailOutlined />Send Email</Button>
+                        <Button style={{ background: '#6537B1', color: '#fff' }}>
+                            <MailOutlined />
+                            Send Email
+                        </Button>
                     </ConfigProvider>
                     <ConfigProvider
                         theme={{
@@ -245,7 +223,10 @@ const App = () => {
                             },
                         }}
                     >
-                        <Button style={{background:"#41B137", color:"#fff", marginLeft:"30px"}}><ClockCircleOutlined />Export Excel</Button>
+                        <Button style={{ background: '#41B137', color: '#fff', marginLeft: '30px' }}>
+                            <ClockCircleOutlined />
+                            Export Excel
+                        </Button>
                     </ConfigProvider>
                     <ConfigProvider
                         theme={{
@@ -254,7 +235,10 @@ const App = () => {
                             },
                         }}
                     >
-                        <Button style={{background:"#FB8632", color:"#fff", marginLeft:"30px"}}><EditOutlined />Edit</Button>
+                        <Button style={{ background: '#FB8632', color: '#fff', marginLeft: '30px' }}>
+                            <EditOutlined />
+                            Edit
+                        </Button>
                     </ConfigProvider>
                     <ConfigProvider
                         theme={{
@@ -263,7 +247,10 @@ const App = () => {
                             },
                         }}
                     >
-                        <Button style={{background:"#FF3A2E", color:"#fff", marginLeft:"30px"}}><DeleteOutlined />Delete</Button>
+                        <Button style={{ background: '#FF3A2E', color: '#fff', marginLeft: '30px' }}>
+                            <DeleteOutlined />
+                            Delete
+                        </Button>
                     </ConfigProvider>
                     <ConfigProvider
                         theme={{
@@ -272,18 +259,26 @@ const App = () => {
                             },
                         }}
                     >
-                        <Button style={{background:"#4889E9", color:"#fff", marginLeft:"30px"}}><UserAddOutlined />Add new Intern</Button>
+                        <Button style={{ background: '#4889E9', color: '#fff', marginLeft: '30px' }}>
+                            <UserAddOutlined />
+                            Add new Intern
+                        </Button>
                     </ConfigProvider>
                 </div>
             </div>
             {/* Content */}
-            <div style={{marginTop:"50px"}}>
-                <Filter/>
-                 {/* Table */}
-                <PacmanLoader style={{marginLeft:"50%", zIndex:1, position: "absolute", left:0, top:0}} loading={loading} color="#e74c3c" tip="Loading..." speedMultiplier={2}>                      
-                </PacmanLoader>
-                <Spin delay={10} spinning={loading} tip="Loading...">                 
-                    <TableComponent style={{marginTop:"1000px"}} columns={columns} dataSource={internInfo} />
+            <div style={{ marginTop: '50px' }}>
+                <Filter />
+                {/* Table */}
+                <PacmanLoader
+                    style={{ marginLeft: '50%', zIndex: 1, position: 'absolute', left: 0, top: 0 }}
+                    loading={loading}
+                    color="#e74c3c"
+                    tip="Loading..."
+                    speedMultiplier={2}
+                ></PacmanLoader>
+                <Spin delay={10} spinning={loading} tip="Loading...">
+                    <TableComponent style={{ marginTop: '1000px' }} columns={columns} dataSource={internInfo} />
                 </Spin>
             </div>
         </div>
