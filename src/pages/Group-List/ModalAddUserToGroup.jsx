@@ -46,6 +46,7 @@ const ModalAddUserToGroup = (props) => {
     };
 
     console.log('groupZalo', groupZalo);
+
     return (
         <>
             <Modal open={isModalAddUserToGroup} onOk={handleOk} onCancel={handleCancel} width={1000}>

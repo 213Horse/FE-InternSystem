@@ -25,9 +25,11 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import TaskPage from './pages/Task/TaskPage';
 import ReportPage from './pages/Report/ReportPage';
+import UserManagement from './pages/User';
+import HomeIntern from './pages/Home-Intern';
 
 function App() {
-    const account = useSelector(state => state?.account);
+    const account = useSelector((state) => state?.account);
     const isAuthenticated = account.isAuthenticated;
     return (
         <>
@@ -35,11 +37,11 @@ function App() {
             <Routes>
                 <Route path="/" element={<Login />}>
                     <Route index element={<AdminLogin />} />
-                    <Route path='school-login' element={<SchoolLogin />} />
-                    <Route path='reset-password' element= {<ResetPassword />}/> 
-                    <Route path='register-admin' element={<RegisterAdmin />} />
-                    <Route path='school-login/register-school' element={<RegisterSchool />} />
-                    <Route path='register-intern' element={<RegisterIntern />} />
+                    <Route path="school-login" element={<SchoolLogin />} />
+                    <Route path="reset-password" element={<ResetPassword />} />
+                    <Route path="register-admin" element={<RegisterAdmin />} />
+                    <Route path="school-login/register-school" element={<RegisterSchool />} />
+                    <Route path="register-intern" element={<RegisterIntern />} />
                     <Route />
                 </Route>
                 {isAuthenticated === true && <Route path="/home" element={<Home />}>
@@ -57,10 +59,27 @@ function App() {
                     <Route path="settings" element={<Settings />} />
                 <Route path="profile" element={<Profile/>}/>
                 </Route>}
+                <Route path="home-intern" element={<HomeIntern />} />
+                {isAuthenticated === true && (
+                    <Route path="/home" element={<Home />}>
+                        <Route path="dashboard" element={<Dashboard />} />
+                        <Route path="approve-cv" element={<Approve />} />
+                        <Route path="confirm-cv" element={<Confirm />} />
+                        <Route path="intern-list" element={<Intern />} />
+                        <Route path="group-list" element={<Group />} />
+                        <Route path="user-list" element={<UserManagement />} />
+                        <Route path="project-management" element={<Project />} />
+                        <Route path="position-management" element={<Position />} />
+                        <Route path="technology-management" element={<Tech />} />
+                        <Route path="group-zalo-management" element={<Zalo />} />
+                        <Route path="settings" element={<Settings />} />
+                        <Route path="profile" element={<Profile />} />
+                    </Route>
+                    
+                )}
                 {isAuthenticated === false && <Route path="*" element={<ErrorPerrmission />} />}
             </Routes>
-
         </>
     );
 }
-export default App
+export default App;
