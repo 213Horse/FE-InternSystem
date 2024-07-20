@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Avatar, Input, Button, ConfigProvider, Spin } from 'antd';
+import { Avatar, Input, Button, ConfigProvider, Spin, Modal, Select } from 'antd';
 import profilePic from '../../assets/img/Logo/Profile-Pic.png';
 import {
     UsergroupDeleteOutlined,
@@ -15,6 +15,9 @@ import TableComponent from '../../components/Table/TableCompoment';
 import { getInterns } from '../../redux/Slices/User/internInfo';
 import { PacmanLoader } from 'react-spinners';
 import { getAllIntern } from '../../services/intern-api';
+import { showEmails, showEmailTypes } from '../../services/interview.-api';
+
+const {Option} = Select
 const App = () => {
     // ************************************************************
     // STATE OF MODALS
@@ -24,6 +27,7 @@ const App = () => {
 
     // State View Modal
     const [view, setView] = useState(false);
+    const [emailForm, setEmailForm] = useState(false);
 
     // State contain data from API
     const [internInfo, setInternInfo] = useState([]);
@@ -33,6 +37,8 @@ const App = () => {
 
     // State loading
     const [loading, setLoading] = useState(false);
+    const [emails, setEmails] = useState([]);
+    const [emailTypes, setEmailTypes] = useState([]);
 
     // STATE OF MODALS
     // ************************************************************
@@ -55,7 +61,11 @@ const App = () => {
             console.log('check res data', res.data);
             setInternInfo(res.data.data.items);
             setLoading(false);
-
+            let res2 = await showEmails();
+            setEmails(res2?.data?.data);
+            let res3 = await showEmailTypes();
+            setEmailTypes(res3?.data?.data);
+            
         } catch (error) {
             console.log(error);
         }
@@ -131,7 +141,7 @@ const App = () => {
             title: 'Shcool Email',
             dataIndex: 'emailTruong',
         },
-        
+
         {
             title: 'Link CV',
             dataIndex: 'linkCv',
@@ -183,6 +193,10 @@ const App = () => {
         },
     ];
 
+    const onFinish = async(values) =>{
+        console.log(values)
+    }
+
     return (
         <div>
             {/* Title */}
@@ -211,7 +225,12 @@ const App = () => {
                             },
                         }}
                     >
-                        <Button style={{ background: '#6537B1', color: '#fff' }}>
+                        <Button
+                            onClick={() => {
+                                setEmailForm(true);
+                            }}
+                            style={{ background: '#6537B1', color: '#fff' }}
+                        >
                             <MailOutlined />
                             Send Email
                         </Button>
@@ -281,6 +300,56 @@ const App = () => {
                     <TableComponent style={{ marginTop: '1000px' }} columns={columns} dataSource={internInfo} />
                 </Spin>
             </div>
+            <Modal
+                open={emailForm}
+                footer={null}
+                onCancel={() => {
+                    setEmailForm(false);
+                }}
+            >
+                <Form onFinish={onFinish}>
+                    <Form.Item name="indices" label="Emails">
+                        <Select mode='multiple' placeholder="Choose an email">
+                            {emails?.map((project) => (
+                                <Option key={project?.index} value={project?.id}>
+                                    {project?.email}
+                                </Option>
+                            ))}
+                        </Select>
+                    </Form.Item>
+                    <Form.Item name="subject" label="Subject" rules={[{require:true}]}>
+                      <Input></Input>
+                    </Form.Item>
+                    <Form.Item name="body" label="Body" rules={[{require:true}]}>
+                      <Input></Input>
+                    </Form.Item>
+                    <Form.Item name="indices" label="Email Types">
+                        <Select  placeholder="Choose an email type" options={[
+                            {
+                                value:"Interview Date",
+                                label:"Interview Date",
+                            },
+                            {
+                                value:"Interview Result",
+                                label:"Interview Result",
+                            },
+                            {
+                                value:"Internship Time",
+                                label:"Internship Time",
+                            },
+                            {
+                                value:"Internship Information",
+                                label:"Internship Information",
+                            }
+                        ]}>
+                          
+                        </Select>
+                    </Form.Item>
+                    <Form.Item>
+                        <Button htmlType='submit'>Send</Button>
+                    </Form.Item>
+                </Form>
+            </Modal>
         </div>
     );
 };

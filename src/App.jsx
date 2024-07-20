@@ -27,6 +27,7 @@ import TaskPage from './pages/Task/TaskPage';
 import ReportPage from './pages/Report/ReportPage';
 import UserManagement from './pages/User';
 import HomeIntern from './pages/Home-Intern';
+import Interview from './pages/Interview/Interview';
 
 function App() {
     const account = useSelector((state) => state?.account);
@@ -74,6 +75,7 @@ function App() {
                         <Route path="group-zalo-management" element={<Zalo />} />
                         <Route path="settings" element={<Settings />} />
                         <Route path="profile" element={<Profile />} />
+                        <Route path="interview" element={<Interview />} />
                     </Route>
                     
                 )}

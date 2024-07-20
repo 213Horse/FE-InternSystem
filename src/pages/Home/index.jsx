@@ -45,18 +45,9 @@ const App = () => {
             >
                 <div className="demo-logo-vertical" style={{ height: 40 }} />
                 <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']} defaultOpenKeys={['sub2', 'sub1']}>
-                    <Menu.Item key="1" icon={<PieChartOutlined />}>
-                        <Link to="/home/dashboard">Dashboard</Link>
-                    </Menu.Item>
+       
 
-                    <Menu.SubMenu key="sub2" title="CV Management" icon={<ProfileOutlined />}>
-                        <Menu.Item key="2">
-                            <Link to="/home/approve-cv">Approve CV</Link>
-                        </Menu.Item>
-                        <Menu.Item key="3">
-                            <Link to="/home/confirm-cv">Confirm CV</Link>
-                        </Menu.Item>
-                    </Menu.SubMenu>
+                   
                     <Menu.SubMenu key="sub1" title="List Management" icon={<TeamOutlined />}>
                         <Menu.Item key="4.0">
                             <Link to="/home/user-list">User List</Link>
@@ -64,15 +55,16 @@ const App = () => {
                         <Menu.Item key="4">
                             <Link to="/home/intern-list">Intern List</Link>
                         </Menu.Item>
-                        <Menu.Item key="5">
-                            <Link to="/home/group-list">Group List</Link>
-                        </Menu.Item>
+                 
                     </Menu.SubMenu>
                     <Menu.Item key="6" icon={<FileProtectOutlined />}>
                         <Link to="/home/project-management">Project Management</Link>
                     </Menu.Item>
                     <Menu.Item key="7" icon={<FileProtectOutlined />}>
                         <Link to="/home/task-management">Task Management</Link>
+                    </Menu.Item>
+                    <Menu.Item key="13" icon={<SettingOutlined />}>
+                        <Link to="/home/interview">Interview Management</Link>
                     </Menu.Item>
                     <Menu.Item key="12" icon={<SettingOutlined />}>
                         <Link to="/home/report">Report</Link>

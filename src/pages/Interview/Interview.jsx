@@ -2,14 +2,14 @@ import { Button, Form, Input, Modal } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { createTask, deleteTask, getTask, updateTask } from '../../services/task-api';
 import TableComponent from '../../components/Table/TableCompoment';
-import { render } from 'react-dom';
-import { callGetProject } from '../../redux/Slices/Project/ProjectSlice';
-import moment from 'moment';
 import dayjs from 'dayjs';
-import CreateTaskForm from './CreateTaskForm';
-import UpdateTaskForm from './UpdateTaskForm';
+import CreateInterview from './CreateInterview';
+import { createInterview, getCauHoi, getLichPhongVan, getPhongVan, updateInterview } from '../../services/interview.-api';
+import { getAllUser } from '../../services/user-api';
+import UpdateInterview from './UpdateInterview';
 
-const TaskPage = () => {
+
+const Interview = () => {
     const [form] = Form.useForm();
     const [formUpdate] = Form.useForm();
     const [task, setTask] = useState([]);
@@ -17,27 +17,21 @@ const TaskPage = () => {
     const [currentProjects, setCurrentProjects] = useState([]);
     const [openCreate, setOpenCreate] = useState(false);
     const [openUpdate, setOpenUpdate] = useState(false);
-    const fetchTask = async () => {
-        let res = await getTask();
-        setTask(res.data.data);
-    };
-    const fetchProject = async () => {
-        let res;
-        res = await callGetProject();
-        setCurrentProjects(res.data.data);
-    };
+    const [phongVan, setPhongVan] = useState([]);
+    const [cauHoi, setCauHoi] = useState([]);
+    const [user, setUser] = useState([]);
     const handleCreate = async (values) => {
-        values.ngayGiao = dayjs(values.ngayGiao).format('YYYY-MM-DD') + 'T12:40:18.217Z';
-        values.hanHoanThanh = dayjs(values.hanHoanThanh).format('YYYY-MM-DD') + 'T12:40:18.217Z';
-        console.log(values);
-        let res = await createTask(values);
+        values.cauTraLoi="not yet"
+        values.rankDate = dayjs().format("YYYY-MM-DD")
+        values.createdBy = localStorage.getItem("userId")
+        let res = await createInterview(values);
     };
     const handleUpdate = async (values) => {
         values.id = selectedRows.id;
-        values.ngayGiao = dayjs(values.ngayGiao).format('YYYY-MM-DD') + 'T12:40:18.217Z';
-        values.hanHoanThanh = dayjs(values.hanHoanThanh).format('YYYY-MM-DD') + 'T12:40:18.217Z';
+        values.rankDate = dayjs().format("YYYY-MM-DD")
+       
         console.log(values);
-        let res = await updateTask(values);
+        let res = await updateInterview(values);
     };
     const rowSelection = {
         onSelect: (selectedRows) => {
@@ -47,16 +41,21 @@ const TaskPage = () => {
         },
         type:"radio"
     };
-    useEffect(() => {
-        fetchTask();
-        fetchProject();
+    useEffect( () => {
+        const fetchData = async () =>{
+            let res = await getPhongVan();
+            setTask(res.data.data);
+    
+            let res2 = await getCauHoi();
+            setCauHoi(res2.data.data);
+    
+            let res3 = await getAllUser();
+            setUser(res3.data.data);
+        }
+        fetchData()
     }, []);
 
     const columns = [
-        {
-            title: 'Task id',
-            dataIndex: 'id',
-        },
         {
             title: 'Project',
             dataIndex: 'duAnId',
@@ -66,27 +65,23 @@ const TaskPage = () => {
             },
         },
         {
-            title: 'Task',
-            dataIndex: 'moTa',
+            title: 'Question',
+            dataIndex: 'idCauHoiCongNghe',
+            render:(idCauHoiCongNghe)=>{
+                const question = cauHoi.find(cauhoi=> cauhoi.id = idCauHoiCongNghe)
+                return question?.noiDung
+            }
         },
         {
-            title: 'Task Description',
-            dataIndex: 'noiDung',
+            title: 'Answer',
+            dataIndex: 'cauTraLoi',
         },
         {
-            title: 'Date Set',
-            dataIndex: 'ngayGiao',
-            render: (ngayGiao) => {
-                return dayjs(ngayGiao).format('DD-MM-YYYY');
-            },
+            title: 'Grade',
+            dataIndex: 'rank',
+           
         },
-        {
-            title: 'Deadline Date',
-            dataIndex: 'hanHoanThanh',
-            render: (hanHoanThanh) => {
-                return dayjs(hanHoanThanh).format('DD-MM-YYYY');
-            },
-        },
+        
         {
             title: 'Task Status',
             dataIndex: 'hoanThanh',
@@ -98,10 +93,11 @@ const TaskPage = () => {
     return (
         <div>
             <div>
-                <h1 style={{ marginLeft: '10px', color: '#8A2BE2' }}>Task Management</h1>
+                <h1 style={{ marginLeft: '10px', color: '#8A2BE2' }}>Interview Management</h1>
                 <br></br>
                 <div>
-                  
+                   
+              
                     <Button
                         onClick={() => {
                             setOpenUpdate(true);
@@ -146,7 +142,7 @@ const TaskPage = () => {
                     setOpenCreate(false);
                 }}
             >
-                <CreateTaskForm form={form} handleCreate={handleCreate} />
+                <CreateInterview form={form} handleCreate={handleCreate} />
             </Modal>
             <Modal
                 title="Cập nhật task"
@@ -158,14 +154,14 @@ const TaskPage = () => {
                     setOpenUpdate(false);
                 }}
             >
-                <UpdateTaskForm
+                <UpdateInterview
                     formUpdate={formUpdate}
                     handleUpdate={handleUpdate}
                     initialValues={selectedRows}
-                ></UpdateTaskForm>
+                ></UpdateInterview>
             </Modal>
         </div>
     );
 };
 
-export default TaskPage;
+export default Interview;

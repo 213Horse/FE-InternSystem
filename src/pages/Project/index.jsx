@@ -209,15 +209,8 @@ const Project = () => {
                 <h1 style={{ marginLeft: '10px', color: '#8A2BE2' }}>Project Management</h1>
                 <br></br>
                 <div>
-                    <Input
-                        placeholder="input search text"
-                        allowClear
-                        size="middle"
-                        style={{ margin: '20px', width: '50%' }}
-                        onChange={e => setSearchText(e.target.value)}
-                    />
-                    <Button size={'middle'} type="primary"  style={{ left: -20, backgroundColor: 'blue' }}>Search</Button>
-                    <Button size={'middle'} type="primary" style={{ margin: '20px', backgroundColor: 'green' }}>Export Excel</Button>
+                   
+                    
                     <Button onClick={handleUpdateProject} size={'middle'} type="primary" style={{ margin: '20px', backgroundColor: 'orange' }}>Edit</Button>
                     <Button onClick={clickDelete} size={'middle'} type="primary" style={{ margin: '20px', backgroundColor: 'red' }}>Delete</Button>
                     <Button onClick={handleAddProject} size={'middle'} type="primary" style={{ margin: '10px', backgroundColor: 'blue' }}>New Project</Button>

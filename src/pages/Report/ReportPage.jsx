@@ -85,19 +85,10 @@ const ReportPage = () => {
     return (
         <div>
             <div>
-                <h1 style={{ marginLeft: '10px', color: '#8A2BE2' }}>Task Management</h1>
+                <h1 style={{ marginLeft: '10px', color: '#8A2BE2' }}>Report</h1>
                 <br></br>
                 <div>
-                    <Input
-                        placeholder="input search text"
-                        allowClear
-                        size="middle"
-                        style={{ margin: '20px', width: '50%' }}
-                        onChange={(e) => setSearchText(e.target.value)}
-                    />
-                    <Button size={'middle'} type="primary" style={{ left: -20, backgroundColor: 'blue' }}>
-                        Search
-                    </Button>
+                 
                     <Button
                         onClick={() => {
                             setOpenUpdate(true);

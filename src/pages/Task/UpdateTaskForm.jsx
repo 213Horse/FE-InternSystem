@@ -1,4 +1,4 @@
-import { DatePicker, Form, Input, Select, Button } from 'antd';
+import { DatePicker, Form, Input, Select, Button, InputNumber } from 'antd';
 import dayjs from 'dayjs';
 import React, { useEffect, useState } from 'react';
 import { callGetProject } from '../../redux/Slices/Project/ProjectSlice';
@@ -98,11 +98,12 @@ const UpdateTaskForm = ({ formUpdate, handleUpdate, initialValues }) => {
             name="hanHoanThanh"
             label="Deadline"
             rules={[
-                { required: true, message: "Please input the image URL!" },
+                { required: true, message: "Please input the date!" },
             ]}
         >
             <DatePicker />
         </Form.Item>
+       
         <Form.Item>
             <Button style={{backgroundColor:"palevioletred"}} type='primary' htmlType='submit'>Submit</Button>
         </Form.Item>
