@@ -23,6 +23,8 @@ import ResetPassword from './components/Password/ResetPassword';
 import Profile from './pages/Profile';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
+import TaskPage from './pages/Task/TaskPage';
+import ReportPage from './pages/Report/ReportPage';
 
 function App() {
     const account = useSelector(state => state?.account);
@@ -50,6 +52,8 @@ function App() {
                     <Route path="position-management" element={<Position />} />
                     <Route path="technology-management" element={<Tech />} />
                     <Route path="group-zalo-management" element={<Zalo />} />
+                    <Route path="task-management" element={<TaskPage />} />
+                    <Route path="report" element={<ReportPage />} />
                     <Route path="settings" element={<Settings />} />
                 <Route path="profile" element={<Profile/>}/>
                 </Route>}

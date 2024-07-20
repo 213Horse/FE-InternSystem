@@ -6,6 +6,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import { searchProjects, callGetProject, createProject, updateProject, deleteProject } from '../../redux/Slices/Project/ProjectSlice';
 import Search from 'antd/es/input/Search';
 import moment from "moment";
+import { getAllRole, getAllUser, getAllUserRole } from '../../services/user-api';
 
 
 const Project = () => {
@@ -25,6 +26,10 @@ const Project = () => {
     const [dataDelete, setDataDelete] = useState('');
     const [dataUpdate, setDataUpdate] = useState('');
     const [showUpdate, setShowUpdate] = useState(false);
+    const [userData, setUserData] = useState();
+    const [users, setUsers] = useState([]);
+    const [roles, setRoles] = useState([]);
+    const [userRoles, setUserRoles] = useState([]);
 
     const dispatch = useDispatch();
 
@@ -104,7 +109,10 @@ const Project = () => {
     }
     const clickDelete = async (e) => {
         console.log('delete', dataDelete);
-        let res = await deleteProject(dataDelete.id);
+        const id = dataDelete.id
+        const deletedBy = ""
+        const values = {id, deletedBy}
+        let res = await deleteProject(values);
         if (res) {
             toast.success(`Success Delete !!!!`)
             fetchProject()
@@ -117,11 +125,11 @@ const Project = () => {
     const fetchProject = async () => {
         let res;
         res = await callGetProject();
-        setFilteredProjects(res.data.value);
-        res.data.value.forEach(project => {
-            setLeaderName(prev => [...prev, project.leaderName]);
-            setLeaderId(prev => [...prev, project.leaderId]);
-        });
+        setCurrentProjects(res.data.data);
+        // res.data.value.forEach(project => {
+        //     setLeaderName(prev => [...prev, project.leaderName]);
+        //     setLeaderId(prev => [...prev, project.leaderId]);
+        // });
     }
     const uniqueName = [...new Set(leaderName)];
     const uniqueID = [...new Set(leaderId)];
@@ -147,38 +155,29 @@ const Project = () => {
         }
     }, [uniqueID, uniqueName]);
 
-    const handleSearch = async () => {
-        setCurrentPage(1);
-        await searchProjects(searchText)
-            .then(response => {
-                setFilteredProjects(response.data);
-            })
-            .catch(error => {
-                console.error('Error searching projects:', error);
-            });
-    }
-    const onChange = (e) => {
-        console.log('D', dataDelete);
-        console.log('U', dataUpdate);
-        setDataUpdate(e);
-        setDataDelete(e);
-    };
+
+
     useEffect(() => {
         setName(dataUpdate?.ten);
         setIdLeader(dataUpdate?.leaderId);
-        // setTimeStart(dataUpdate?.thoiGianBatDau);
-        // setTimeEnd(dataUpdate?.thoiGianKetThuc);
     }, [dataUpdate])
-    useEffect(() => {
-        handleSearch(searchText);
+    useEffect(async () => {
+      let res = await getAllUser()
+      setUserData(res.data.data)
+      console.log(userData)
+      const options = userData.map(user => ({
+        value: user.id,
+        label: user.hoVaTen
+    }))
+    console.log(options)
+    setOptions(options)
+    
+
     }, []);
-    console.log('check tS', timeStart);
-    console.log('check tE', timeEnd);
-    useEffect(() => {
-        const indexOfLastProject = currentPage * pageSize;
-        const indexOfFirstProject = indexOfLastProject - pageSize;
-        setCurrentProjects(filteredProjects.slice(indexOfFirstProject, indexOfLastProject));
-    }, [filteredProjects, currentPage]);
+
+  
+
+
 
     const styles = {
         box: {
@@ -217,7 +216,7 @@ const Project = () => {
                         style={{ margin: '20px', width: '50%' }}
                         onChange={e => setSearchText(e.target.value)}
                     />
-                    <Button size={'middle'} type="primary" onClick={handleSearch} style={{ left: -20, backgroundColor: 'blue' }}>Search</Button>
+                    <Button size={'middle'} type="primary"  style={{ left: -20, backgroundColor: 'blue' }}>Search</Button>
                     <Button size={'middle'} type="primary" style={{ margin: '20px', backgroundColor: 'green' }}>Export Excel</Button>
                     <Button onClick={handleUpdateProject} size={'middle'} type="primary" style={{ margin: '20px', backgroundColor: 'orange' }}>Edit</Button>
                     <Button onClick={clickDelete} size={'middle'} type="primary" style={{ margin: '20px', backgroundColor: 'red' }}>Delete</Button>
@@ -245,7 +244,7 @@ const Project = () => {
                                     Technology: .NET, Reactjs, Trello, ...
                                 </div>
                                 <div>
-                                    Leader - Sub Leader: {project.leaderName} <Avatar size="small" icon={<UserOutlined />} /> <Avatar size="small" icon={<UserOutlined />} />
+                                    Leader - Sub Leader: {userData ? userData?.find(user => user?.id === project?.leaderId)?.hoVaTen : project.leaderId} <Avatar size="small" icon={<UserOutlined />} /> 
                                 </div>
                                 <div>
                                     Mentor <Avatar size="small" icon={<UserOutlined />} />
@@ -296,7 +295,7 @@ const Project = () => {
             </div>
             <Pagination
                 defaultCurrent={1}
-                total={filteredProjects.length}
+                total={currentProjects.length}
                 pageSize={pageSize}
                 onChange={handleChangePage}
                 style={{ padding: '20px' }}

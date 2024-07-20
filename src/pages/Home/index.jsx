@@ -68,16 +68,22 @@ const App = () => {
                     <Menu.Item key="6" icon={<FileProtectOutlined />}>
                         <Link to="/home/project-management">Project Management</Link>
                     </Menu.Item>
-                    <Menu.Item key="7" icon={<EnvironmentOutlined />}>
+                    <Menu.Item key="7" icon={<FileProtectOutlined />}>
+                        <Link to="/home/task-management">Task Management</Link>
+                    </Menu.Item>
+                    <Menu.Item key="12" icon={<SettingOutlined />}>
+                        <Link to="/home/report">Report</Link>
+                    </Menu.Item>
+                    <Menu.Item key="8" icon={<EnvironmentOutlined />}>
                         <Link to="/home/position-management">Position Management</Link>
                     </Menu.Item>
-                    <Menu.Item key="8" icon={<NodeIndexOutlined />}>
+                    <Menu.Item key="9" icon={<NodeIndexOutlined />}>
                         <Link to="/home/technology-management">Technology Management</Link>
                     </Menu.Item>
-                    <Menu.Item key="9" icon={<WechatOutlined />}>
+                    <Menu.Item key="10" icon={<WechatOutlined />}>
                         <Link to="/home/group-zalo-management">Group Zalo Management</Link>
                     </Menu.Item>
-                    <Menu.Item key="10" icon={<SettingOutlined />}>
+                    <Menu.Item key="11" icon={<SettingOutlined />}>
                         <Link to="/home/settings">Settings</Link>
                     </Menu.Item>
                 </Menu>

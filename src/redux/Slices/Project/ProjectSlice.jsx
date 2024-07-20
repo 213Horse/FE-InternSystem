@@ -8,12 +8,13 @@ export const searchProjects = (value) => {
     return axiosClientVer2.get(`/api/du-ans/search-project?ten=${value}`)
 }
 export const callGetProject = () => {
-    return axiosClientVer2.get('/api/du-ans/get-all-projects');
+    return axiosClientVer2.get('/api/DuAn/get-all');
 }
 export const updateProject = (id, ten, leaderId, thoiGianBatDau, thoiGianKetThuc) => {
     const data = { ten, leaderId, thoiGianBatDau, thoiGianKetThuc };
     return axiosClientVer2.put(`/api/du-ans/update-project/${id}`, data);
 }
-export const deleteProject = (id) => {
-    return axiosClientVer2.delete(`/api/du-ans/delete-project/${id}`);
+export const deleteProject = (values) => {
+    console.log(values)
+    return axiosClientVer2.delete(`/api/DuAn/delete`, values);
 }

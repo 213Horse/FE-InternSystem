@@ -18,8 +18,10 @@ function AdminLogin() {
             setIsLoading(true);
             let res = await callLogin(email, password);
             console.log('res', res);
-            let accessToken = res.data?.accessToken;
-            localStorage.setItem('access_token', accessToken);
+            let accessToken = res?.data?.data?.verificationToken
+            console.log(accessToken)
+            localStorage.setItem('accessToken', accessToken);
+            localStorage.setItem('userId', res?.data?.data?.userId);
             dispatch(doLoginAction({ accessToken: accessToken }));
             message.success('login success');
             navigate('/home');
