@@ -15,6 +15,7 @@ import { Avatar } from 'antd';
 import { Col, Row } from 'antd';
 import Profile from '../../assets/img/Logo/Profile-Pic.png';
 import { ToastContainer, toast } from 'react-toastify';
+import { IoSchoolOutline } from 'react-icons/io5';
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -77,7 +78,10 @@ const App = () => {
                     <Menu.Item key="9" icon={<WechatOutlined />}>
                         <Link to="/home/group-zalo-management">Group Zalo Management</Link>
                     </Menu.Item>
-                    <Menu.Item key="10" icon={<SettingOutlined />}>
+                    <Menu.Item key="10" icon={<IoSchoolOutline />}>
+                        <Link to="/home/school-management">School Management</Link>
+                    </Menu.Item>
+                    <Menu.Item key="11" icon={<SettingOutlined />}>
                         <Link to="/home/settings">Settings</Link>
                     </Menu.Item>
                 </Menu>
@@ -92,26 +96,26 @@ const App = () => {
                     }}
                 >
                     <Row>
-                       
-                            <Col span={6}>
-                                <Avatar src={Profile} />
-                            </Col>
-                            <Col span={12}>
-                                <Row>
-                                    <Col span={24} style={{ color: '#FFF'}}>
-                                       <span style={{fontSize:"12px"}}> Natalie Brogan</span>
-                                    </Col>
-                                    <Col span={24} style={{ color: '#AAABAF', frontSize: '14px' }}>
-                                        Admin
-                                    </Col>
-                                </Row>
-                            </Col>
-                            <Col span={6}>
-                                <Link to="/home/profile">
-                                    <SettingOutlined style={{ color: '#DB0D4B' }} />
-                                </Link>
-                            </Col>
-                        
+
+                        <Col span={6}>
+                            <Avatar src={Profile} />
+                        </Col>
+                        <Col span={12}>
+                            <Row>
+                                <Col span={24} style={{ color: '#FFF' }}>
+                                    <span style={{ fontSize: "12px" }}> Natalie Brogan</span>
+                                </Col>
+                                <Col span={24} style={{ color: '#AAABAF', frontSize: '14px' }}>
+                                    Admin
+                                </Col>
+                            </Row>
+                        </Col>
+                        <Col span={6}>
+                            <Link to="/home/profile">
+                                <SettingOutlined style={{ color: '#DB0D4B' }} />
+                            </Link>
+                        </Col>
+
                     </Row>
                 </div>
             </Sider>

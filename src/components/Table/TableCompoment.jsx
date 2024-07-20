@@ -11,6 +11,7 @@ const TableComponent = ({ columns, dataSource , rowSelection = false}) => {
             <Table   
             rowKey="id"
                 rowSelection={{ 
+                    type: "checkbox",
                     ...rowSelection,
                 }}      
                 columns={columns}

@@ -23,6 +23,7 @@ import ResetPassword from './components/Password/ResetPassword';
 import Profile from './pages/Profile';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
+import School from './pages/School/index';
 
 function App() {
     const account = useSelector(state => state?.account);
@@ -34,7 +35,7 @@ function App() {
                 <Route path="/" element={<Login />}>
                     <Route index element={<AdminLogin />} />
                     <Route path='school-login' element={<SchoolLogin />} />
-                    <Route path='reset-password' element= {<ResetPassword />}/> 
+                    <Route path='reset-password' element={<ResetPassword />} />
                     <Route path='register-admin' element={<RegisterAdmin />} />
                     <Route path='school-login/register-school' element={<RegisterSchool />} />
                     <Route path='register-intern' element={<RegisterIntern />} />
@@ -50,8 +51,9 @@ function App() {
                     <Route path="position-management" element={<Position />} />
                     <Route path="technology-management" element={<Tech />} />
                     <Route path="group-zalo-management" element={<Zalo />} />
+                    <Route path='school-management' element={<School />} />
                     <Route path="settings" element={<Settings />} />
-                <Route path="profile" element={<Profile/>}/>
+                    <Route path="profile" element={<Profile />} />
                 </Route>}
                 {isAuthenticated === false && <Route path="*" element={<ErrorPerrmission />} />}
             </Routes>

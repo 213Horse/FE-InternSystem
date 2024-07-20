@@ -149,7 +149,7 @@ const InterviewModal = ({formInterview}) => {
 
                 <div style={{ display: 'flex' }}>
                     <div style={{ marginRight: 12 }}>
-                        <Select
+                        <Select 
                             showSearch
                             style={{
                                 width: 150,

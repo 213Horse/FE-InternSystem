@@ -1,46 +1,60 @@
 
 
-import { Avatar, Space, Checkbox, Tag, Button, Flex, Input, Tooltip, Pagination, Modal, DatePicker, Table, Radio } from 'antd';
+import { Avatar, Space, Checkbox, Tag, Button, Flex, Input, Tooltip, Pagination, Modal, DatePicker, Table, Radio, Form } from 'antd';
 import { UserOutlined, AntDesignOutlined } from '@ant-design/icons';
 import React, { useState, useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
-import { createPosition } from '../../redux/Slices/Position/PositionSlices';
-import { callGetPosition } from '../../redux/Slices/Position/PositionSlices';
-import { updatePosition } from '../../redux/Slices/Position/PositionSlices';
-import { deletePosition } from '../../redux/Slices/Position/PositionSlices';
+import { callGetPositionPage, createPosition } from '../../redux/Slices/positionSlice/PositionSlices';
+import { callGetPosition } from '../../redux/Slices/positionSlice/PositionSlices';
+import { updatePosition } from '../../redux/Slices/positionSlice/PositionSlices';
+import { deletePosition } from '../../redux/Slices/positionSlice/PositionSlices';
 import { useDispatch } from 'react-redux';
+import TableComponent from '../../components/Table/TableCompoment';
+import Filter from '../../components/Filter/filter';
+import { callCreatePosition, callDeletePosition, callUpdatePosition, getPosition } from '../../services/position-api';
 
 const Position = () => {
     const [showDetails, setshowDetails] = useState(false);
     const [showAddPosition, setShowAddPosition] = useState(false);
-    const [Position, setPosition] = useState([]);
+    const [position, setPosition] = useState([]);
     const pageSize = 6;
     const [filteredProjects, setFilteredProjects] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [searchText, setSearchText] = useState('');
     const [name, setName] = useState('');
     const [zalo, setZalo] = useState('');
+    const [projectId, setProjectId] = useState('');
     const [dataUpdate, setDataUpdate] = useState('');
     const [dataDelete, setDataDelete] = useState('');
     const [showUpdate, setShowUpdate] = useState(false);
+    const [data, setData] = useState(false);
+    const [selectedRow, setSelectedRow] = useState(false);
 
     useEffect(() => {
         setName(dataUpdate?.ten);
         setZalo(dataUpdate?.linkNhomZalo);
+        setProjectId(dataUpdate?.duAnId);
     }, [dataUpdate])
+
     const fetchPosition = async () => {
-        let res;
-        res = await callGetPosition();
-        const projectArray = Object.values(res?.data || {});
-        setPosition(projectArray);
-    }
+        try {
+            const res = await getPosition();
+            const projectArray = res?.data.data
+            setPosition(projectArray);
+            // setFilteredProjects(projectArray);
+        } catch (error) {
+            toast.error("Failed to fetch positions");
+        }
+    };
+
     // console.log('position', Position);
     useEffect(() => {
         fetchPosition();
     }, []);
-    useEffect(() => {
-        filterProjects('');
-    }, [Position]);
+
+    // useEffect(() => {
+    //     filterProjects(searchText);
+    // }, [Position, searchText]);
 
     const [tableParams, setTableParams] = useState({
         pagination: {
@@ -48,6 +62,7 @@ const Position = () => {
             pageSize: 5,
         },
     });
+
     const handleTableChange = (pagination, filters, sorter) => {
         setTableParams({
             pagination,
@@ -60,6 +75,7 @@ const Position = () => {
         }
 
     };
+
     const handleViewDetails = () => {
         setshowDetails(true);
     };
@@ -68,7 +84,13 @@ const Position = () => {
         setshowDetails(false);
     };
 
-    const handleUpdata = () => {
+    const handleUpdata = (record) => {
+        setDataUpdate({
+            id: record.id,
+            name: record.name,
+            zalo: record.zalo,
+            projectId: record.projectId,
+        })
         setShowUpdate(true);
     }
 
@@ -77,13 +99,15 @@ const Position = () => {
         setDataUpdate('');
     }
 
-    const handleAddProject = () => {
+    const handleAddPosition = () => {
         setShowAddPosition(true);
     }
-    const handleCloseAddProject = () => {
+
+    const handleCloseAddPosition = () => {
         setShowAddPosition(false);
         setName('');
         setZalo('');
+        setProjectId('');
     }
 
     const handleChangePage = (page) => {
@@ -96,8 +120,18 @@ const Position = () => {
     };
 
     const filterProjects = (value) => {
-        const filtered = Position.filter(project => project.ten.toLowerCase().includes(value.toLowerCase()));
+        const filtered = position.filter(project => project && project.ten && project.ten.toLowerCase().includes(value.toLowerCase()));
         setFilteredProjects(filtered);
+    };
+
+    const rowSelection = {
+        onChange: (selectedRowKey, selectedRows) => {
+            console.log(
+
+                selectedRows
+            );
+            setSelectedRow(selectedRows)
+        },
     };
 
     const indexOfLastProject = currentPage * pageSize;
@@ -109,20 +143,7 @@ const Position = () => {
         setDataUpdate(e);
         setDataDelete(e);
     };
-    const clickDelete = async (e) => {
-        console.log('delete', dataDelete);
-        let res = await deletePosition(dataDelete.id);
-        if (res) {
-            toast.success(`Success Delete !!!!`)
-            handleCloseUpdate();
-            useDispatch(
-                fetchPosition()
-            )
-        }
-        if (!res) {
-            toast.error(`Error updating position`);
-        }
-    }
+
     const styles = {
         box: {
             margin: '20px',
@@ -141,43 +162,50 @@ const Position = () => {
         }
     };
 
-
     const AddPositon = async () => {
         if (!name) {
             toast.error('Please fill name');
             return;
         }
         if (!zalo) {
-            toast.error('Please fill link zalo');
+            toast.error('Please fill link group zalo');
             return;
         }
-        let res = await createPosition(name, zalo);
+        if (!projectId) {
+            toast.error('Please fill project ID');
+            return;
+        }
+        let res = await callCreatePosition(name, zalo, projectId);
         toast.success(`Success Create!!!!`)
-        handleCloseAddProject();
+        handleCloseAddPosition();
         useDispatch(
             fetchPosition()
         )
         console.log('check res', res);
     }
 
-    const UpdatePosition = async () => {
-        console.log('update position', dataUpdate);
-        if (!name) {
+    const UpdatePosition = async (values) => {
+        console.log('update position', values);
+        if (!values.ten) {
             toast.error('Please fill name');
             return;
         }
-        if (!zalo) {
+        if (!values.linkNhomZalo) {
             toast.error('Please fill link zalo');
             return;
         }
+        if (!values.duAnId) {
+            toast.error('Please fill project ID');
+            return;
+        }
+        values.id = selectedRow[0].id
         try {
-
-            let res = await updatePosition(dataUpdate.id, name, zalo);
+            let res = await callUpdatePosition(values);
             if (res) {
-                toast.success(`Success Update !!!!`)
+                toast.success(`Success Update !!!`)
                 handleCloseUpdate();
                 console.log('check res', res);
-                console.log('update position2', dataUpdate);
+                console.log('update position2', values);
                 useDispatch(
                     fetchPosition()
                 )
@@ -185,35 +213,78 @@ const Position = () => {
             if (!res) {
                 toast.error(`Error updating position`);
             }
-
-
         } catch (error) {
             console.error('Error updating position:', error);
+        }
+    }
+    console.log(position)
+
+    const clickDelete = async (id) => {
+        console.log('delete', dataDelete);
+        try {
+            const id = selectedRow[0].id
+            let res = await callDeletePosition(id);
+            console.log('Response:', res);
+            if (res && res.status === 200) {
+                toast.success(`Success Delete !!!!`);
+                handleCloseUpdate();
+                useDispatch(fetchPosition());
+            } else {
+                toast.error(`Error deleting position`);
+            }
+        } catch (error) {
+            console.error('Error details:', error);
+            if (error.response && error.response.status === 404) {
+                toast.error(`Position not found`);
+            } else {
+                toast.error(`Error deleting position: ${error.message}`);
+            }
         }
     }
 
     const columns = [
         {
-            title: 'Intern ID',
-            dataIndex: 'ID',
-            key: 'ID',
+            title: 'ID',
+            dataIndex: 'id',
+            key: 'id',
 
         },
         {
-            title: 'Full Name',
-            dataIndex: 'name',
-            key: 'name',
+            title: 'Name',
+            dataIndex: 'ten',
+            key: 'ten',
 
         },
         {
-            title: 'Phone Number',
-            dataIndex: 'number',
-            key: 'number',
+            title: 'Link Group Zalo',
+            dataIndex: 'linkNhomZalo',
+            key: 'linkNhomZalo',
         },
         {
-            title: 'School',
-            dataIndex: 'school',
-            key: 'school',
+            title: 'Project ID',
+            dataIndex: 'duAnId',
+            key: 'duAnId',
+        },
+        /*
+        {
+            title: 'Created By',
+            dataIndex: 'createdBy',
+            key: 'createdBy',
+        },
+        {
+            title: 'Updated By',
+            dataIndex: 'lastUpdatedBy',
+            key: 'lastUpdatedBy',
+        },
+        {
+            title: 'Created Time',
+            dataIndex: 'createdTime',
+            key: 'createdTime',
+        },
+        {
+            title: 'Updated Time',
+            dataIndex: 'lastUpdatedTime',
+            key: 'lastUpdatedTime',
         },
         {
             title: 'CV',
@@ -246,8 +317,11 @@ const Position = () => {
                 </>
             ),
         },
+        */
 
     ];
+
+    /*
     const data = [
         {
             key: '1',
@@ -323,6 +397,8 @@ const Position = () => {
             tags: ['intern'],
         },
     ];
+    */
+
     return (
         <div style={{
             marginRight: '20px',
@@ -345,10 +421,12 @@ const Position = () => {
                     <Button size={'middle'} type="primary" style={{ margin: '20px', backgroundColor: 'green' }}>Export Excel</Button>
                     <Button onClick={handleUpdata} size={'middle'} type="primary" style={{ margin: '20px', backgroundColor: 'orange' }}>Edit</Button>
                     <Button onClick={() => clickDelete()} size={'middle'} type="primary" style={{ margin: '20px', backgroundColor: 'red' }}>Delete</Button>
-                    <Button onClick={handleAddProject} size={'middle'} type="primary" style={{ margin: '20px 10px 20px 20px', backgroundColor: 'blue' }}>Add New Position</Button>
+                    <Button onClick={handleAddPosition} size={'middle'} type="primary" style={{ margin: '20px 10px 20px 20px', backgroundColor: 'blue' }}>Add New Position</Button>
                 </div>
                 <br></br>
             </div>
+
+            {/*
             <div style={{ display: 'flex', justifyContent: 'flex-start', flexWrap: 'wrap' }}>
                 {currentProjects.map(position => (
 
@@ -418,14 +496,9 @@ const Position = () => {
                     </div>
                 ))}
             </div>
-            <Pagination
-                defaultCurrent={1}
-                total={Position.length}
-                pageSize={pageSize}
-                onChange={handleChangePage}
-                style={{ padding: '20px' }}
-            />
-            <Modal
+            */}
+
+            {/* <Modal
                 title="View details"
                 open={showDetails}
                 footer={null}
@@ -434,16 +507,17 @@ const Position = () => {
                 width={1000}
             >
                 <Table pagination={tableParams.pagination} columns={columns} dataSource={data} onChange={handleTableChange} />
-            </Modal>
+            </Modal> */}
+
             <Modal
                 title="Add New Position"
                 open={showAddPosition}
-                onCancel={handleCloseAddProject}
+                onCancel={handleCloseAddPosition}
                 onOk={() => AddPositon()}
                 okText="Create Position"
                 width={1000}
             >
-                <div style={{ marginBottom: '30px', marginTop: '10px' }}>
+                <div style={{ marginBottom: '20px' }}>
                     Position's Name
                     <Input
                         value={name}
@@ -456,35 +530,79 @@ const Position = () => {
                     <Input
                         value={zalo}
                         onChange={(e) => setZalo(e.target.value)}
-                        placeholder="Link Zalo" />
+                        placeholder="Link group Zalo" />
                 </div>
-
+                <div style={{ marginBottom: '20px' }}>
+                    Project ID
+                    <Input
+                        value={projectId}
+                        onChange={(e) => setProjectId(e.target.value)}
+                        placeholder="Project ID" />
+                </div>
             </Modal>
+
             <Modal
-                title="Update New Position"
+                title="Update Position"
                 open={showUpdate}
                 onCancel={handleCloseUpdate}
-                onOk={() => UpdatePosition()}
                 okText="Update Position"
+                footer={null}
                 width={1000}
             >
-                <div style={{ marginBottom: '30px', marginTop: '10px' }}>
-                    Position's Name
-                    <Input
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        placeholder="Position Title"
-                    />
-                </div>
-                <div style={{ marginBottom: '20px' }}>
-                    Link Group Zalo
-                    <Input
-                        value={zalo}
-                        onChange={(e) => setZalo(e.target.value)}
-                        placeholder="Link Zalo" />
-                </div>
-
+                <Form initialValues={selectedRow[0]} onFinish={UpdatePosition}>
+                    <p className="modalContent">Position's Name</p>
+                    <Form.Item
+                        name="ten"
+                        initialValue={dataUpdate.name}
+                        rules={[
+                            {
+                                required: true,
+                                message: "Please enter position's name!",
+                            },
+                        ]}
+                    >
+                        <Input placeholder="Please enter position's name!"></Input>
+                    </Form.Item>
+                    <p className="modalContent">Link Group Zalo</p>
+                    <Form.Item
+                        name="linkNhomZalo"
+                        initialValue={dataUpdate.zalo}
+                        rules={[
+                            {
+                                required: true,
+                                message: "Please enter link group zalo!",
+                            },
+                        ]}
+                    >
+                        <Input placeholder="Please enter link group zalo!"></Input>
+                    </Form.Item>
+                    <p className="modalContent">Project ID</p>
+                    <Form.Item
+                        name="duAnId"
+                        initialValue={dataUpdate.projectId}
+                        rules={[
+                            {
+                                required: true,
+                                message: "Please enter project ID!",
+                            },
+                        ]}
+                    >
+                        <Input placeholder="Please enter project ID!"></Input>
+                    </Form.Item>
+                    <Form.Item style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                        <Button onClick={handleCloseUpdate}>
+                            Cancel
+                        </Button>
+                        <Button onClick={handleCloseUpdate} htmlType='submit' type='primary' style={{ marginLeft: '5px' }}>
+                            Update
+                        </Button>
+                    </Form.Item>
+                </Form>
             </Modal>
+
+            <div>
+                <TableComponent rowSelection={rowSelection} columns={columns} dataSource={position} />
+            </div>
         </div>
     )
 }
