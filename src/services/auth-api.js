@@ -75,7 +75,7 @@ export const callChangePassWord = (id) => {
 }
 
 export const callForgotPassWord = (email) => {
-  return axios.post("/api/auth/change-password", { email: email });
+  return axiosClientVer2.post("/api/Auth/forgot-password", { email: email });
 }
 
 
@@ -84,3 +84,10 @@ export const callChangeResetPassWord = (userId) => {
   return axiosClientVer2.post("/api/auth/reset-password", { id: userId });
 }
 
+
+export const callVerifyOpt = (email, code) => {
+  return axiosClientVer2.post("/api/Auth/check-valid-code", {
+    email : email,
+    code: code
+  })
+}
