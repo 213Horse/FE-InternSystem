@@ -15,9 +15,11 @@ export const axiosClientVer2 = axios.create({
 });
 
 async function refreshToken() {
+  const refreshToken = localStorage.getItem("refreshToken");
+
   try {
-    const response = await axiosClientVer2.post("auth/refresh-token", {
-      accessToken,
+    const response = await axiosClientVer2.post("/api/Auth/refresh-token", {
+      refreshToken,
     });
     accessToken = response.data.accessToken;
     localStorage.setItem("accessToken", accessToken); // Đảm bảo lưu vào localStorage
@@ -90,19 +92,4 @@ axiosClientVer2.interceptors.response.use(
     }
   }
 );
-
-export const handleDangNhap = (newToken) => {
-  accessToken = newToken;
-  axiosClientVer2.defaults.headers.common[
-    "Authorization"
-  ] = `Bearer ${accessToken}`;
-  localStorage.setItem("accessToken", accessToken);
-};
-
-export const handleDangXuat = () => {
-  localStorage.clear();
-  sessionStorage.clear();
-  accessToken = null;
-  axiosClientVer2.defaults.headers.common["Authorization"] = undefined;
-};
 

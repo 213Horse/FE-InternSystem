@@ -31,6 +31,7 @@ import HomeIntern from './pages/Home-Intern';
 function App() {
     const account = useSelector((state) => state?.account);
     const isAuthenticated = account.isAuthenticated;
+    const accessToken = localStorage.getItem('accessToken');
     return (
         <>
             <ToastContainer />
@@ -77,7 +78,7 @@ function App() {
                     </Route>
                     
                 )}
-                {isAuthenticated === false && <Route path="*" element={<ErrorPerrmission />} />}
+                {isAuthenticated === false  && <Route path="*" element={<ErrorPerrmission />} />}
             </Routes>
         </>
     );

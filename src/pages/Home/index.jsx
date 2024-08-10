@@ -15,10 +15,13 @@ import { Avatar } from 'antd';
 import { Col, Row } from 'antd';
 import Profile from '../../assets/img/Logo/Profile-Pic.png';
 import { ToastContainer, toast } from 'react-toastify';
+import { useSelector } from 'react-redux';
 
 const { Header, Content, Footer, Sider } = Layout;
 
 const App = () => {
+    const username = useSelector((state) => state.account.user.username);
+    const role = useSelector((state) => state.account.user.role);
     const layoutStyle = {
         borderRadius: 8,
         overflow: 'hidden',
@@ -107,10 +110,10 @@ const App = () => {
                         <Col span={12}>
                             <Row>
                                 <Col span={24} style={{ color: '#FFF' }}>
-                                    <span style={{ fontSize: '12px' }}> Natalie Brogan</span>
+                                    <span style={{ fontSize: '12px' }}>{username}</span>
                                 </Col>
                                 <Col span={24} style={{ color: '#AAABAF', frontSize: '14px' }}>
-                                    Admin
+                                    {role}
                                 </Col>
                             </Row>
                         </Col>

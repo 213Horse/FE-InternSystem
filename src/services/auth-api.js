@@ -1,9 +1,9 @@
 import  { axiosClientVer2 }  from '../ultils/axios-custom'
 
-export const callLogin = async (email, password) => {
+export const callLogin = async (username, password) => {
   return await axiosClientVer2.post('/api/Auth/login',
     {
-      username: email,
+      username,
       password,
     })
 }

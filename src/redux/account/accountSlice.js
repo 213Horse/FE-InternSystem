@@ -2,8 +2,12 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   isAuthenticated : false,
-  isLoading  : false,
+  isLoading  : true,
   user : {
+    "userId" : "",
+    "username" : "",
+    "email" : "",
+    "role" : "",
   }
 };
 
@@ -20,7 +24,9 @@ export const accountSlice = createSlice({
       console.log(action);
       state.isAuthenticated = true;
       state.isLoading = false;
-      state.user = action.payload;
+      state.user.username = action.payload.username;
+      state.user.email = action.payload.email;
+      state.user.role = action.payload.role;
     },
     doGetAccountAction: (state, action) => {
       // Redux Toolkit allows us to write "mutating" logic in reducers. It

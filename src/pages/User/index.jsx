@@ -109,7 +109,7 @@ function UserManagement() {
         <>
             <div>
                 {/* Title */}
-               <ProfileUser/>
+                <ProfileUser />
                 {/* Search Button Input */}
                 <div style={{ borderRadius: '3px', display: 'flex', ':focus': 'none', borderRadius: '5px' }}>
                     <Input
@@ -205,10 +205,10 @@ function UserManagement() {
                     )}
                 </div>
             </div>
-            <ModalAddUser 
-              isModalOpenAddUser={isModalOpenAddUser} 
-              setIsModalOpenAddUser={setIsModalOpenAddUser}
-              roles={roles}
+            <ModalAddUser
+                isModalOpenAddUser={isModalOpenAddUser}
+                setIsModalOpenAddUser={setIsModalOpenAddUser}
+                roles={roles}
             />
         </>
     );
