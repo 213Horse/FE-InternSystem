@@ -7,11 +7,11 @@ let refreshPromise = null;
 
 export const axiosClientVer2 = axios.create({
   baseURL: import.meta.env.VITE_BACKEND_URL,
-  headers: {
-    "Content-Type": "application/json",
-    Accept: "application/json",
-    Authorization: accessToken ? `Bearer ${accessToken}` : undefined,
-  },
+  // headers: {
+  //   "Content-Type": "application/json",
+  //   Accept: "application/json",
+  //   Authorization: accessToken ? `Bearer ${accessToken}` : undefined,
+  // },
 });
 
 async function refreshToken() {

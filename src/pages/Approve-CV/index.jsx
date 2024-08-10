@@ -6,6 +6,7 @@ import TableComponent from '../../components/Table/TableCompoment';
 import { getInterns } from '../../redux/Slices/User/internInfo';
 import ViewModal from './viewModal';
 import InterviewModal from './interviewModal';
+import ProfileUser from '../../components/ProfileUser';
 
 const ApproveCV = () => {
     // ************************************************************
@@ -240,6 +241,8 @@ const ApproveCV = () => {
 
     return (
         <>
+            {/* Title */}
+            <ProfileUser/>
             <div>
                 <h1 style={{ marginLeft: '10px', color: '#8A2BE2' }}>Approve CV</h1>
                 <br></br>

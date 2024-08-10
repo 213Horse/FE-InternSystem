@@ -1,9 +1,12 @@
 import React from 'react'
+import ProfileUser from '../../components/ProfileUser';
 
 const Dashboard = () => {
     console.log('D');
     return (
-        <h1 style={{ marginLeft: '200px' }}>dashboard</h1>
+        <>
+        <ProfileUser titlePage="Dashboard"/>
+        </>
     )
 }
 

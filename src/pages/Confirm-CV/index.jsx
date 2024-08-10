@@ -6,6 +6,7 @@ import TableComponent from '../../components/Table/TableCompoment';
 import { getInterns } from '../../redux/Slices/User/internInfo';
 import SendEmail from './emailModal';
 import ViewModal from './viewModal';
+import ProfileUser from '../../components/ProfileUser';
 
 const ApproveCV = () => {
 
@@ -215,6 +216,7 @@ const ApproveCV = () => {
         <>
             <div className='header'>
                 {/* HEADER */}
+                <ProfileUser/>
                 <h1 style={{ marginLeft: '10px', color: '#8A2BE2' }}>Confirm CV</h1>
                 <br></br>
 

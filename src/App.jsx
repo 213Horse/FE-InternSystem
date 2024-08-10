@@ -45,7 +45,7 @@ function App() {
                     <Route />
                 </Route>
                 {isAuthenticated === true && <Route path="/home" element={<Home />}>
-                    <Route path="dashboard" element={<Dashboard />} />
+                    <Route index element={<Dashboard />} />
                     <Route path="approve-cv" element={<Approve />} />
                     <Route path="confirm-cv" element={<Confirm />} />
                     <Route path="intern-list" element={<Intern />} />

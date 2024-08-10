@@ -1,6 +1,6 @@
 import { Avatar, Button, ConfigProvider, Input, Spin } from 'antd';
 import React, { useEffect, useState } from 'react';
-import profilePic from '../../assets/img/Logo/Profile-Pic.png';
+
 import { ClockCircleOutlined, DeleteOutlined, EditOutlined, MailOutlined, UserAddOutlined } from '@ant-design/icons';
 import Filter from '../../components/Filter/filter';
 import { PacmanLoader } from 'react-spinners';
@@ -8,6 +8,7 @@ import TableComponent from '../../components/Table/TableCompoment';
 import { getAllUsers } from '../../services/user-api';
 import ModalAddUser from '../../components/User/ModalAddUser';
 import { getAllRoles } from '../../services/role-api';
+import ProfileUser from '../../components/ProfileUser';
 
 function UserManagement() {
     const [loading, setLoading] = useState(false);
@@ -108,16 +109,7 @@ function UserManagement() {
         <>
             <div>
                 {/* Title */}
-                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <h1 style={{ color: '#280559' }}>Group List</h1>
-                    <div style={{ display: 'flex' }}>
-                        <Avatar src={profilePic} style={{ marginTop: '20px' }}></Avatar>
-                        <div style={{ display: 'flex', flexDirection: 'column', marginLeft: '30px' }}>
-                            <h2>Natalie Brogan</h2>
-                            <p style={{ color: '#AAABAF', marginTop: '-15px' }}>Admin</p>
-                        </div>
-                    </div>
-                </div>
+               <ProfileUser/>
                 {/* Search Button Input */}
                 <div style={{ borderRadius: '3px', display: 'flex', ':focus': 'none', borderRadius: '5px' }}>
                     <Input
