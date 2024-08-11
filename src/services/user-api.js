@@ -20,7 +20,7 @@ export const getAllUsers = () => {
 };
 
 export const CreateAUser = (hoVaten, email, username, password, phoneNumber, roleName) => {
-    return axiosClientVer2.post('/api/User/create-user-by-admin', {
+    return axiosClientVer2.post('/api/Auth/create-user', {
         hoVaten,
         email,
         username,

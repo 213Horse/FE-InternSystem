@@ -34,12 +34,14 @@ function UserManagement() {
         }
     };
 
+    console.log('check roles', roles);
     const fetchRoles = async () => {
         try {
             setLoading(true);
             let res = await getAllRoles();
-            setRoles(res.data.data);
-            console.log('check roles', roles);
+            console.log('check res role', res.data.data);
+            let rolesName = res.data.data.map((role) => role.roleName);
+            setRoles(rolesName);
             setLoading(false);
         } catch (error) {
             console.log(error);

@@ -102,9 +102,9 @@ const ModalAddUser = ({ isModalOpenAddUser, setIsModalOpenAddUser, roles }) => {
                         rules={[{ required: true, message: 'Please select a role!' }]}
                     >
                         <Select placeholder="Please select a role">
-                            {roles && roles.map((role) => (
-                                <Option key={role.name} value={role.name}>
-                                    {role.name}
+                            {roles && roles.map((roleName) => (
+                                <Option key={roleName} value={roleName}>
+                                    {roleName}
                                 </Option>
                             ))}
                         </Select>

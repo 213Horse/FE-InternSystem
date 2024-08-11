@@ -91,3 +91,11 @@ export const callVerifyOpt = (email, code) => {
     code: code
   })
 }
+
+export const callResetPassword = (email, newPassword, confirmPassword) => {
+  return axiosClientVer2.post("/api/Auth/reset-password", {
+    email,
+    newPassword,
+    confirmPassword
+  });
+}

@@ -135,7 +135,7 @@ function ResetPassword() {
             );
             break;
         case 'change-password':
-            content = <ChangePassword />;
+            content = <ChangePassword email={email} />;
             break;
     }
     return <>{content}</>;
